@@ -1,0 +1,1375 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Hypothesis testing &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/02-3-hypothesis';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Effect size" href="02-4-effect.html" />
+    <link rel="prev" title="Estimating Uncertainty" href="02-2-estimation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/02-3-hypothesis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hypothesis testing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-hypothesis-testing-approaches">Overview of hypothesis testing approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-approach">1. Resampling approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-resampling-approach">Overview of resampling approach</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-difference-between-the-groups">What is the difference between the groups?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#is-this-observed-difference-real-or-due-to-chance">Is this observed difference real or due to chance?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-hypothesis-dataset-by-resampling">1.1. Generate a null hypothesis dataset by resampling</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-based-on-the-test-statistic">1.2. Generate a null distribution based on the test statistic</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-of-test-statistic-values-to-calculate-the-p-value">1.3. Use the null distribution of test statistic values to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytical-approach-using-parametric-theoretical-distribution">2. Analytical approach using parametric theoretical distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-approach">3. Rank-based approach</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-the-p-value-significance-testing">Interpretation of the p-value (significance testing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cautionary-note-about-p-values">Cautionary note about p-values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-are-affected-by-sample-size">1. p-values are affected by sample size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repeating-a-hypothesis-test-on-a-same-sample-can-lead-to-spurious-conclusions">2. Repeating a hypothesis test on a same sample can lead to spurious conclusions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-small-p-value-does-not-mean-the-observed-effect-is-large">3. A small p-value does not mean the observed effect is large</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neyman-pearson-paradigm-hypothesis-testing">Neyman-Pearson paradigm (hypothesis testing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-hypothesis-significance-testing-nhst-paradigm">Null hypothesis significance testing (NHST) paradigm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations">Recommendations</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hypothesis-testing">
+<h1>Hypothesis testing<a class="headerlink" href="#hypothesis-testing" title="Permalink to this heading">#</a></h1>
+<p>The beginning of modern statistics is credited to Ronald Fisher in the early 20th century, who established and popularized the idea of testing observed differences for statistical significance to determine if the differences were likely/unlikely to be due to random chance</p>
+<p><img alt="hypothesis_tea_1.png" src="../_images/hypothesis_tea_1.png" /></p>
+<p>The story of how the idea of significance testing began in the 1920’s, when Dr Fisher worked at an agricultural research institute to help scientists design better experiments.</p>
+<ul class="simple">
+<li><p>At an afternoon tea, Fisher made a cup of tea for Dr Muriel Bristol</p></li>
+<li><p>She refused the cup of tea because she said Fisher had poured the milk into the cup first before the tea and she preferred tea prepared when milk was added after tea was poured into the cup</p></li>
+<li><p>She claimed that she could taste the difference between the 2 preparations</p></li>
+<li><p>Fisher was skeptical and devised an experiment with his colleague, William Roach</p></li>
+</ul>
+<p>To test whether Dr Bristol could taste a difference between the 2 tea preparations, an experiment was designed to see how often she could pick the correct tea preparation from a randomized set</p>
+<ul class="simple">
+<li><p>4 tea cups of milk into tea (MT) and 4 cups of tea into milk ™ were prepared</p></li>
+<li><p>The 8 cups were randomized and presented to Dr Bristol for tasting to see if she could distinguish MT and TM preparations</p></li>
+</ul>
+<p><img alt="hypothesis_tea_2.png" src="../_images/hypothesis_tea_2.png" /></p>
+<p>Dr Bristol correctly identified the 4 cups of MT and 4 cups of TM preparations</p>
+<ul class="simple">
+<li><p>From all the 70 possible combinations, only 2 of them would be consistent with Dr Bristol being able to distinguish MT and TM preparations</p></li>
+<li><p>As the chance is low, it is unlikely that she guessed the order correctly and consistent with her claim that she was able to taste the difference between the tea preparations</p></li>
+</ul>
+<p>The ideas behind this experiment formed the basis for statistical testing to determine if an observed difference is likely/unlikely to be due to chance.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Null</span> <span class="pre">hypothesis</span></code>: what would data look like if there were no differences to begin with?</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Significance</span> <span class="pre">testing</span></code>: what is the probability of obtaining results as least as extreme as the observed results of a test, assuming there is no difference (null hypothesis)?</p></li>
+</ul>
+<p>For more details about the story, see:
+<a class="reference external" href="https://www.sciencehistory.org/distillations/ronald-fisher-a-bad-cup-of-tea-and-the-birth-of-modern-statistics">https://www.sciencehistory.org/distillations/ronald-fisher-a-bad-cup-of-tea-and-the-birth-of-modern-statistics</a></p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>To illustrate the ideas behind the null hypothesis and significance testing, we will use a dataset from <a class="reference external" href="https://myweb.uiowa.edu/pbreheny/data/oatbran.html">https://myweb.uiowa.edu/pbreheny/data/oatbran.html</a></p>
+<ul class="simple">
+<li><p>Cholesterol measurements in people who were put on a diet of cornflakes or oatbran</p></li>
+<li><p>For this example, let us assume that these are 2 independent groups of people on the 2 different diets</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/oatbran.tsv&quot;</span><span class="p">)</span>
+
+<span class="c1"># convert the data from a wide to long format</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;CornFlakes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OatBran&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">names_to</span><span class="o">=</span><span class="s">&quot;treatment&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">values_to</span><span class="o">=</span><span class="s">&quot;effect&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                </span><span class="nf">mutate</span><span class="p">(</span><span class="n">treatment</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">treatment</span><span class="p">))</span>
+<span class="w">                </span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data_grouped</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">data_grouped</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">14</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">2</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;\t&quot;
+<span class=" -Color -Color-Green">dbl</span> (2): CornFlakes, OatBran
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>treatment</th><th scope=col>effect</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>CornFlakes</td><td>4.61</td></tr>
+	<tr><td>OatBran   </td><td>3.84</td></tr>
+	<tr><td>CornFlakes</td><td>6.42</td></tr>
+	<tr><td>OatBran   </td><td>5.57</td></tr>
+	<tr><td>CornFlakes</td><td>5.40</td></tr>
+	<tr><td>OatBran   </td><td>5.85</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>treatment</th><th scope=col>effect</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>CornFlakes</td><td>3.89</td></tr>
+	<tr><td>OatBran   </td><td>3.73</td></tr>
+	<tr><td>CornFlakes</td><td>2.25</td></tr>
+	<tr><td>OatBran   </td><td>1.84</td></tr>
+	<tr><td>CornFlakes</td><td>4.24</td></tr>
+	<tr><td>OatBran   </td><td>4.14</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can visualize the cholesterol measurements in the 2 groups using a boxplot</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">effect</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/6002e8d52b6c0d25ef017fe5ab3f93ef6acaaa3e6eb3f83c960ccbb372350655.png" src="../_images/6002e8d52b6c0d25ef017fe5ab3f93ef6acaaa3e6eb3f83c960ccbb372350655.png" />
+</div>
+</div>
+<p>We observe a difference of cholesterol levels between the 2 diets.</p>
+<ul class="simple">
+<li><p>How can we quantify the difference?</p></li>
+<li><p>How likely is this observed difference due to chance?</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="overview-of-hypothesis-testing-approaches">
+<h2>Overview of hypothesis testing approaches<a class="headerlink" href="#overview-of-hypothesis-testing-approaches" title="Permalink to this heading">#</a></h2>
+<p>There are two major approaches to hypothesis testing and for this course we will be focusing on the <strong>frequentist</strong> approach, which is most commonly used</p>
+<p><img alt="hypothesis_approaches.png" src="../_images/hypothesis_approaches.png" /></p>
+<p>In the frequentist approach</p>
+<ul class="simple">
+<li><p>We first make the hypothesis/assumption that there are <em>no differences</em> in the data (null distribution)</p></li>
+<li><p>We then find the probability of obtaining the data we observe given a null distribution <span class="math notranslate nohighlight">\(P(\text{Data}|\text{Null distribution})\)</span></p>
+<ul>
+<li><p>If the probability is low, it suggests that the data we observe is less likely to have come from a null distribution and that the differences we observe may not be due to random chance</p></li>
+<li><p>If the probability is high, it suggests the data we observe is consistent with having come from a null distribution and the difference we observe may be due to random chance</p></li>
+</ul>
+</li>
+<li><p>There are several approaches to calculating this probability (p-value)</p>
+<ul>
+<li><p>Parametric (based on family of distributions)</p></li>
+<li><p>Non-parametric rank/sign-based</p></li>
+<li><p>Non-parametric resampling/permutation</p></li>
+</ul>
+</li>
+</ul>
+<p>To develop an intuition of the null hypothesis and significance testing, we will introduce the resampling approach. This approach is wonderfully summarized in this animated presentation: <a class="reference external" href="https://www.jwilber.me/permutationtest/">https://www.jwilber.me/permutationtest/</a></p>
+<hr class="docutils" />
+<section id="resampling-approach">
+<h3>1. Resampling approach<a class="headerlink" href="#resampling-approach" title="Permalink to this heading">#</a></h3>
+<p>To illustrate how we determine if an observed difference in the our data is likely/unlikely due to chance, we will use a resampling approach based on <code class="docutils literal notranslate"><span class="pre">infer</span></code> library is detailed in this wonderful free e-textbook: <a class="reference external" href="https://moderndive.com">https://moderndive.com</a></p>
+<p><img alt="moderndive_infer.png" src="../_images/moderndive_infer.png" /></p>
+<section id="overview-of-resampling-approach">
+<h4>Overview of resampling approach<a class="headerlink" href="#overview-of-resampling-approach" title="Permalink to this heading">#</a></h4>
+<p>We will go through an example to illustrate the steps of</p>
+<ul class="simple">
+<li><p>using a test statistic to quantify differences in a dataset</p></li>
+<li><p>generating a null hypothesis dataset from the data using resampling/permutation</p></li>
+<li><p>generating a null distribution using the chosen test statistic</p></li>
+<li><p>calculating a p-value based on the observed test statistic and the null distribution</p></li>
+</ul>
+<p><img alt="hypothesis_approach_resample.png" src="../_images/hypothesis_approach_resample.png" /></p>
+</section>
+<section id="what-is-the-difference-between-the-groups">
+<h4>What is the difference between the groups?<a class="headerlink" href="#what-is-the-difference-between-the-groups" title="Permalink to this heading">#</a></h4>
+<p>We start by choosing a <code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">statistic</span></code> such as the <code class="docutils literal notranslate"><span class="pre">mean</span></code> to compare the difference between groups</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Diff</span> <span class="n">mean</span> <span class="n">cholesterol</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mean</span> <span class="n">cholesterol</span> <span class="n">on</span> <span class="n">OatBran</span> <span class="o">-</span>
+                            <span class="n">mean</span> <span class="n">cholesterol</span> <span class="n">on</span> <span class="n">CornFlakes</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">obs_diff_means</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                  </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">effect</span><span class="p">[</span><span class="n">treatment</span><span class="o">==</span><span class="s">&quot;OatBran&quot;</span><span class="p">]),</span>
+<span class="w">                            </span><span class="n">mean2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">effect</span><span class="p">[</span><span class="n">treatment</span><span class="o">==</span><span class="s">&quot;CornFlakes&quot;</span><span class="p">]),</span>
+<span class="w">                            </span><span class="n">diff_means</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">mean1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean2</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                  </span><span class="nf">pull</span><span class="p">(</span><span class="n">diff_means</span><span class="p">)</span>
+
+<span class="n">obs_diff_means</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">0.362857142857143</div></div>
+</div>
+<p>We see that that subjects eating Oatbran have a different mean cholesterol level than those eating Cornflakes</p>
+</section>
+<section id="is-this-observed-difference-real-or-due-to-chance">
+<h4>Is this observed difference real or due to chance?<a class="headerlink" href="#is-this-observed-difference-real-or-due-to-chance" title="Permalink to this heading">#</a></h4>
+<p>How do we know if this difference is due to chance rather than being associated with the change in diet?</p>
+<ul class="simple">
+<li><p>To evaluate this, we need to compare it to a scenario where the the cholesterol values are not different between the 2 groups (null hypothesis)</p></li>
+<li><p>To do this, we can <strong>randomly mix (permute)</strong> the cholesterol values between the 2 groups and do this multiple times to generate a <em>dataset that represents the null hypothesis</em> that there is no association of diet with the change in cholesterol levels</p></li>
+<li><p>We then calculate the differences between the 2 groups generated by random mixing of the groups to generate the null distribution of values</p></li>
+<li><p>Finally, we calculate the <em>p-value</em>, which is the probability we  find a difference that is equal/greater than the  observed difference assuming that there is no difference (null dataset)</p></li>
+</ul>
+</section>
+<section id="generate-a-null-hypothesis-dataset-by-resampling">
+<h4>1.1. Generate a null hypothesis dataset by resampling<a class="headerlink" href="#generate-a-null-hypothesis-dataset-by-resampling" title="Permalink to this heading">#</a></h4>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">infer</span></code> library to generate this dataset using the <code class="docutils literal notranslate"><span class="pre">specify</span></code>, <code class="docutils literal notranslate"><span class="pre">hypothesize</span></code> and
+<code class="docutils literal notranslate"><span class="pre">generate</span></code> verbs</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">specify</span></code>: the response and explanatory variables</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hypothesize</span></code>: independence between the 2 groups</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">generate</span></code>: permute 1,000 times</p></li>
+</ol>
+<p><img alt="infer_hypothesis_1.png" src="../_images/infer_hypothesis_1.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">infer</span><span class="p">)</span>
+
+<span class="n">permute</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">           </span><span class="nf">specify</span><span class="p">(</span><span class="n">effect</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">treatment</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">hypothesize</span><span class="p">(</span><span class="n">null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;independence&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">generate</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;permute&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">permute</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">permute</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>effect</th><th scope=col>treatment</th><th scope=col>replicate</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>5.01</td><td>CornFlakes</td><td>1</td></tr>
+	<tr><td>3.68</td><td>OatBran   </td><td>1</td></tr>
+	<tr><td>4.54</td><td>CornFlakes</td><td>1</td></tr>
+	<tr><td>3.98</td><td>OatBran   </td><td>1</td></tr>
+	<tr><td>4.41</td><td>CornFlakes</td><td>1</td></tr>
+	<tr><td>2.25</td><td>OatBran   </td><td>1</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>effect</th><th scope=col>treatment</th><th scope=col>replicate</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>3.73</td><td>CornFlakes</td><td>1000</td></tr>
+	<tr><td>3.98</td><td>OatBran   </td><td>1000</td></tr>
+	<tr><td>2.25</td><td>CornFlakes</td><td>1000</td></tr>
+	<tr><td>4.41</td><td>OatBran   </td><td>1000</td></tr>
+	<tr><td>4.80</td><td>CornFlakes</td><td>1000</td></tr>
+	<tr><td>5.01</td><td>OatBran   </td><td>1000</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can visualize the null hypothesis dataset. Here, we look at 9 samples as an example.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">permute</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">effect</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/f86efb07295fd16f2a564e3621d9ed6d3a6f7631792b734c8e85b6ef628ce88c.png" src="../_images/f86efb07295fd16f2a564e3621d9ed6d3a6f7631792b734c8e85b6ef628ce88c.png" />
+</div>
+</div>
+<p>We can see that the values of the 2 groups have been randomly mixed for each of the samples</p>
+</section>
+<section id="generate-a-null-distribution-based-on-the-test-statistic">
+<h4>1.2. Generate a null distribution based on the test statistic<a class="headerlink" href="#generate-a-null-distribution-based-on-the-test-statistic" title="Permalink to this heading">#</a></h4>
+<p>We can generate a null distribution based on the test statistic. Here, we <code class="docutils literal notranslate"><span class="pre">calculate</span></code> the <em>difference in means</em> between the 2 groups for each of the permutations in the null hypothesis dataset to generate the <code class="docutils literal notranslate"><span class="pre">null</span> <span class="pre">distribution</span></code></p>
+<p><img alt="infer_hypothesis_2.png" src="../_images/infer_hypothesis_2.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">permute</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">calculate</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;diff in means&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                      </span><span class="n">order</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;OatBran&quot;</span><span class="p">,</span><span class="s">&quot;CornFlakes&quot;</span><span class="p">))</span><span class="w"> </span><span class="c1"># OatBran - CornFlakes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>replicate</th><th scope=col>stat</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>-0.3000000</td></tr>
+	<tr><td>2</td><td>-0.7285714</td></tr>
+	<tr><td>3</td><td>-0.3228571</td></tr>
+	<tr><td>4</td><td>-0.1800000</td></tr>
+	<tr><td>5</td><td>-0.5585714</td></tr>
+	<tr><td>6</td><td>-0.2785714</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>replicate</th><th scope=col>stat</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 995</td><td> 0.70142857</td></tr>
+	<tr><td> 996</td><td>-0.46857143</td></tr>
+	<tr><td> 997</td><td> 0.30571429</td></tr>
+	<tr><td> 998</td><td> 0.07857143</td></tr>
+	<tr><td> 999</td><td> 0.35571429</td></tr>
+	<tr><td>1000</td><td> 0.73285714</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="use-the-null-distribution-of-test-statistic-values-to-calculate-the-p-value">
+<h4>1.3. Use the null distribution of test statistic values to calculate the p-value<a class="headerlink" href="#use-the-null-distribution-of-test-statistic-values-to-calculate-the-p-value" title="Permalink to this heading">#</a></h4>
+<p>We can visualize the <code class="docutils literal notranslate"><span class="pre">null</span> <span class="pre">distribution</span></code> of test statistic values as a histogram and plot our <code class="docutils literal notranslate"><span class="pre">observed</span></code> difference of means (<code class="docutils literal notranslate"><span class="pre">obs_diff_means</span></code>) in relation to this null distribution</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">visualize</span></code>: plots the histogram of the null distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shade_p_value</span></code>: extension of ggplot geom to plot the observed statistic (<code class="docutils literal notranslate"><span class="pre">obs_stat</span></code>) and shade regions that are greater/lesser in the distribution (<code class="docutils literal notranslate"><span class="pre">direction</span></code> is <code class="docutils literal notranslate"><span class="pre">two_sided</span></code>)</p></li>
+</ul>
+<p><img alt="infer_hypothesis_3.png" src="../_images/infer_hypothesis_3.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">visualize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">shade_p_value</span><span class="p">(</span><span class="n">obs_stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_diff_means</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">direction</span><span class="o">=</span><span class="s">&quot;two_sided&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b5ef63f51f534a7468a200f9b7a39bc71e6f3d594d3e0912b9c1f92030f3c832.png" src="../_images/b5ef63f51f534a7468a200f9b7a39bc71e6f3d594d3e0912b9c1f92030f3c832.png" />
+</div>
+</div>
+<p>Finally, we can calculate the probability of observing the <em>difference of means</em> between the 2 groups if there was <strong>no difference</strong> to begin with (i.e. the null hypothesis dataset)</p>
+<ul class="simple">
+<li><p>We use the <code class="docutils literal notranslate"><span class="pre">get_p_value</span></code> function and indicate that we want to find probability of the shade areas on both sides using <code class="docutils literal notranslate"><span class="pre">direction=&quot;two_sided&quot;</span></code></p></li>
+<li><p>What this means is that we want to know the probability that the difference of mean is greater or equal to the observed difference in means regardless of the order of comparison (<code class="docutils literal notranslate"><span class="pre">OatBran</span> <span class="pre">-</span> <span class="pre">Cornflakes</span></code> or <code class="docutils literal notranslate"><span class="pre">Cornflakes</span> <span class="pre">-</span> <span class="pre">OatBran</span></code>)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">get_p_value</span><span class="p">(</span><span class="n">obs_stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_diff_means</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                         </span><span class="n">direction</span><span class="o">=</span><span class="s">&quot;two_sided&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 1</caption>
+<thead>
+	<tr><th scope=col>p_value</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0.368</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see that in the null distribution, ~35% of the time we can observe values that are <strong>equal or greater</strong> than those differences observed in the data. This implies that the observed difference between the 2 treatments is more likely to be consistent with the null hypothesis</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="analytical-approach-using-parametric-theoretical-distribution">
+<h3>2. Analytical approach using parametric theoretical distribution<a class="headerlink" href="#analytical-approach-using-parametric-theoretical-distribution" title="Permalink to this heading">#</a></h3>
+<p><img alt="hypothesis_approach_parametric.png" src="../_images/hypothesis_approach_parametric.png" /></p>
+<p>In the analytical approach, the null distribution is not derived from resampling, but it is calculated from theoretical formulas of different types of distributions, each based on a standardized test statistic</p>
+<ul class="simple">
+<li><p>Each type of distribution is determined  by different parameters (hence called <strong>parametric</strong>) that obtained from the data (e.g. mean, variance, number of samples/groups)</p></li>
+<li><p>To calculate the probability of a summary statistic of a sample (e.g difference of means)  being observed in a standardized null distribution, a <em>test-statistic</em> is needed to transform it into a standardized score for comparison</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Z=\frac{x-\mu}{\sigma / \sqrt{n}}\)</span> for normal distribution</p></li>
+<li><p><span class="math notranslate nohighlight">\(t=\frac{\bar{x}-\mu}{s / \sqrt{\mathit{df}}}\)</span> for t-distribution</p></li>
+<li><p><span class="math notranslate nohighlight">\(F=\frac{\text { Variance } 1}{\text { Variance } 2}\)</span> for F-distribution</p></li>
+<li><p><span class="math notranslate nohighlight">\(\chi^{2}=\sum \frac{\left(\mathit{Observed}-\mathit{Expected}\right)^{2}}{\mathit{Expected}}\)</span> for chi-square distribution</p></li>
+</ul>
+</li>
+<li><p>They allow one to calculate the probability of an observed <em>test-statistic</em> exceeding a theoretical null distribution (i.e. p-value)</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[P(\text{Data}|\text{Null distribution})\]</div>
+</section>
+<hr class="docutils" />
+<section id="rank-based-approach">
+<h3>3. Rank-based approach<a class="headerlink" href="#rank-based-approach" title="Permalink to this heading">#</a></h3>
+<p>The analytic approach based on theoretical distributions specified by parameters from the data assumes a <strong>normal</strong> distribution of the data</p>
+<p>Consequently, this parametric approach may not work well under certain situations</p>
+<ul class="simple">
+<li><p>small and/or skewed data that are not normally distributed</p></li>
+<li><p>data that are ordinal in nature (e.g. pain score, ranking of food preferences)</p></li>
+</ul>
+<p>In these cases, a rank-based approach can be used</p>
+<ul class="simple">
+<li><p>The values in the data are sorted and converted to ranks</p></li>
+<li><p>A rank-based test statistic is calculated to estimate the difference in ranks between the groups</p></li>
+<li><p>The test statistic is compared to a null distribution (through resampling or theoretical) to determine the <em>p-value</em></p></li>
+</ul>
+<p><img alt="hypothesis_approach_rank.png" src="../_images/hypothesis_approach_rank.png" /></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="interpretation-of-the-p-value-significance-testing">
+<h2>Interpretation of the p-value (significance testing)<a class="headerlink" href="#interpretation-of-the-p-value-significance-testing" title="Permalink to this heading">#</a></h2>
+<p>In the Fisher formulation, the <em>p-value</em> can be interpreted as the probability of observing the data given that there was no underlying difference i.e the amount of “surprise” in seeing such a difference</p>
+<div class="math notranslate nohighlight">
+\[P\left(\text{Observed data} | \text{Null distribution}\right)\]</div>
+<ul class="simple">
+<li><p>A low <em>p-value</em> only tells us that the data is unlikely to be consistent with the hypothesis that there is no underlying difference, but it does not prove that there is a real difference</p></li>
+<li><p>A high <em>p-value</em> tells us that the data is consistent with the null hypothesis that there is no underlying difference, but it does not prove it</p></li>
+</ul>
+<p>A threshold of p=0.05 (1 out of 20) was chosen as a convention of what one could consider evidence for rejecting the null hypothesis. For a historical perspective, see: <a class="reference external" href="http://biostat.mc.vanderbilt.edu/wiki/pub/Main/ClinStat/EndOfSignificance.pdf">http://biostat.mc.vanderbilt.edu/wiki/pub/Main/ClinStat/EndOfSignificance.pdf</a></p>
+<p><img alt="p-value.png" src="../_images/p-value.png" /></p>
+<p>From: <a class="reference external" href="http://www.jeremy-oakley.staff.shef.ac.uk/mas113/notes/hypothesis-testing-a-level-recap.html#fishers-p-value-method">http://www.jeremy-oakley.staff.shef.ac.uk/mas113/notes/hypothesis-testing-a-level-recap.html#fishers-p-value-method</a></p>
+<p>This approach is typically used in <strong>exploratory</strong> studies</p>
+</section>
+<hr class="docutils" />
+<section id="cautionary-note-about-p-values">
+<h2>Cautionary note about p-values<a class="headerlink" href="#cautionary-note-about-p-values" title="Permalink to this heading">#</a></h2>
+<p><em>p-values</em> are prone to over-interpretation and we will explore a few cases</p>
+<ol class="arabic simple">
+<li><p><em>p-values</em> are affected by the sample size</p></li>
+<li><p>Multiple testing to look for ‘significant’ <em>p-values</em> on the same dataset can lead to spurious conclusions</p></li>
+<li><p><em>p-values</em> do not say anything about the magnitude of any observed difference</p></li>
+</ol>
+<p>We’ll illustrate these cases by simulating populations with large, small and no differences, then calculate the p-values to see how they behave under different scenerios. To do this, we define some functions to help us simulate and calculate the p-values</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Function to simulate 2 populations with defined mean and sd values</span>
+<span class="n">pop_simulate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">pop_1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_1</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd_1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">pop_2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">pop_size</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_2</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd_2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">pop_mix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">pop_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pop_1</span><span class="p">,</span><span class="w"> </span><span class="n">pop_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pop_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;pop_1&quot;</span><span class="p">,</span><span class="s">&quot;pop_2&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;group&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;glucose&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                </span><span class="nf">mutate</span><span class="p">(</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">pop_mix</span><span class="p">)</span>
+
+<span class="p">}</span>
+
+<span class="c1"># Function to repeatedly sample from the population and calculate the p-values using the t-test</span>
+<span class="n">sample_p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">replicate_n</span><span class="p">,</span><span class="w"> </span><span class="n">sample_size</span><span class="p">,</span><span class="w"> </span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="o">=</span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">repeat_p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">replicate</span><span class="p">(</span><span class="n">replicate_n</span><span class="p">,</span>
+<span class="w">                </span><span class="n">pop</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">group_by</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">sample_n</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="n">ungroup</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">t_test</span><span class="p">(</span><span class="n">glucose</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">group</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                </span><span class="nf">pull</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="nf">tibble</span><span class="p">(</span><span class="n">rep</span><span class="o">=</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">replicate_n</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">p</span><span class="o">=</span><span class="n">repeat_p</span><span class="p">,</span><span class="w"> </span><span class="n">sig</span><span class="o">=</span><span class="nf">if_else</span><span class="p">(</span><span class="n">repeat_p</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">threshold</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;yes&quot;</span><span class="p">,</span><span class="s">&quot;no&quot;</span><span class="p">)))</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="p-values-are-affected-by-sample-size">
+<h3>1. p-values are affected by sample size<a class="headerlink" href="#p-values-are-affected-by-sample-size" title="Permalink to this heading">#</a></h3>
+<p>Let us see how <em>p-values</em> can change when we increase the sample size.</p>
+<ul class="simple">
+<li><p>We simulate 2 different groups with different mean glucose values</p></li>
+<li><p>We use a statistical test to compare the 2 groups and calculate the <em>p-values</em> when different sample sizes are used</p></li>
+</ul>
+<p>First, we simulate 2 groups of 10,000 individuals each with different mean blood glucose levels</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate 2 different groups of 10,000 individuals with different mean glucose measurements</span>
+<span class="n">pop_diff</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pop_simulate</span><span class="p">(</span><span class="n">pop_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">mean_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.6</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">mean_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.0</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">pop_diff</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">geom_density</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_gray</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/6b537514ecde40368592bf53a5f64144b713f342e7116a82575902a33e04f62d.png" src="../_images/6b537514ecde40368592bf53a5f64144b713f342e7116a82575902a33e04f62d.png" />
+</div>
+</div>
+<p>We can use a statistical test to compare the means of 2 groups using a sample size of 5 people to obtain a p-value and repeat the test 10 times</p>
+<p>We plot the p-value for each repeat test and see if any of them cross the conventional threshold of 0.05</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">sample_p</span><span class="p">(</span><span class="n">replicate_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="n">pop_diff</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rep</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">     </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;longdash&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+<img alt="../_images/bee8249b3736f279a1a868f1121686f7794fe6295a29771ede810d6f9183a2a2.png" src="../_images/bee8249b3736f279a1a868f1121686f7794fe6295a29771ede810d6f9183a2a2.png" />
+</div>
+</div>
+<p>We see that few (if any) reach the threshold of 0.05 if the sample size is small even though there is a difference in the populations</p>
+<p>We will now increase the samples size to <code class="docutils literal notranslate"><span class="pre">50</span></code></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">sample_p</span><span class="p">(</span><span class="n">replicate_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="n">pop_diff</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rep</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">     </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;longdash&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/45c53fa8ebda2a76d2c911c91c5cc0782d4e269d25a9277b00228b50412ba464.png" src="../_images/45c53fa8ebda2a76d2c911c91c5cc0782d4e269d25a9277b00228b50412ba464.png" />
+</div>
+</div>
+<p>Here we see that increasing the sample size increases the chance of finding a small p-value that is equal or smaller than the 0.05 threshold</p>
+</section>
+<section id="repeating-a-hypothesis-test-on-a-same-sample-can-lead-to-spurious-conclusions">
+<h3>2. Repeating a hypothesis test on a same sample can lead to spurious conclusions<a class="headerlink" href="#repeating-a-hypothesis-test-on-a-same-sample-can-lead-to-spurious-conclusions" title="Permalink to this heading">#</a></h3>
+<p>In large datasets with multiple parameters, it is easy to perform multiple tests on the same dataset. Let us see what happens when repeat tests are performed on the same sample</p>
+<ul class="simple">
+<li><p>We simulate different groups with the same mean glucose measurements i.e. there is no difference</p></li>
+<li><p>We repeat statistical tests on the <em>same</em> dataset and see how the <em>p-values</em> change</p></li>
+</ul>
+<p>First, we simulate 2 groups of 1,000 individuals who have the same mean blood glucose levels</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simulate a sample of individuals with same mean glucose measurements</span>
+<span class="n">sample_same</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pop_simulate</span><span class="p">(</span><span class="n">pop_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">mean_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.6</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">mean_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.6</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">sample_same</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_density</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_gray</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/286c45140441a91d7613fd5d1571af399e016abdabe5f8a026c386e03f3546ea.png" src="../_images/286c45140441a91d7613fd5d1571af399e016abdabe5f8a026c386e03f3546ea.png" />
+</div>
+</div>
+<p>We can use a statistical test to compare the means of 2 groups using a sample size of 5 people to obtain a p-value and repeat the test 5 times</p>
+<p>We plot the p-value for each repeat test and see if any of them cross the conventional threshold of 0.05</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">sample_p</span><span class="p">(</span><span class="n">replicate_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="n">sample_same</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rep</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">     </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;longdash&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/7a687161340de5006b00344fb9c950d8739b177abe64ee7487e53fe3a45cf279.png" src="../_images/7a687161340de5006b00344fb9c950d8739b177abe64ee7487e53fe3a45cf279.png" />
+</div>
+</div>
+<p>We note that the chance of finding a low p-value is small when the number of retests is low</p>
+<p>We will now retest the sample 100 times</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">sample_p</span><span class="p">(</span><span class="n">replicate_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="n">sample_same</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rep</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">     </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;longdash&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;black&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">     </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/3cb1771536a90131a59f4356167a63a188c5dd57fc28799045f489355461b204.png" src="../_images/3cb1771536a90131a59f4356167a63a188c5dd57fc28799045f489355461b204.png" />
+</div>
+</div>
+<p>Increasing the number of retests on the same sample increases the chance of getting a low p-value that could be called significant (nominally &lt;0.05), even though there is no difference in the 2 populations</p>
+<p><img alt="hypothesis_multiple_simple.png" src="../_images/hypothesis_multiple_simple.png" /></p>
+</section>
+<section id="a-small-p-value-does-not-mean-the-observed-effect-is-large">
+<h3>3. A small p-value does not mean the observed effect is large<a class="headerlink" href="#a-small-p-value-does-not-mean-the-observed-effect-is-large" title="Permalink to this heading">#</a></h3>
+<p>A small <em>p-value</em> indicates that the data is less likely to  to be due to random chance, assuming there is no underlying difference in the population. It does <strong>not</strong> say anything about the magnitude of the difference.</p>
+<ul class="simple">
+<li><p>We simulate 2 populations with very small differences in the mean glucose levels</p></li>
+<li><p>We then calculate the <em>p-value</em> from a different sample size and observe if we can obtain small <em>p-values</em></p></li>
+</ul>
+<p>First, we simulate 2 groups of 10,000 individuals who have small differences mean blood glucose levels</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate 2 groups 10,000 people with small differences</span>
+<span class="n">pop_diff_small</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">pop_simulate</span><span class="p">(</span><span class="n">pop_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">mean_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.6</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">mean_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.4</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">pop_diff_small</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">geom_density</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_gray</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a4f1a78b413500bb905b9fec60e5841ecac2e5fd48aaac00bf58585f2640c08d.png" src="../_images/a4f1a78b413500bb905b9fec60e5841ecac2e5fd48aaac00bf58585f2640c08d.png" />
+</div>
+</div>
+<p>We use a statistical test to compare the 2 groups using a large sample size of 1,000</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">sample_p</span><span class="p">(</span><span class="n">replicate_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
+<span class="w">         </span><span class="n">sample_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
+<span class="w">         </span><span class="n">pop_diff_small</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>rep</th><th scope=col>p</th><th scope=col>sig</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>2.29e-06</td><td>yes</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>When the sample size is relatively large, we can see that even though the difference is very small, the <em>p-value</em> can very small</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="neyman-pearson-paradigm-hypothesis-testing">
+<h2>Neyman-Pearson paradigm (hypothesis testing)<a class="headerlink" href="#neyman-pearson-paradigm-hypothesis-testing" title="Permalink to this heading">#</a></h2>
+<p>As <em>p-value</em> can be interpreted subjectively, later work by Neyman and Pearson established an different approach to extend Fisher’s formulation by providing a framework for decision-making for <strong>confirmatory</strong> studies</p>
+<ul class="simple">
+<li><p>Establishing criteria for decision-making and the required number of samples</p></li>
+<li><p>Deciding whether the null hypothesis should be accepted or rejected in favour of an alternative hypothesis</p></li>
+</ul>
+<p>This framework involves an initial planning phase that considers the following to establish the critical value for the test-statistic</p>
+<ol class="arabic simple">
+<li><p>The minimum magnitude of difference <strong>(effect size)</strong> that may be expected for the alternative hypothesis</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span>, the probability of a <strong>false positive</strong> (concluding there is a difference when there is none)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\beta\)</span>, the probability of a <strong>false negative</strong> (concluding there is no difference when there is one)</p></li>
+<li><p>The <strong>power</strong> to detect a difference, defined as <span class="math notranslate nohighlight">\(1 - \beta\)</span></p></li>
+<li><p>The <strong>number of samples</strong> required to fulfill the different criteria</p></li>
+</ol>
+<p><img alt="hypothesis_np.png" src="../_images/hypothesis_np.png" /></p>
+<p>In the analysis phase</p>
+<ul class="simple">
+<li><p>The test is performed and the <strong>threshold</strong> is used to decide the null hypothesis is accepted or rejected, based on the test statistic (not the <em>p-value</em>, but often used as a proxy)</p></li>
+</ul>
+<p>Within the Neyman-Pearson decision framework, the <span class="math notranslate nohighlight">\(a\)</span> threshold determines the <strong>false positive</strong> (Type I) error rate and the <span class="math notranslate nohighlight">\(\beta\)</span> threshold determines the <strong>false negative</strong> (Type II) error rate</p>
+<p><img alt="hypothesis_error.png" src="../_images/hypothesis_error.png" /></p>
+<p>This framework is best suited for <strong>repeated experiments</strong> or sampling where one needs to control the type of errors in accepting/rejecting the null hypothesis.</p>
+</section>
+<section id="null-hypothesis-significance-testing-nhst-paradigm">
+<h2>Null hypothesis significance testing (NHST) paradigm<a class="headerlink" href="#null-hypothesis-significance-testing-nhst-paradigm" title="Permalink to this heading">#</a></h2>
+<p>The current framework that is used in biomedical researach (known as NHST) combines both (incompatible) approaches</p>
+<ul class="simple">
+<li><p>Setting up the null hypothesis and alternative hypothesis</p></li>
+<li><p>Deciding on the <span class="math notranslate nohighlight">\(\alpha\)</span> threshold e.g. 0.05 (probability of a false positive in the long run)</p></li>
+<li><p>Performing the test and calculating the <em>p-value</em> (probability of observing the data at hand assuming there is no underlying difference)</p></li>
+<li><p>Deciding on whether the test is significant based on whether the <em>p-value</em> is smaller than <span class="math notranslate nohighlight">\(\alpha\)</span></p></li>
+</ul>
+<p>Notice that the comparison of the <em>p-value</em> to the <span class="math notranslate nohighlight">\(\alpha\)</span> threshold conflates two different concepts.</p>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\(\alpha\)</span> sets the error rate of wrongly rejecting the null hypothesis in the long run</p></li>
+<li><p>The <em>p-value</em> indicates the probability of observing the data assuming the null hypothesis</p></li>
+</ul>
+<p>For example, if we calculate a <em>p-value</em> of 0.05  and misinterpret it as <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, we can wrongly conclude there is only a 5/100 chance of a false positive (wrongly rejecting the null hypothesis)</p>
+<p>In the case of a 50/50 chance of a null hypothesis being true, a <em>p-value</em> of 0.05 would correspond to a false positive rate of at least ~26%. For details see: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5750014/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5750014/</a></p>
+<p><img alt="false_positive.png" src="../_images/false_positive.png" /></p>
+<p>The use of NHST and p-values remains controversial. For a review, see:  <a class="reference external" href="https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00223/full">https://www.frontiersin.org/articles/10.3389/fpsyg.2015.00223/full</a></p>
+</section>
+<section id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The effect sizes (magnitude of differences) should be emphasized with their confidence intervals. This allows one to judge the range and uncertainty in the effect sizes when comparing groups</p></li>
+<li><p>p-values should be interpreted as evidence against the null hypothesis (i.e. assuming there is no difference in the population) and not as a decision threshold</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-2-estimation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Estimating Uncertainty</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-4-effect.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Effect size</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-hypothesis-testing-approaches">Overview of hypothesis testing approaches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-approach">1. Resampling approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-resampling-approach">Overview of resampling approach</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-difference-between-the-groups">What is the difference between the groups?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#is-this-observed-difference-real-or-due-to-chance">Is this observed difference real or due to chance?</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-hypothesis-dataset-by-resampling">1.1. Generate a null hypothesis dataset by resampling</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-based-on-the-test-statistic">1.2. Generate a null distribution based on the test statistic</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-of-test-statistic-values-to-calculate-the-p-value">1.3. Use the null distribution of test statistic values to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytical-approach-using-parametric-theoretical-distribution">2. Analytical approach using parametric theoretical distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-approach">3. Rank-based approach</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-the-p-value-significance-testing">Interpretation of the p-value (significance testing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cautionary-note-about-p-values">Cautionary note about p-values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p-values-are-affected-by-sample-size">1. p-values are affected by sample size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repeating-a-hypothesis-test-on-a-same-sample-can-lead-to-spurious-conclusions">2. Repeating a hypothesis test on a same sample can lead to spurious conclusions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-small-p-value-does-not-mean-the-observed-effect-is-large">3. A small p-value does not mean the observed effect is large</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neyman-pearson-paradigm-hypothesis-testing">Neyman-Pearson paradigm (hypothesis testing)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-hypothesis-significance-testing-nhst-paradigm">Null hypothesis significance testing (NHST) paradigm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations">Recommendations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1404 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Overview of Tidyverse &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02-intro-to-tidyverse/01-overview';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reading and Inspecting Data" href="02-reading.html" />
+    <link rel="prev" title="Extending R" href="../01-intro-to-r/06-extending.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/02-intro-to-tidyverse/01-overview.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Overview of Tidyverse</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-brief-tour-of-the-tidyverse-package">A brief tour of the tidyverse package</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-tidyverse-functions-verbs">Examples of tidyverse functions (verbs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-several-functions">Combining several functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-pipe-operator">Using the pipe %&gt;% operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pipe-with-other-functions">Using pipe with other functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-pipes">Exercise - Pipes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="overview-of-tidyverse">
+<h1>Overview of Tidyverse<a class="headerlink" href="#overview-of-tidyverse" title="Permalink to this heading">#</a></h1>
+<p>Tidyverse is a collection of R packages for data science</p>
+<ul class="simple">
+<li><p>It was introduced by Hadley Wickham (<a class="reference external" href="https://en.wikipedia.org/wiki/Hadley_Wickham">https://en.wikipedia.org/wiki/Hadley_Wickham</a>)</p></li>
+<li><p>The packages provide a consistent grammar for data science</p></li>
+<li><p>It encompasses the entire workflow from data import to communicating the results of the analysis</p></li>
+</ul>
+<p><img alt="tidy_workflow.png" src="../_images/tidy_workflow.png" /></p>
+<p>You can learn more about tidyverse using this free e-textbook by Hadley Wickham: <a class="reference external" href="https://r4ds.had.co.nz">https://r4ds.had.co.nz</a></p>
+<p><img alt="book.png" src="../_images/book_tidy.png" /></p>
+<hr class="docutils" />
+<section id="a-brief-tour-of-the-tidyverse-package">
+<h2>A brief tour of the tidyverse package<a class="headerlink" href="#a-brief-tour-of-the-tidyverse-package" title="Permalink to this heading">#</a></h2>
+<p>The tidyverse core package imports several R packages for data import, transformation, and visualization</p>
+<p><img alt="tidy_core.png" src="../_images/tidy_core.png" /></p>
+<p>It provides a consistent grammar that allows functions to be combined in the analysis of data</p>
+<ul class="simple">
+<li><p>noun: container for the data (tibble)</p></li>
+<li><p>verbs: functions to manipulate data</p></li>
+</ul>
+<p>We will load the library and use a dataset to illustrate its use in data exploration</p>
+<p>We will import a dataset from the Framingham study, which was a long term study of cardiovascular disease about subjects in Framingham, USA. In this dataset</p>
+<ul class="simple">
+<li><p>~4000 subjects followed up and clinical data and chronic heart disease outcomes were examined longitudinally over &gt; 10 years</p></li>
+</ul>
+<p>The variables include</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span></code> : 0 = female, 1 = male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : Age at the time of medical examination in years.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">education</span></code> : 1 = Some high school, 2 = high school/GED, 3 = some college/vocational school, 4 = college</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">currentSmoker</span></code>: Current cigarette smoking at the time of examinations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cigsPerDay</span></code>: Number of cigarettes smoked each day</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPmeds</span></code>: Use of anti-hypertensive medication at exam</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentStroke</span></code>: Prevalent Stroke</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentHyp</span></code>: Prevalent Hypertensive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diabetes</span></code>: Diabetic according to criteria of first exam treated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">totChol</span></code>: Total cholesterol (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysBP</span></code>: Systolic Blood Pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diaBP</span></code>: Diastolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BMI</span></code>: Body Mass Index, weight (kg)/height (m)^2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heartRate</span></code>: Heart rate (beats/minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glucose</span></code>: Blood glucose level (mg/dL)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># reading in data</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="nf">class</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'spec_tbl_df'</li><li>'tbl_df'</li><li>'tbl'</li><li>'data.frame'</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># see first few rows</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 16</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>195</td><td>106.0</td><td> 70</td><td>26.97</td><td>80</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>121.0</td><td> 81</td><td>28.73</td><td>95</td><td> 76</td><td>0</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>127.5</td><td> 80</td><td>25.34</td><td>75</td><td> 70</td><td>0</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>1</td><td>30</td><td>0</td><td>0</td><td>1</td><td>0</td><td>225</td><td>150.0</td><td> 95</td><td>28.58</td><td>65</td><td>103</td><td>1</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>1</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td><td>285</td><td>130.0</td><td> 84</td><td>23.10</td><td>85</td><td> 85</td><td>0</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>228</td><td>180.0</td><td>110</td><td>30.30</td><td>77</td><td> 99</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="examples-of-tidyverse-functions-verbs">
+<h2>Examples of tidyverse functions (verbs)<a class="headerlink" href="#examples-of-tidyverse-functions-verbs" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># selecting only certain columns</span>
+
+<span class="nf">select</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">male</span><span class="p">,</span><span class="w"> </span><span class="n">diabetes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4240 × 2</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>diabetes</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>⋮</td><td>⋮</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>1</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>1</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+	<tr><td>1</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># filtering by criteria</span>
+
+<span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">65</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 110 × 16</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>254</td><td>157.0</td><td> 89.0</td><td>24.25</td><td>60</td><td> 74</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>311</td><td>154.0</td><td> 80.0</td><td>28.55</td><td>60</td><td>104</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>278</td><td>187.0</td><td> 88.0</td><td>40.52</td><td>90</td><td> 84</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>264</td><td>139.0</td><td> 80.0</td><td>25.75</td><td>75</td><td> 87</td><td>0</td></tr>
+	<tr><td>1</td><td>66</td><td> 3</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>288</td><td>109.0</td><td> 71.0</td><td>29.29</td><td>80</td><td> 80</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>214</td><td>212.0</td><td>104.0</td><td>25.32</td><td>57</td><td> 84</td><td>1</td></tr>
+	<tr><td>1</td><td>67</td><td>NA</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>257</td><td>125.0</td><td> 67.5</td><td>25.95</td><td>65</td><td> 69</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>249</td><td>128.0</td><td> 68.0</td><td>25.81</td><td>70</td><td> 87</td><td>1</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>285</td><td>166.0</td><td> 98.0</td><td>26.04</td><td>95</td><td>132</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>302</td><td>147.0</td><td> 92.0</td><td>25.23</td><td>80</td><td> 87</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>164</td><td>142.0</td><td> 85.0</td><td>30.28</td><td>70</td><td>120</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>248</td><td>215.0</td><td>105.0</td><td>22.91</td><td>90</td><td> 97</td><td>1</td></tr>
+	<tr><td>1</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>203</td><td>122.0</td><td> 74.0</td><td>15.54</td><td>96</td><td> 79</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 2</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>109.0</td><td> 73.0</td><td>24.68</td><td>72</td><td> 66</td><td>0</td></tr>
+	<tr><td>1</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>276</td><td>159.0</td><td> 82.0</td><td>31.42</td><td>90</td><td> 65</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 2</td><td>1</td><td>15</td><td>0</td><td>0</td><td>1</td><td>0</td><td> NA</td><td>188.0</td><td>108.5</td><td>20.49</td><td>90</td><td> NA</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>214</td><td>127.5</td><td> 80.0</td><td>22.11</td><td>69</td><td> 84</td><td>1</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>232</td><td>175.0</td><td> 94.0</td><td>29.84</td><td>95</td><td> 67</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>251</td><td>192.0</td><td>102.0</td><td>44.09</td><td>55</td><td> 62</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 1</td><td>1</td><td>15</td><td>0</td><td>0</td><td>1</td><td>0</td><td>204</td><td>185.0</td><td>100.0</td><td>22.69</td><td>75</td><td>114</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>218</td><td>160.0</td><td>100.0</td><td>20.50</td><td>88</td><td> 71</td><td>0</td></tr>
+	<tr><td>1</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>233</td><td>108.0</td><td> 66.0</td><td>25.16</td><td>75</td><td> 72</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>261</td><td>122.0</td><td> 70.0</td><td>26.37</td><td>96</td><td> 60</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>290</td><td>152.5</td><td> 90.0</td><td>23.63</td><td>80</td><td> 76</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>273</td><td>153.0</td><td> 94.0</td><td>25.27</td><td>80</td><td> 76</td><td>0</td></tr>
+	<tr><td>1</td><td>66</td><td> 1</td><td>1</td><td>30</td><td>0</td><td>0</td><td>0</td><td>1</td><td>234</td><td>114.5</td><td> 62.5</td><td>28.62</td><td>75</td><td>216</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>201</td><td>110.0</td><td> 77.0</td><td>24.53</td><td>65</td><td> 77</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 1</td><td>1</td><td> 9</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>126.0</td><td> 68.0</td><td>29.04</td><td>70</td><td> 94</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>263</td><td>201.0</td><td> 93.0</td><td>30.04</td><td>75</td><td> 78</td><td>1</td></tr>
+	<tr><td>0</td><td>66</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>238</td><td>140.0</td><td> 80.0</td><td>26.69</td><td>69</td><td> 83</td><td>0</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>223</td><td>111</td><td> 73.0</td><td>27.89</td><td> 90</td><td> 63</td><td>1</td></tr>
+	<tr><td>0</td><td>70</td><td> 2</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>231</td><td>136</td><td> 84.0</td><td>31.78</td><td> 60</td><td> 95</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 2</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>295</td><td>170</td><td> 89.0</td><td>35.35</td><td> 66</td><td> 63</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>263</td><td>193</td><td> 95.0</td><td>27.07</td><td>115</td><td> 94</td><td>1</td></tr>
+	<tr><td>0</td><td>69</td><td> 3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>286</td><td>117</td><td> 73.0</td><td>20.92</td><td> 85</td><td>103</td><td>0</td></tr>
+	<tr><td>1</td><td>69</td><td> 1</td><td>1</td><td> 4</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>232</td><td>151</td><td> 74.0</td><td>24.14</td><td> 75</td><td> 62</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 3</td><td>1</td><td>20</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>241</td><td>112</td><td> 66.0</td><td>23.36</td><td> 75</td><td> 74</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>312</td><td>150</td><td> 74.0</td><td>25.59</td><td> 72</td><td> 90</td><td>1</td></tr>
+	<tr><td>0</td><td>68</td><td> 2</td><td>0</td><td> 0</td><td>NA</td><td>0</td><td>0</td><td>0</td><td>257</td><td>144</td><td> 95.0</td><td>29.25</td><td> 80</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>260</td><td>167</td><td> 96.0</td><td>29.04</td><td> 65</td><td> 82</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>292</td><td>144</td><td> 89.0</td><td>21.93</td><td> 96</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>68</td><td> 3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>241</td><td>154</td><td> 96.0</td><td>30.12</td><td>103</td><td> 70</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 1</td><td>1</td><td> 9</td><td> 0</td><td>0</td><td>1</td><td>0</td><td> NA</td><td>185</td><td>110.0</td><td>19.53</td><td>100</td><td> NA</td><td>0</td></tr>
+	<tr><td>1</td><td>66</td><td> 2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>189</td><td>140</td><td> 71.0</td><td>27.56</td><td> 70</td><td>119</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>1</td><td>15</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>157</td><td>106</td><td> 48.0</td><td>26.73</td><td> 65</td><td> 65</td><td>1</td></tr>
+	<tr><td>0</td><td>69</td><td> 3</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>203</td><td>166</td><td> 90.0</td><td>25.40</td><td> 77</td><td> 80</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 3</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>223</td><td>214</td><td> 94.0</td><td>25.86</td><td> 80</td><td> 87</td><td>1</td></tr>
+	<tr><td>0</td><td>67</td><td> 4</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>281</td><td>101</td><td> 59.0</td><td>23.10</td><td> 63</td><td> 85</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>276</td><td>127</td><td> 66.5</td><td>25.78</td><td> 75</td><td>104</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>237</td><td>130</td><td> 62.0</td><td>33.52</td><td> 60</td><td> 82</td><td>0</td></tr>
+	<tr><td>0</td><td>67</td><td> 3</td><td>1</td><td> 5</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>245</td><td>169</td><td> 82.0</td><td>26.05</td><td>122</td><td>122</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>258</td><td>128</td><td> 79.0</td><td>29.54</td><td> 85</td><td> 86</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 2</td><td>1</td><td>60</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>261</td><td>170</td><td>100.0</td><td>22.71</td><td> 72</td><td> 79</td><td>1</td></tr>
+	<tr><td>0</td><td>66</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>304</td><td>161</td><td> 90.0</td><td>23.48</td><td> 80</td><td> 57</td><td>1</td></tr>
+	<tr><td>1</td><td>66</td><td> 3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>226</td><td>213</td><td>133.0</td><td>25.29</td><td>100</td><td> 67</td><td>0</td></tr>
+	<tr><td>1</td><td>69</td><td> 1</td><td>1</td><td> 1</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>123</td><td> 77.0</td><td>26.58</td><td> 70</td><td> 81</td><td>1</td></tr>
+	<tr><td>1</td><td>69</td><td>NA</td><td>1</td><td>23</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>186</td><td>179</td><td> 93.0</td><td>26.64</td><td> 72</td><td> 67</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td>NA</td><td>1</td><td>25</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>221</td><td>144</td><td> 84.0</td><td>24.92</td><td> 72</td><td> 73</td><td>0</td></tr>
+	<tr><td>0</td><td>69</td><td> 2</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>220</td><td>143</td><td> 81.0</td><td>26.27</td><td> 60</td><td> 77</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>176</td><td>168</td><td> 97.0</td><td>23.14</td><td> 60</td><td> 79</td><td>1</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># arranging or sorting</span>
+
+<span class="nf">arrange</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 4240 × 16</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>32</td><td> 2</td><td>1</td><td>15</td><td>0</td><td>0</td><td>0</td><td>0</td><td>242</td><td>111.0</td><td>70.0</td><td>29.84</td><td> 80</td><td> 88</td><td>0</td></tr>
+	<tr><td>0</td><td>33</td><td> 3</td><td>1</td><td>15</td><td>0</td><td>0</td><td>0</td><td>0</td><td>199</td><td>116.0</td><td>81.0</td><td>21.61</td><td> 75</td><td> 93</td><td>0</td></tr>
+	<tr><td>0</td><td>33</td><td> 1</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>158</td><td>108.0</td><td>67.0</td><td>19.84</td><td> 86</td><td> 69</td><td>0</td></tr>
+	<tr><td>1</td><td>33</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>165</td><td>141.5</td><td>95.0</td><td>26.74</td><td> 54</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>33</td><td> 2</td><td>1</td><td> 5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>200</td><td>119.0</td><td>74.0</td><td>23.80</td><td> 75</td><td> 74</td><td>0</td></tr>
+	<tr><td>1</td><td>33</td><td> 4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>165</td><td>136.0</td><td>75.0</td><td>24.95</td><td> 88</td><td> 90</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td>NA</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>163</td><td>107.0</td><td>71.0</td><td>23.88</td><td> 73</td><td> 80</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 3</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>206</td><td>101.0</td><td>63.0</td><td>21.50</td><td> 75</td><td> 66</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>189</td><td>108.0</td><td>66.0</td><td>20.81</td><td> 78</td><td> 88</td><td>0</td></tr>
+	<tr><td>1</td><td>34</td><td> 2</td><td>1</td><td>25</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>119.0</td><td>77.0</td><td>29.04</td><td> 63</td><td> 80</td><td>0</td></tr>
+	<tr><td>1</td><td>34</td><td> 1</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>210</td><td>120.0</td><td>85.0</td><td>24.39</td><td> 68</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>220</td><td>117.5</td><td>67.5</td><td>20.79</td><td> 63</td><td> 86</td><td>0</td></tr>
+	<tr><td>1</td><td>34</td><td> 4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>227</td><td>131.5</td><td>84.0</td><td>25.41</td><td> 60</td><td> 87</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>170</td><td>121.0</td><td>74.0</td><td>20.82</td><td> 67</td><td> 83</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>175</td><td>117.5</td><td>73.5</td><td>22.15</td><td> 65</td><td> 75</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>1</td><td>40</td><td>0</td><td>0</td><td>0</td><td>0</td><td>184</td><td>118.0</td><td>77.0</td><td>25.56</td><td> 86</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>159</td><td> 92.5</td><td>70.0</td><td>22.15</td><td> 65</td><td> 68</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>226</td><td>112.5</td><td>77.5</td><td>24.99</td><td>100</td><td> 72</td><td>0</td></tr>
+	<tr><td>1</td><td>34</td><td> 3</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>155</td><td>117.5</td><td>72.5</td><td>23.51</td><td> 85</td><td> 65</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 2</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>180</td><td>111.0</td><td>56.0</td><td>21.51</td><td> 91</td><td> 78</td><td>0</td></tr>
+	<tr><td>1</td><td>34</td><td> 1</td><td>1</td><td> 5</td><td>0</td><td>0</td><td>0</td><td>0</td><td>185</td><td>100.5</td><td>66.0</td><td>24.42</td><td> 70</td><td>115</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td>NA</td><td>1</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0</td><td>185</td><td>108.5</td><td>86.0</td><td>19.68</td><td> 75</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 3</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>227</td><td>102.0</td><td>68.0</td><td>24.96</td><td> 80</td><td> 75</td><td>0</td></tr>
+	<tr><td>0</td><td>34</td><td> 3</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>196</td><td>108.5</td><td>68.0</td><td>25.67</td><td> 60</td><td> 82</td><td>0</td></tr>
+	<tr><td>1</td><td>35</td><td> 2</td><td>1</td><td>20</td><td>0</td><td>0</td><td>1</td><td>0</td><td>225</td><td>132.0</td><td>91.0</td><td>26.09</td><td> 73</td><td> 83</td><td>0</td></tr>
+	<tr><td>0</td><td>35</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>208</td><td>122.5</td><td>72.5</td><td>22.00</td><td> 65</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>35</td><td> 2</td><td>1</td><td>15</td><td>0</td><td>0</td><td>0</td><td>0</td><td>177</td><td>110.0</td><td>70.0</td><td>25.71</td><td> 65</td><td> 84</td><td>0</td></tr>
+	<tr><td>1</td><td>35</td><td> 2</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>231</td><td>122.0</td><td>72.5</td><td>22.78</td><td> 72</td><td> 93</td><td>0</td></tr>
+	<tr><td>0</td><td>35</td><td> 2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>170</td><td> 98.5</td><td>69.5</td><td>19.64</td><td> 71</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>35</td><td> 2</td><td>1</td><td>30</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>148.0</td><td>84.0</td><td>23.74</td><td> 60</td><td> 73</td><td>0</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>0</td><td>67</td><td> 3</td><td>1</td><td> 5</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>245</td><td>169.0</td><td> 82.0</td><td>26.05</td><td>122</td><td>122</td><td>0</td></tr>
+	<tr><td>1</td><td>67</td><td> 2</td><td>1</td><td>60</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>261</td><td>170.0</td><td>100.0</td><td>22.71</td><td> 72</td><td> 79</td><td>1</td></tr>
+	<tr><td>1</td><td>67</td><td>NA</td><td>1</td><td>25</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>221</td><td>144.0</td><td> 84.0</td><td>24.92</td><td> 72</td><td> 73</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>1</td><td>164</td><td>142.0</td><td> 85.0</td><td>30.28</td><td> 70</td><td>120</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 2</td><td>1</td><td>10</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>109.0</td><td> 73.0</td><td>24.68</td><td> 72</td><td> 66</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>1</td><td>10</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>261</td><td>122.0</td><td> 70.0</td><td>26.37</td><td> 96</td><td> 60</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>239</td><td>130.0</td><td> 80.0</td><td>23.25</td><td> 64</td><td> 95</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>230</td><td>124.0</td><td> 70.0</td><td>22.85</td><td> 70</td><td> 60</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>1</td><td>184</td><td>157.0</td><td> 97.0</td><td>33.16</td><td>110</td><td>148</td><td>1</td></tr>
+	<tr><td>0</td><td>68</td><td> 3</td><td>1</td><td>20</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>258</td><td>158.0</td><td> 94.0</td><td>31.64</td><td> 80</td><td> 84</td><td>1</td></tr>
+	<tr><td>0</td><td>68</td><td> 2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>242</td><td>146.5</td><td> 71.0</td><td>25.21</td><td>100</td><td> 96</td><td>0</td></tr>
+	<tr><td>0</td><td>68</td><td> 2</td><td>1</td><td>20</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>322</td><td>148.0</td><td> 95.0</td><td>20.98</td><td> 95</td><td> 72</td><td>0</td></tr>
+	<tr><td>0</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td>NA</td><td>0</td><td>1</td><td>0</td><td>258</td><td>139.0</td><td> 74.0</td><td>26.58</td><td> 85</td><td> 75</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>1</td><td>15</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>193</td><td>145.0</td><td> 67.0</td><td>23.13</td><td> 75</td><td> 72</td><td>1</td></tr>
+	<tr><td>0</td><td>68</td><td> 2</td><td>0</td><td> 0</td><td>NA</td><td>0</td><td>0</td><td>0</td><td>257</td><td>144.0</td><td> 95.0</td><td>29.25</td><td> 80</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>68</td><td> 3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>241</td><td>154.0</td><td> 96.0</td><td>30.12</td><td>103</td><td> 70</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>1</td><td>15</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>157</td><td>106.0</td><td> 48.0</td><td>26.73</td><td> 65</td><td> 65</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>276</td><td>127.0</td><td> 66.5</td><td>25.78</td><td> 75</td><td>104</td><td>1</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>237</td><td>130.0</td><td> 62.0</td><td>33.52</td><td> 60</td><td> 82</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>258</td><td>128.0</td><td> 79.0</td><td>29.54</td><td> 85</td><td> 86</td><td>0</td></tr>
+	<tr><td>1</td><td>68</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>176</td><td>168.0</td><td> 97.0</td><td>23.14</td><td> 60</td><td> 79</td><td>1</td></tr>
+	<tr><td>0</td><td>69</td><td> 2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>215</td><td>164.0</td><td> 80.0</td><td>17.23</td><td>100</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>69</td><td> 3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>286</td><td>117.0</td><td> 73.0</td><td>20.92</td><td> 85</td><td>103</td><td>0</td></tr>
+	<tr><td>1</td><td>69</td><td> 1</td><td>1</td><td> 4</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>232</td><td>151.0</td><td> 74.0</td><td>24.14</td><td> 75</td><td> 62</td><td>0</td></tr>
+	<tr><td>0</td><td>69</td><td> 3</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>203</td><td>166.0</td><td> 90.0</td><td>25.40</td><td> 77</td><td> 80</td><td>0</td></tr>
+	<tr><td>1</td><td>69</td><td> 1</td><td>1</td><td> 1</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>123.0</td><td> 77.0</td><td>26.58</td><td> 70</td><td> 81</td><td>1</td></tr>
+	<tr><td>1</td><td>69</td><td>NA</td><td>1</td><td>23</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>186</td><td>179.0</td><td> 93.0</td><td>26.64</td><td> 72</td><td> 67</td><td>0</td></tr>
+	<tr><td>0</td><td>69</td><td> 2</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>220</td><td>143.0</td><td> 81.0</td><td>26.27</td><td> 60</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>70</td><td> 1</td><td>0</td><td> 0</td><td> 0</td><td>1</td><td>1</td><td>0</td><td>107</td><td>143.0</td><td> 93.0</td><td>   NA</td><td> 68</td><td> 62</td><td>1</td></tr>
+	<tr><td>0</td><td>70</td><td> 2</td><td>0</td><td> 0</td><td> 1</td><td>0</td><td>1</td><td>0</td><td>231</td><td>136.0</td><td> 84.0</td><td>31.78</td><td> 60</td><td> 95</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="combining-several-functions">
+<h2>Combining several functions<a class="headerlink" href="#combining-several-functions" title="Permalink to this heading">#</a></h2>
+<p>What if we want to combine several functions?</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">select</span></code> male, age and totChol columns</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter</span></code> age &gt; 65</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arrange</span></code> by age</p></li>
+</ul>
+<p>We can do this by nesting the functions</p>
+<p><img alt="function_nesting.png" src="../_images/function_nesting.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">arrange</span><span class="p">(</span><span class="nf">filter</span><span class="p">(</span><span class="nf">select</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">male</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">totChol</span><span class="p">),</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 110 × 3</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>totChol</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>66</td><td>311</td></tr>
+	<tr><td>0</td><td>66</td><td>278</td></tr>
+	<tr><td>1</td><td>66</td><td>288</td></tr>
+	<tr><td>0</td><td>66</td><td>214</td></tr>
+	<tr><td>0</td><td>66</td><td>285</td></tr>
+	<tr><td>1</td><td>66</td><td>276</td></tr>
+	<tr><td>0</td><td>66</td><td> NA</td></tr>
+	<tr><td>0</td><td>66</td><td>232</td></tr>
+	<tr><td>1</td><td>66</td><td>233</td></tr>
+	<tr><td>0</td><td>66</td><td>290</td></tr>
+	<tr><td>0</td><td>66</td><td>273</td></tr>
+	<tr><td>1</td><td>66</td><td>234</td></tr>
+	<tr><td>0</td><td>66</td><td>238</td></tr>
+	<tr><td>0</td><td>66</td><td>216</td></tr>
+	<tr><td>0</td><td>66</td><td>235</td></tr>
+	<tr><td>1</td><td>66</td><td>253</td></tr>
+	<tr><td>0</td><td>66</td><td>305</td></tr>
+	<tr><td>1</td><td>66</td><td>235</td></tr>
+	<tr><td>1</td><td>66</td><td>270</td></tr>
+	<tr><td>0</td><td>66</td><td>225</td></tr>
+	<tr><td>0</td><td>66</td><td>275</td></tr>
+	<tr><td>1</td><td>66</td><td>182</td></tr>
+	<tr><td>0</td><td>66</td><td>292</td></tr>
+	<tr><td>1</td><td>66</td><td>228</td></tr>
+	<tr><td>0</td><td>66</td><td>212</td></tr>
+	<tr><td>1</td><td>66</td><td>199</td></tr>
+	<tr><td>1</td><td>66</td><td>273</td></tr>
+	<tr><td>1</td><td>66</td><td>124</td></tr>
+	<tr><td>0</td><td>66</td><td>261</td></tr>
+	<tr><td>0</td><td>66</td><td>203</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>0</td><td>67</td><td>245</td></tr>
+	<tr><td>1</td><td>67</td><td>261</td></tr>
+	<tr><td>1</td><td>67</td><td>221</td></tr>
+	<tr><td>1</td><td>68</td><td>164</td></tr>
+	<tr><td>1</td><td>68</td><td>250</td></tr>
+	<tr><td>1</td><td>68</td><td>261</td></tr>
+	<tr><td>1</td><td>68</td><td>239</td></tr>
+	<tr><td>1</td><td>68</td><td>230</td></tr>
+	<tr><td>1</td><td>68</td><td>184</td></tr>
+	<tr><td>0</td><td>68</td><td>258</td></tr>
+	<tr><td>0</td><td>68</td><td>242</td></tr>
+	<tr><td>0</td><td>68</td><td>322</td></tr>
+	<tr><td>0</td><td>68</td><td>258</td></tr>
+	<tr><td>1</td><td>68</td><td>193</td></tr>
+	<tr><td>0</td><td>68</td><td>257</td></tr>
+	<tr><td>0</td><td>68</td><td>241</td></tr>
+	<tr><td>1</td><td>68</td><td>157</td></tr>
+	<tr><td>1</td><td>68</td><td>276</td></tr>
+	<tr><td>1</td><td>68</td><td>237</td></tr>
+	<tr><td>1</td><td>68</td><td>258</td></tr>
+	<tr><td>1</td><td>68</td><td>176</td></tr>
+	<tr><td>0</td><td>69</td><td>215</td></tr>
+	<tr><td>0</td><td>69</td><td>286</td></tr>
+	<tr><td>1</td><td>69</td><td>232</td></tr>
+	<tr><td>0</td><td>69</td><td>203</td></tr>
+	<tr><td>1</td><td>69</td><td>245</td></tr>
+	<tr><td>1</td><td>69</td><td>186</td></tr>
+	<tr><td>0</td><td>69</td><td>220</td></tr>
+	<tr><td>0</td><td>70</td><td>107</td></tr>
+	<tr><td>0</td><td>70</td><td>231</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As you can see, nesting functions can be unwieldy and hard to read or write</p>
+</section>
+<hr class="docutils" />
+<section id="using-the-pipe-operator">
+<h2>Using the pipe %&gt;% operator<a class="headerlink" href="#using-the-pipe-operator" title="Permalink to this heading">#</a></h2>
+<p>In tidyverse, we can use the pipe <code class="docutils literal notranslate"><span class="pre">%&gt;%</span></code> operator for functions that accept input data as the <strong>first</strong> argument</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">%&gt;%</span></code> operator places the input data as the <strong>first</strong> argument, so you omit it when you specify arguments in the function</p></li>
+</ul>
+<p><img alt="tidy_pipe.png" src="../_images/tidy_pipe.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># using the pipe syntax</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">male</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">totChol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4240 × 3</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>totChol</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>195</td></tr>
+	<tr><td>0</td><td>46</td><td>250</td></tr>
+	<tr><td>1</td><td>48</td><td>245</td></tr>
+	<tr><td>0</td><td>61</td><td>225</td></tr>
+	<tr><td>0</td><td>46</td><td>285</td></tr>
+	<tr><td>0</td><td>43</td><td>228</td></tr>
+	<tr><td>0</td><td>63</td><td>205</td></tr>
+	<tr><td>0</td><td>45</td><td>313</td></tr>
+	<tr><td>1</td><td>52</td><td>260</td></tr>
+	<tr><td>1</td><td>43</td><td>225</td></tr>
+	<tr><td>0</td><td>50</td><td>254</td></tr>
+	<tr><td>0</td><td>43</td><td>247</td></tr>
+	<tr><td>1</td><td>46</td><td>294</td></tr>
+	<tr><td>0</td><td>41</td><td>332</td></tr>
+	<tr><td>0</td><td>39</td><td>226</td></tr>
+	<tr><td>0</td><td>38</td><td>221</td></tr>
+	<tr><td>1</td><td>48</td><td>232</td></tr>
+	<tr><td>0</td><td>46</td><td>291</td></tr>
+	<tr><td>0</td><td>38</td><td>195</td></tr>
+	<tr><td>1</td><td>41</td><td>195</td></tr>
+	<tr><td>0</td><td>42</td><td>190</td></tr>
+	<tr><td>0</td><td>43</td><td>185</td></tr>
+	<tr><td>0</td><td>52</td><td>234</td></tr>
+	<tr><td>0</td><td>52</td><td>215</td></tr>
+	<tr><td>1</td><td>44</td><td>270</td></tr>
+	<tr><td>1</td><td>47</td><td>294</td></tr>
+	<tr><td>0</td><td>60</td><td>260</td></tr>
+	<tr><td>1</td><td>35</td><td>225</td></tr>
+	<tr><td>0</td><td>61</td><td>272</td></tr>
+	<tr><td>0</td><td>60</td><td>247</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>1</td><td>50</td><td>282</td></tr>
+	<tr><td>1</td><td>42</td><td>245</td></tr>
+	<tr><td>1</td><td>48</td><td>209</td></tr>
+	<tr><td>1</td><td>48</td><td>193</td></tr>
+	<tr><td>0</td><td>56</td><td>230</td></tr>
+	<tr><td>0</td><td>63</td><td>236</td></tr>
+	<tr><td>0</td><td>59</td><td>251</td></tr>
+	<tr><td>0</td><td>63</td><td>266</td></tr>
+	<tr><td>0</td><td>52</td><td>265</td></tr>
+	<tr><td>1</td><td>48</td><td>204</td></tr>
+	<tr><td>1</td><td>60</td><td>252</td></tr>
+	<tr><td>1</td><td>50</td><td>260</td></tr>
+	<tr><td>1</td><td>53</td><td>289</td></tr>
+	<tr><td>1</td><td>56</td><td>287</td></tr>
+	<tr><td>1</td><td>47</td><td>198</td></tr>
+	<tr><td>1</td><td>45</td><td>216</td></tr>
+	<tr><td>1</td><td>58</td><td>233</td></tr>
+	<tr><td>1</td><td>43</td><td>187</td></tr>
+	<tr><td>0</td><td>50</td><td>260</td></tr>
+	<tr><td>0</td><td>51</td><td>251</td></tr>
+	<tr><td>0</td><td>56</td><td>268</td></tr>
+	<tr><td>1</td><td>58</td><td>187</td></tr>
+	<tr><td>1</td><td>68</td><td>176</td></tr>
+	<tr><td>1</td><td>50</td><td>313</td></tr>
+	<tr><td>1</td><td>51</td><td>207</td></tr>
+	<tr><td>0</td><td>48</td><td>248</td></tr>
+	<tr><td>0</td><td>44</td><td>210</td></tr>
+	<tr><td>0</td><td>52</td><td>269</td></tr>
+	<tr><td>1</td><td>40</td><td>185</td></tr>
+	<tr><td>0</td><td>39</td><td>196</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Why use this pipe syntax?</p>
+<ul class="simple">
+<li><p>It makes it easier to <em>chain</em> several functions together</p></li>
+<li><p>It is easier to <em>understand</em> the order of actions being performed on the data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">select</span><span class="p">(</span><span class="n">male</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">totChol</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">arrange</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 110 × 3</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>totChol</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>66</td><td>311</td></tr>
+	<tr><td>0</td><td>66</td><td>278</td></tr>
+	<tr><td>1</td><td>66</td><td>288</td></tr>
+	<tr><td>0</td><td>66</td><td>214</td></tr>
+	<tr><td>0</td><td>66</td><td>285</td></tr>
+	<tr><td>1</td><td>66</td><td>276</td></tr>
+	<tr><td>0</td><td>66</td><td> NA</td></tr>
+	<tr><td>0</td><td>66</td><td>232</td></tr>
+	<tr><td>1</td><td>66</td><td>233</td></tr>
+	<tr><td>0</td><td>66</td><td>290</td></tr>
+	<tr><td>0</td><td>66</td><td>273</td></tr>
+	<tr><td>1</td><td>66</td><td>234</td></tr>
+	<tr><td>0</td><td>66</td><td>238</td></tr>
+	<tr><td>0</td><td>66</td><td>216</td></tr>
+	<tr><td>0</td><td>66</td><td>235</td></tr>
+	<tr><td>1</td><td>66</td><td>253</td></tr>
+	<tr><td>0</td><td>66</td><td>305</td></tr>
+	<tr><td>1</td><td>66</td><td>235</td></tr>
+	<tr><td>1</td><td>66</td><td>270</td></tr>
+	<tr><td>0</td><td>66</td><td>225</td></tr>
+	<tr><td>0</td><td>66</td><td>275</td></tr>
+	<tr><td>1</td><td>66</td><td>182</td></tr>
+	<tr><td>0</td><td>66</td><td>292</td></tr>
+	<tr><td>1</td><td>66</td><td>228</td></tr>
+	<tr><td>0</td><td>66</td><td>212</td></tr>
+	<tr><td>1</td><td>66</td><td>199</td></tr>
+	<tr><td>1</td><td>66</td><td>273</td></tr>
+	<tr><td>1</td><td>66</td><td>124</td></tr>
+	<tr><td>0</td><td>66</td><td>261</td></tr>
+	<tr><td>0</td><td>66</td><td>203</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>0</td><td>67</td><td>245</td></tr>
+	<tr><td>1</td><td>67</td><td>261</td></tr>
+	<tr><td>1</td><td>67</td><td>221</td></tr>
+	<tr><td>1</td><td>68</td><td>164</td></tr>
+	<tr><td>1</td><td>68</td><td>250</td></tr>
+	<tr><td>1</td><td>68</td><td>261</td></tr>
+	<tr><td>1</td><td>68</td><td>239</td></tr>
+	<tr><td>1</td><td>68</td><td>230</td></tr>
+	<tr><td>1</td><td>68</td><td>184</td></tr>
+	<tr><td>0</td><td>68</td><td>258</td></tr>
+	<tr><td>0</td><td>68</td><td>242</td></tr>
+	<tr><td>0</td><td>68</td><td>322</td></tr>
+	<tr><td>0</td><td>68</td><td>258</td></tr>
+	<tr><td>1</td><td>68</td><td>193</td></tr>
+	<tr><td>0</td><td>68</td><td>257</td></tr>
+	<tr><td>0</td><td>68</td><td>241</td></tr>
+	<tr><td>1</td><td>68</td><td>157</td></tr>
+	<tr><td>1</td><td>68</td><td>276</td></tr>
+	<tr><td>1</td><td>68</td><td>237</td></tr>
+	<tr><td>1</td><td>68</td><td>258</td></tr>
+	<tr><td>1</td><td>68</td><td>176</td></tr>
+	<tr><td>0</td><td>69</td><td>215</td></tr>
+	<tr><td>0</td><td>69</td><td>286</td></tr>
+	<tr><td>1</td><td>69</td><td>232</td></tr>
+	<tr><td>0</td><td>69</td><td>203</td></tr>
+	<tr><td>1</td><td>69</td><td>245</td></tr>
+	<tr><td>1</td><td>69</td><td>186</td></tr>
+	<tr><td>0</td><td>69</td><td>220</td></tr>
+	<tr><td>0</td><td>70</td><td>107</td></tr>
+	<tr><td>0</td><td>70</td><td>231</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="using-pipe-with-other-functions">
+<h2>Using pipe with other functions<a class="headerlink" href="#using-pipe-with-other-functions" title="Permalink to this heading">#</a></h2>
+<p>What functions can I use?</p>
+<ul class="simple">
+<li><p>Besides tidyverse functions, we can use any function that accepts a <em>compatible</em> input from the output of a tidyverse function</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">select</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in mean.default(.):
+“argument is not numeric or logical: returning NA”
+</pre></div>
+</div>
+<div class="output text_html">&lt;NA&gt;</div></div>
+</div>
+<p>So what’s going on?</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">mean</span></code> function accepts a <code class="docutils literal notranslate"><span class="pre">vector</span></code> of numbers</p></li>
+<li><p>Let’s take a look at the output when we select the <code class="docutils literal notranslate"><span class="pre">age</span></code> column from data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4240 × 1</caption>
+<thead>
+	<tr><th scope=col>age</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>39</td></tr>
+	<tr><td>46</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>61</td></tr>
+	<tr><td>46</td></tr>
+	<tr><td>43</td></tr>
+	<tr><td>63</td></tr>
+	<tr><td>45</td></tr>
+	<tr><td>52</td></tr>
+	<tr><td>43</td></tr>
+	<tr><td>50</td></tr>
+	<tr><td>43</td></tr>
+	<tr><td>46</td></tr>
+	<tr><td>41</td></tr>
+	<tr><td>39</td></tr>
+	<tr><td>38</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>46</td></tr>
+	<tr><td>38</td></tr>
+	<tr><td>41</td></tr>
+	<tr><td>42</td></tr>
+	<tr><td>43</td></tr>
+	<tr><td>52</td></tr>
+	<tr><td>52</td></tr>
+	<tr><td>44</td></tr>
+	<tr><td>47</td></tr>
+	<tr><td>60</td></tr>
+	<tr><td>35</td></tr>
+	<tr><td>61</td></tr>
+	<tr><td>60</td></tr>
+	<tr><td>⋮</td></tr>
+	<tr><td>50</td></tr>
+	<tr><td>42</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>56</td></tr>
+	<tr><td>63</td></tr>
+	<tr><td>59</td></tr>
+	<tr><td>63</td></tr>
+	<tr><td>52</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>60</td></tr>
+	<tr><td>50</td></tr>
+	<tr><td>53</td></tr>
+	<tr><td>56</td></tr>
+	<tr><td>47</td></tr>
+	<tr><td>45</td></tr>
+	<tr><td>58</td></tr>
+	<tr><td>43</td></tr>
+	<tr><td>50</td></tr>
+	<tr><td>51</td></tr>
+	<tr><td>56</td></tr>
+	<tr><td>58</td></tr>
+	<tr><td>68</td></tr>
+	<tr><td>50</td></tr>
+	<tr><td>51</td></tr>
+	<tr><td>48</td></tr>
+	<tr><td>44</td></tr>
+	<tr><td>52</td></tr>
+	<tr><td>40</td></tr>
+	<tr><td>39</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The output is <em>not</em> a <code class="docutils literal notranslate"><span class="pre">vector</span></code>, but it returns a <code class="docutils literal notranslate"><span class="pre">1-column</span> <span class="pre">tibble</span></code></p>
+<ul class="simple">
+<li><p>This is accepted by <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code> functions but not by others (e.g. base functions)</p></li>
+<li><p>So, we need to extract the <code class="docutils literal notranslate"><span class="pre">age</span></code> column so it will be returned as a <code class="docutils literal notranslate"><span class="pre">vector</span></code></p></li>
+<li><p>We can use the verb <code class="docutils literal notranslate"><span class="pre">pull</span></code> to extract the column as a <code class="docutils literal notranslate"><span class="pre">vector</span></code> that can be used by functions that accept it</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">pull</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>39</li><li>46</li><li>48</li><li>61</li><li>46</li><li>43</li><li>63</li><li>45</li><li>52</li><li>43</li><li>50</li><li>43</li><li>46</li><li>41</li><li>39</li><li>38</li><li>48</li><li>46</li><li>38</li><li>41</li><li>42</li><li>43</li><li>52</li><li>52</li><li>44</li><li>47</li><li>60</li><li>35</li><li>61</li><li>60</li><li>36</li><li>43</li><li>59</li><li>61</li><li>54</li><li>37</li><li>56</li><li>52</li><li>42</li><li>36</li><li>43</li><li>41</li><li>52</li><li>54</li><li>53</li><li>49</li><li>65</li><li>46</li><li>63</li><li>36</li><li>63</li><li>51</li><li>47</li><li>62</li><li>39</li><li>46</li><li>54</li><li>49</li><li>44</li><li>40</li><li>56</li><li>67</li><li>53</li><li>57</li><li>57</li><li>63</li><li>62</li><li>38</li><li>47</li><li>52</li><li>63</li><li>42</li><li>37</li><li>41</li><li>44</li><li>59</li><li>44</li><li>44</li><li>45</li><li>41</li><li>60</li><li>39</li><li>53</li><li>52</li><li>61</li><li>36</li><li>62</li><li>61</li><li>41</li><li>41</li><li>53</li><li>39</li><li>51</li><li>66</li><li>60</li><li>65</li><li>63</li><li>40</li><li>56</li><li>56</li><li>47</li><li>60</li><li>45</li><li>48</li><li>42</li><li>63</li><li>42</li><li>40</li><li>66</li><li>49</li><li>67</li><li>51</li><li>48</li><li>64</li><li>41</li><li>50</li><li>60</li><li>37</li><li>36</li><li>50</li><li>39</li><li>46</li><li>66</li><li>46</li><li>55</li><li>41</li><li>44</li><li>38</li><li>43</li><li>41</li><li>53</li><li>43</li><li>59</li><li>56</li><li>50</li><li>46</li><li>43</li><li>61</li><li>41</li><li>49</li><li>55</li><li>43</li><li>40</li><li>57</li><li>56</li><li>48</li><li>59</li><li>47</li><li>64</li><li>54</li><li>64</li><li>61</li><li>61</li><li>66</li><li>38</li><li>39</li><li>58</li><li>49</li><li>49</li><li>46</li><li>36</li><li>41</li><li>47</li><li>57</li><li>50</li><li>62</li><li>39</li><li>37</li><li>48</li><li>46</li><li>52</li><li>38</li><li>50</li><li>39</li><li>55</li><li>62</li><li>60</li><li>61</li><li>39</li><li>42</li><li>37</li><li>42</li><li>36</li><li>53</li><li>67</li><li>52</li><li>45</li><li>56</li><li>42</li><li>55</li><li>38</li><li>56</li><li>61</li><li>45</li><li>42</li><li>49</li><li>48</li><li>55</li><li>58</li><li>60</li><li>⋯</li><li>66</li><li>56</li><li>44</li><li>56</li><li>39</li><li>56</li><li>46</li><li>37</li><li>59</li><li>47</li><li>50</li><li>41</li><li>39</li><li>44</li><li>48</li><li>44</li><li>44</li><li>57</li><li>48</li><li>55</li><li>38</li><li>44</li><li>61</li><li>46</li><li>41</li><li>53</li><li>47</li><li>42</li><li>42</li><li>51</li><li>40</li><li>52</li><li>53</li><li>51</li><li>40</li><li>63</li><li>61</li><li>43</li><li>42</li><li>62</li><li>36</li><li>63</li><li>47</li><li>46</li><li>54</li><li>58</li><li>55</li><li>56</li><li>47</li><li>64</li><li>51</li><li>43</li><li>40</li><li>46</li><li>64</li><li>60</li><li>56</li><li>54</li><li>37</li><li>61</li><li>69</li><li>56</li><li>50</li><li>51</li><li>38</li><li>43</li><li>46</li><li>43</li><li>56</li><li>54</li><li>45</li><li>61</li><li>49</li><li>64</li><li>65</li><li>63</li><li>40</li><li>47</li><li>37</li><li>51</li><li>40</li><li>55</li><li>69</li><li>51</li><li>57</li><li>64</li><li>38</li><li>48</li><li>53</li><li>57</li><li>45</li><li>57</li><li>57</li><li>39</li><li>46</li><li>42</li><li>42</li><li>42</li><li>67</li><li>53</li><li>49</li><li>48</li><li>47</li><li>55</li><li>59</li><li>55</li><li>42</li><li>48</li><li>42</li><li>55</li><li>62</li><li>36</li><li>57</li><li>41</li><li>52</li><li>47</li><li>38</li><li>61</li><li>69</li><li>62</li><li>56</li><li>37</li><li>47</li><li>65</li><li>39</li><li>44</li><li>57</li><li>45</li><li>62</li><li>38</li><li>41</li><li>41</li><li>58</li><li>54</li><li>51</li><li>52</li><li>41</li><li>52</li><li>41</li><li>54</li><li>43</li><li>38</li><li>65</li><li>37</li><li>44</li><li>58</li><li>49</li><li>42</li><li>44</li><li>54</li><li>41</li><li>37</li><li>45</li><li>63</li><li>65</li><li>40</li><li>46</li><li>63</li><li>52</li><li>61</li><li>38</li><li>62</li><li>42</li><li>63</li><li>38</li><li>46</li><li>43</li><li>61</li><li>51</li><li>65</li><li>50</li><li>42</li><li>48</li><li>48</li><li>56</li><li>63</li><li>59</li><li>63</li><li>52</li><li>48</li><li>60</li><li>50</li><li>53</li><li>56</li><li>47</li><li>45</li><li>58</li><li>43</li><li>50</li><li>51</li><li>56</li><li>58</li><li>68</li><li>50</li><li>51</li><li>48</li><li>44</li><li>52</li><li>40</li><li>39</li></ol>
+</div></div>
+</div>
+<p>We can now pass the <code class="docutils literal notranslate"><span class="pre">vector</span></code> from the <code class="docutils literal notranslate"><span class="pre">age</span></code> column to the function <code class="docutils literal notranslate"><span class="pre">mean</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">49.5801886792453</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-pipes">
+<h2>Exercise - Pipes<a class="headerlink" href="#exercise-pipes" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">screen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span>
+<span class="w">                     </span><span class="n">sysBP</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">130</span><span class="p">,</span><span class="m">65</span><span class="p">,</span><span class="m">155</span><span class="p">),</span>
+<span class="w">                     </span><span class="n">contact</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">F</span><span class="p">),</span>
+<span class="w">                     </span><span class="n">cluster</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="n">screen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Select the <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> columns and arrange the table by the <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> using the <code class="docutils literal notranslate"><span class="pre">%&gt;%</span></code> pipe operator</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">screen</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">select</span><span class="p">(</span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">sysBP</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">arrange</span><span class="p">(</span><span class="n">sysBP</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 2</caption>
+<thead>
+	<tr><th scope=col>age</th><th scope=col>sysBP</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>55</td><td> 65</td></tr>
+	<tr><td>19</td><td>120</td></tr>
+	<tr><td>23</td><td>130</td></tr>
+	<tr><td>45</td><td>150</td></tr>
+	<tr><td>65</td><td>155</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Find the <code class="docutils literal notranslate"><span class="pre">mean</span></code> of the <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> of patients who are older than 40 years of <code class="docutils literal notranslate"><span class="pre">age</span></code> using the <code class="docutils literal notranslate"><span class="pre">%&gt;%</span></code> pipe operator</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">screen</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">40</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">sysBP</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">123.333333333333</div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./02-intro-to-tidyverse"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../01-intro-to-r/06-extending.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Extending R</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-reading.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reading and Inspecting Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-brief-tour-of-the-tidyverse-package">A brief tour of the tidyverse package</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-tidyverse-functions-verbs">Examples of tidyverse functions (verbs)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-several-functions">Combining several functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-pipe-operator">Using the pipe %&gt;% operator</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pipe-with-other-functions">Using pipe with other functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-pipes">Exercise - Pipes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

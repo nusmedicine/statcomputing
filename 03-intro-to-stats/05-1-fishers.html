@@ -1,0 +1,1664 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Comparing counts between 2x2 categories (unrelated subjects) &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/05-1-fishers';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Comparing counts between &gt;2x2 categories (unrelated subjects)" href="05-2-chisq.html" />
+    <link rel="prev" title="Comparing measures from &gt;2 groups (unrelated subjects)" href="04-1-anova.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/05-1-fishers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comparing counts between 2x2 categories (unrelated subjects)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-permutation-approach">Exact permutation approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-probability-of-observing-the-exposure-outcome">1. Calculate the probability of observing the exposure/outcome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-by-permutation-and-calculate-the-p-value">2. Generate a null distribution by permutation and calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">Effect size</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#odds-ratio">1. Odds ratio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-risk">2. Relative risk</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caution">Caution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-comparing-counts-2x2-categories">Exercise - Comparing counts 2x2 categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4">Part 4</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comparing-counts-between-2x2-categories-unrelated-subjects">
+<h1>Comparing counts between 2x2 categories (unrelated subjects)<a class="headerlink" href="#comparing-counts-between-2x2-categories-unrelated-subjects" title="Permalink to this heading">#</a></h1>
+<p>We will explore how we can compare counts for categories from unrelated subjects to see if the categories are independent or if there is an association between them</p>
+<p>There are 2 approaches for comparing counts</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fisher's</span> <span class="pre">test</span></code>: exact calculation of permutations (usually for small counts)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Chi-squared</span> <span class="pre">test</span></code>: approximation using the chi-squared distribution (larger counts)</p></li>
+</ul>
+<p>We will cover the first approach (<code class="docutils literal notranslate"><span class="pre">Fisher's</span> <span class="pre">test</span></code>) that uses the exact calculation of permutations for 2 categories in a 2x2 table</p>
+<p><img alt="test_count_fisher_death.png" src="../_images/test_count_fisher_death.png" /></p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will be using the dataset from <a class="reference external" href="https://vincentarelbundock.github.io/Rdatasets/doc/Stat2Data/ICU.html">https://vincentarelbundock.github.io/Rdatasets/doc/Stat2Data/ICU.html</a></p>
+<p>The dataset includes 200 observations from ICU patients with the following variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AgeGroup</span></code>: 1= young (under 50), 2= middle (50-69), 3 = old (70+)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sex</span></code>: 1=female or 0=male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Emergency</span></code>: 1=emergency admission or 0=elective admission</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SysBP</span></code>: Systolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PulseRate</span></code>: Heart rate (beats per minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Infection</span></code>: 1=infection suspected or 0=no infection</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Death</span></code>: 1=patient died or 0=patient survived to discharge</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/icu.csv&quot;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">...1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">Survive</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Survive</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Sex</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Sex</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Infection</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Infection</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Emergency</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Emergency</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                 </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Death</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span><span class="n">Survive</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span>
+<span class="w">                                          </span><span class="n">Survive</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Death</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Death</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Survive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+
+<span class="w">                 </span><span class="c1"># change order of levels to format table</span>
+<span class="w">                 </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Infection</span><span class="o">=</span><span class="nf">fct_relevel</span><span class="p">(</span><span class="n">Infection</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Death</span><span class="o">=</span><span class="nf">fct_relevel</span><span class="p">(</span><span class="n">Death</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New names:
+<span class=" -Color -Color-Cyan">•</span> `` -&gt; `...1`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">10</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (10): ...1, ID, Survive, Age, AgeGroup, Sex, Infection, SysBP, Pulse, Em...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 9</caption>
+<thead>
+	<tr><th scope=col>ID</th><th scope=col>Age</th><th scope=col>AgeGroup</th><th scope=col>Sex</th><th scope=col>Infection</th><th scope=col>SysBP</th><th scope=col>Pulse</th><th scope=col>Emergency</th><th scope=col>Death</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 4</td><td>87</td><td>3</td><td>1</td><td>1</td><td> 80</td><td> 96</td><td>1</td><td>1</td></tr>
+	<tr><td> 8</td><td>27</td><td>1</td><td>1</td><td>1</td><td>142</td><td> 88</td><td>1</td><td>0</td></tr>
+	<tr><td>12</td><td>59</td><td>2</td><td>0</td><td>0</td><td>112</td><td> 80</td><td>1</td><td>0</td></tr>
+	<tr><td>14</td><td>77</td><td>3</td><td>0</td><td>0</td><td>100</td><td> 70</td><td>0</td><td>0</td></tr>
+	<tr><td>27</td><td>76</td><td>3</td><td>1</td><td>1</td><td>128</td><td> 90</td><td>1</td><td>1</td></tr>
+	<tr><td>28</td><td>54</td><td>2</td><td>0</td><td>1</td><td>142</td><td>103</td><td>1</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As an example, we would like to see if the infection status is associated with the death of ICU patients</p>
+<p>We start by selecting the 2 variables of interest(<code class="docutils literal notranslate"><span class="pre">Infection</span></code>, <code class="docutils literal notranslate"><span class="pre">Death</span></code>) and generate a table using the <code class="docutils literal notranslate"><span class="pre">table</span></code> function. We will define a <code class="docutils literal notranslate"><span class="pre">print_table</span></code> function to print a nicer table</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># cross-table convenience function</span>
+<span class="n">print_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">addmargins</span><span class="p">(</span><span class="n">input</span><span class="p">)}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">txtRound</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">htmlTable</span><span class="p">(</span><span class="n">css.rgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;font-weight: 900; text-align: left;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">table</span></code> function to create a 2x2 table</p>
+<ul class="simple">
+<li><p>Note that the order of the levels was changed using <code class="docutils literal notranslate"><span class="pre">fct_relevel</span></code> to ensure the association of interest (presence of <code class="docutils literal notranslate"><span class="pre">Infection</span></code> and <code class="docutils literal notranslate"><span class="pre">Death</span></code>) are in the upper left cell of the table</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># print 2 x 2 contingency table for Infection and Survive categories</span>
+<span class="n">data_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">select</span><span class="p">(</span><span class="n">Infection</span><span class="p">,</span><span class="w"> </span><span class="n">Death</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="n">table</span>
+
+<span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>100.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<p>We can plot it as a barchart to look at the proportions of ICU patients who survived/died in the 2 groups (with suspected infection and without)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">geom_bar</span></code>: use <code class="docutils literal notranslate"><span class="pre">position=&quot;fill&quot;</span></code> option</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="c1"># stacked proportional chart for Infection and Death categories</span>
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Infection</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">Death</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s">&quot;fill&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/c6385b116b11207086fd4f3ad013ada1009be1ea28b633df5f315e7803e6e794.png" src="../_images/c6385b116b11207086fd4f3ad013ada1009be1ea28b633df5f315e7803e6e794.png" />
+</div>
+</div>
+<p>We notice that the number of patients who die are higher in the group of patients with suspected infection. However, we do not know if this observation could have occurred by chance</p>
+</section>
+<hr class="docutils" />
+<section id="exact-permutation-approach">
+<h2>Exact permutation approach<a class="headerlink" href="#exact-permutation-approach" title="Permalink to this heading">#</a></h2>
+<p>In this approach, we will</p>
+<ul class="simple">
+<li><p>examine all the possible permutations of values in the table that can occur by chance (i.e. no association between 2 categories) and calculate the probabilities of each permutation</p></li>
+<li><p>calculate the probability of observing values in permuted data (null distribution with no association) that are equal or more extreme than those observed in the data</p></li>
+</ul>
+<p>A small probability value would suggest that the observed data is less likely to have arisen from the null distribution</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>100.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<p>In a contingency table, the counts of 2 different variables are presented in a 2 x 2 table.</p>
+<p><img alt="test_count_fisher_table_small_label.png" src="../_images/test_count_fisher_table_small_label.png" /></p>
+<p>By convention:</p>
+<ul class="simple">
+<li><p>The independent variable (<em>exposure</em>) is specified <em>row-wise</em>, with the baseline values (no exposure) in the 2nd row (<code class="docutils literal notranslate"><span class="pre">c,d</span></code>)</p></li>
+<li><p>The dependent variable (<em>outcome</em>) is specified <em>column-wise</em>, the outcome values that may be associated with the exposure in the 1st column (<code class="docutils literal notranslate"><span class="pre">a,c</span></code>)</p></li>
+</ul>
+<section id="calculate-the-probability-of-observing-the-exposure-outcome">
+<h3>1. Calculate the probability of observing the exposure/outcome<a class="headerlink" href="#calculate-the-probability-of-observing-the-exposure-outcome" title="Permalink to this heading">#</a></h3>
+<p><img alt="test_count_fisher_prob.png" src="../_images/test_count_fisher_prob.png" /></p>
+<p>The counts in the 2x2 table follow a hypergeometic distribution and we can use the <code class="docutils literal notranslate"><span class="pre">dhyper</span></code> function to calculate the probability of observing counts in the table</p>
+<ul class="simple">
+<li><p>In this case, we are interested in <code class="docutils literal notranslate"><span class="pre">a</span></code> for a potential association between exposure and outcome</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">print_table</span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th><th style='border-bottom: none; border-top: 2px solid grey;' colspan=1>&nbsp;</th>
+<th colspan='1' style='font-weight: 900; border-top: 2px solid grey; text-align: center;'></th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th> 
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;' colspan=1>&nbsp;</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>Sum</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='5' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td> 
+<td style='text-align: center;' colspan=1>&nbsp;</td>
+<td style='text-align: center;'>84.0</td>
+</tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='text-align: center;'>16.0</td>
+<td style='text-align: center;'>100.0</td> 
+<td style='text-align: center;' colspan=1>&nbsp;</td>
+<td style='text-align: center;'>116.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; border-top: 1px solid #BEBEBE; font-weight: 900; text-align: left;'>&nbsp;&nbsp;Sum</td>
+<td style='border-bottom: 2px solid grey; border-top: 1px solid #BEBEBE; font-weight: 900; text-align: center;'>40.0</td>
+<td style='border-bottom: 2px solid grey; border-top: 1px solid #BEBEBE; font-weight: 900; text-align: center;'>160.0</td> 
+<td style='border-bottom: 2px solid grey; border-top: 1px solid #BEBEBE; font-weight: 900; text-align: center;' colspan=1>&nbsp;</td>
+<td style='border-bottom: 2px solid grey; border-top: 1px solid #BEBEBE; font-weight: 900; text-align: center;'>200.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># probability of observing count in cell a (association between exposure/outcome)</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+<span class="n">c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="nf">dhyper</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">+</span><span class="n">d</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">0.00544114931224455</div></div>
+</div>
+<p>Here, we find that the probability of observing 24 patients who died in the group that had a suspected infection</p>
+</section>
+<section id="generate-a-null-distribution-by-permutation-and-calculate-the-p-value">
+<h3>2. Generate a null distribution by permutation and calculate the p-value<a class="headerlink" href="#generate-a-null-distribution-by-permutation-and-calculate-the-p-value" title="Permalink to this heading">#</a></h3>
+<p>We have to consider all the cases where the counts vary within the constraints that the number of cases per group where both the <em>row</em> and <em>column</em> margins are fixed</p>
+<ul class="simple">
+<li><p>To do this, we calculate the probabilities of the possible counts</p></li>
+<li><p>We then sum up the probabilities of scenarios that the probability of counts are equal or smaller than the one we observe, and this is the <em>p-value</em></p></li>
+</ul>
+<p><img alt="test_count_fisher_sum.png" src="../_images/test_count_fisher_sum.png" /></p>
+<p>First, we generate the null distribution of probabilities of patients that died by calculating the probabilities of observing cell <code class="docutils literal notranslate"><span class="pre">a</span></code> i.e. patients who are exposed (Infection) and died, across a range of possible values</p>
+<ul class="simple">
+<li><p>The minimum number who died with infection is 0</p></li>
+<li><p>The maximum number who died with infection is a+c</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># we will choose to vary the count for infected patients in the death group</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+<span class="n">c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">range_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="c1"># range of a from 0 to a+c</span>
+
+<span class="n">prob_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">count_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">range_a</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">prob_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">dhyper</span><span class="p">(</span><span class="n">range_a</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">+</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">c</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">prob_df</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">prob_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>count_a</th><th scope=col>prob_a</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>1.075821e-11</td></tr>
+	<tr><td>1</td><td>4.694492e-10</td></tr>
+	<tr><td>2</td><td>9.741071e-09</td></tr>
+	<tr><td>3</td><td>1.280725e-07</td></tr>
+	<tr><td>4</td><td>1.199479e-06</td></tr>
+	<tr><td>5</td><td>8.529627e-06</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>count_a</th><th scope=col>prob_a</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>35</td><td>4.125105e-11</td></tr>
+	<tr><td>36</td><td>2.506574e-12</td></tr>
+	<tr><td>37</td><td>1.151070e-13</td></tr>
+	<tr><td>38</td><td>3.746557e-15</td></tr>
+	<tr><td>39</td><td>7.685245e-17</td></tr>
+	<tr><td>40</td><td>7.453362e-19</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can check if any of these probability values in the null distribution are equal more extreme (equal or smaller) than the observed data</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">prob_obs_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dhyper</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">+</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="o">+</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">prob_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prob_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">mutate</span><span class="p">(</span><span class="n">smaller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">prob_a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">prob_obs_a</span><span class="p">,</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                            </span><span class="nf">fct_relevel</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">prob_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>count_a</th><th scope=col>prob_a</th><th scope=col>smaller</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>1.075821e-11</td><td>Y</td></tr>
+	<tr><td>1</td><td>4.694492e-10</td><td>Y</td></tr>
+	<tr><td>2</td><td>9.741071e-09</td><td>Y</td></tr>
+	<tr><td>3</td><td>1.280725e-07</td><td>Y</td></tr>
+	<tr><td>4</td><td>1.199479e-06</td><td>Y</td></tr>
+	<tr><td>5</td><td>8.529627e-06</td><td>Y</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can visualize the null distribution and indicate those values that are more extreme than observed in our table</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimension</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="c1"># plot distribution and highlight regions with extreme probabilities</span>
+<span class="n">prob_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">count_a</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">prob_a</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">smaller</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;identity&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s">&quot;Prob &lt;= Observed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="o">=</span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/9a2589895e633f4f47c4817f11f576e538d3a212f653a8e12a1640bc6c19226f.png" src="../_images/9a2589895e633f4f47c4817f11f576e538d3a212f653a8e12a1640bc6c19226f.png" />
+</div>
+</div>
+<p>Finally, we can calculate the p-value by summing up all the probabilities of observing the counts that are more extreme than observed in <code class="docutils literal notranslate"><span class="pre">a</span></code></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate sum of probabilities (p-value) of values that are equal or smaller than observed</span>
+
+<span class="n">prob_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">smaller</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">prob_a</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="n">sum</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">0.0122011581826433</div></div>
+</div>
+<p>The p-value is small, which suggests that the observed data is unlikely to be consistent with the null hypothesis. Thus, the association between the exposure and the outcome may not be due to random chance</p>
+<p><strong>Using a function</strong></p>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">fisher_test</span></code> function from <code class="docutils literal notranslate"><span class="pre">rstatix</span></code></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">rstatix</span><span class="o">::</span><span class="nf">fisher_test</span><span class="p">(</span><span class="n">detailed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A rstatix_test: 1 × 8</caption>
+<thead>
+	<tr><th></th><th scope=col>n</th><th scope=col>estimate</th><th scope=col>p</th><th scope=col>conf.low</th><th scope=col>conf.high</th><th scope=col>method</th><th scope=col>alternative</th><th scope=col>p.signif</th></tr>
+	<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>200</td><td>2.488093</td><td>0.0122</td><td>1.162942</td><td>5.449561</td><td>Fisher's Exact test</td><td>two.sided</td><td>*</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="effect-size">
+<h2>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this heading">#</a></h2>
+<p>We can calculate the effect size of the association between the exposure and  outcome using 2 related measures</p>
+<ul class="simple">
+<li><p>Odds ratio (OR)</p></li>
+<li><p>Relative risk (RR)</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>100.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<p>Here, we identify <code class="docutils literal notranslate"><span class="pre">Infection</span></code> as the <code class="docutils literal notranslate"><span class="pre">independent</span></code> variable, which may alter the <code class="docutils literal notranslate"><span class="pre">dependent</span></code> outcome variable <code class="docutils literal notranslate"><span class="pre">Death</span></code>. By convention:</p>
+<ul class="simple">
+<li><p>The independent variable <code class="docutils literal notranslate"><span class="pre">Infection</span></code> is specified <em>row-wise</em> and the baseline (no infection) is in the second row</p></li>
+<li><p>The dependent variable <code class="docutils literal notranslate"><span class="pre">Death</span></code> is specified <em>column-wise</em> and the possible associated outcome (death) is in the first column</p></li>
+</ul>
+<p><img alt="test_count_fisher_table_small_label.png" src="../_images/test_count_fisher_table_small_label.png" /></p>
+<section id="odds-ratio">
+<h3>1. Odds ratio<a class="headerlink" href="#odds-ratio" title="Permalink to this heading">#</a></h3>
+<p>In this case, we are interested in calculating the odds ratio for death in patients who are infected (<code class="docutils literal notranslate"><span class="pre">numerator</span></code>) vs non-infected (<code class="docutils literal notranslate"><span class="pre">denominator</span></code>). To do this, we</p>
+<ul class="simple">
+<li><p>calculate the odds for death in infected patients (<code class="docutils literal notranslate"><span class="pre">numerator</span></code>)</p></li>
+<li><p>calculate the odds for death in non-infected patients (<code class="docutils literal notranslate"><span class="pre">denominator</span></code>)</p></li>
+<li><p>calculate the odds ratio (<code class="docutils literal notranslate"><span class="pre">numerator/denominator</span></code>)</p></li>
+</ul>
+<p><img alt="test_count_odds_death.png" src="../_images/test_count_odds_death.png" /></p>
+<p>The odds ratio can be interpreted in the following way:</p>
+<table align="left">
+<thead>
+<tr><th>Odds ratio</th><th>Interpretation</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Equal odds of either outcome in dependent variable</td>
+<tr><td>&lt 1</td><td>Decreased odds of the outcome observed (numerator)</td>
+<tr><td>&gt 1</td><td>Increased odds of the outcome observed (numerator)</td>
+</tbody>
+</table>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>100.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate odds of death in non-infected patients (baseline)</span>
+<span class="n">c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">odds_death_in_noninfected</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">c</span><span class="o">/</span><span class="n">d</span>
+
+<span class="c1"># calculate odds of death in infected patients (exposed)</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">odds_death_in_infected</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">a</span><span class="o">/</span><span class="n">b</span>
+
+<span class="c1"># calculate odd ratio of death in infected vs non-infected patients</span>
+<span class="n">OR</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">odds_death_in_infected</span><span class="o">/</span><span class="n">odds_death_in_noninfected</span>
+
+<span class="n">OR</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">2.5</div></div>
+</div>
+<p><strong>Using a function</strong></p>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">oddsratio</span></code> function from the <code class="docutils literal notranslate"><span class="pre">epitools</span></code> library and specify the <code class="docutils literal notranslate"><span class="pre">rev=&quot;both&quot;</span></code> option to keep to the contingency table conventions for exposure/outcome</p>
+<ul class="simple">
+<li><p>To get the output, we use the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector for <code class="docutils literal notranslate"><span class="pre">measure</span></code></p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">epitools</span><span class="o">::</span><span class="nf">oddsratio</span><span class="p">(</span><span class="n">data_table</span><span class="p">,</span><span class="w"> </span><span class="n">rev</span><span class="o">=</span><span class="s">&quot;both&quot;</span><span class="p">)</span><span class="o">$</span><span class="n">measure</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 3 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>estimate</th><th scope=col>lower</th><th scope=col>upper</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>0</th><td>1.000000</td><td>      NA</td><td>      NA</td></tr>
+	<tr><th scope=row>1</th><td>2.480891</td><td>1.225078</td><td>5.145634</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see that the odds ratio is &gt;1, indicating that patients with infection have higher odds of death</p>
+<ul class="simple">
+<li><p>The magnitude of the effect may not be intuitive</p></li>
+<li><p>Here, the odds of death in infected patients is 2.5:1 = 5:2</p></li>
+<li><p>In other words, for every 5 patients who died with infection, there were 2 who died without infection</p></li>
+</ul>
+</section>
+<section id="relative-risk">
+<h3>2. Relative risk<a class="headerlink" href="#relative-risk" title="Permalink to this heading">#</a></h3>
+<p>The odds ratio may not be intuitive as it refers to the chance in favor of an event over the chance against it.</p>
+<ul class="simple">
+<li><p>For example, the odds of  of getting an even number in the roll of dice = 3/3 = 1</p></li>
+</ul>
+<p>In contrast, a risk or probability refers to the likelihood of an event over the total number of events</p>
+<ul class="simple">
+<li><p>Using the example of the roll of a dice, the probability of getting an even number = 3/6 = 0.5</p></li>
+</ul>
+<p>Similarly, we can calculate the risk of an event by considering the probabilities instead of odds</p>
+<p><img alt="test_count_risk_death.png" src="../_images/test_count_risk_death.png" /></p>
+<p>The relative risk can be interpreted in the following way:</p>
+<table align="left">
+<thead>
+<tr><th>Relative risk</th><th>Interpretation</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Equal risk of either outcome in dependent variable</td>
+<tr><td>&lt 1</td><td>Decreased risk of the outcome observed (numerator)</td>
+<tr><td>&gt 1</td><td>Increased risk of the outcome observed (numerator)</td>
+</tbody>
+</table><div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Infection</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>24.0</td>
+<td style='text-align: center;'>60.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>16.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>100.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate probability of death in non-infected patients (baseline)</span>
+<span class="n">c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">prob_death_in_not_infected</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="n">d</span><span class="p">)</span>
+
+<span class="c1"># calculate probability of death in infected patients (exposed)</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_table</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+
+<span class="n">prob_death_in_infected</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># calculate relative &quot;risk&quot; of survival in infected vs non-infected patients</span>
+<span class="n">RR</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prob_death_in_infected</span><span class="o">/</span><span class="n">prob_death_in_not_infected</span>
+
+<span class="n">RR</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">2.07142857142857</div></div>
+</div>
+<p>The relative risk indicates that the relative risk of death in patients with infection is</p>
+<ul class="simple">
+<li><p>~2 x compared to those without infection</p></li>
+<li><p>~100% more likely compared to those without infection</p></li>
+</ul>
+<p><strong>Using a function</strong></p>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">riskratio</span></code> function from the <code class="docutils literal notranslate"><span class="pre">epitools</span></code> library and specify the <code class="docutils literal notranslate"><span class="pre">rev=&quot;both&quot;</span></code> option to keep to the contingency table conventions for exposure/outcome</p>
+<ul class="simple">
+<li><p>To get the output, we use the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector for <code class="docutils literal notranslate"><span class="pre">measure</span></code></p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">epitools</span><span class="o">::</span><span class="nf">riskratio</span><span class="p">(</span><span class="n">data_table</span><span class="p">,</span><span class="w"> </span><span class="n">rev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;both&quot;</span><span class="p">)</span><span class="o">$</span><span class="n">measure</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 3 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>estimate</th><th scope=col>lower</th><th scope=col>upper</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>0</th><td>1.000000</td><td>      NA</td><td>      NA</td></tr>
+	<tr><th scope=row>1</th><td>2.071429</td><td>1.175157</td><td>3.651272</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="caution">
+<h3>Caution<a class="headerlink" href="#caution" title="Permalink to this heading">#</a></h3>
+<p>Note that the use of relative risk is suited when the population at risk is <em>known</em></p>
+<ul class="simple">
+<li><p>For example, the probability of death in infected patients can be calculated as  we know the number of patients have infection and are at risk of dying</p></li>
+<li><p>It is best suited for prospective cohort data where all patients are enrolled and tracked, hence the population at risk is <strong>known</strong></p></li>
+<li><p>In retrospective studies, we often do not know the population at risk, as the exposure is usually <strong>not</strong> known</p></li>
+</ul>
+<p>For details see: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4640017/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4640017/</a></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercise-comparing-counts-2x2-categories">
+<h2>Exercise - Comparing counts 2x2 categories<a class="headerlink" href="#exercise-comparing-counts-2x2-categories" title="Permalink to this heading">#</a></h2>
+<p>For this exercise, we will use the same ICU dataset. The dataset includes 200 observations from ICU patients with the following variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AgeGroup</span></code>: 1= young (under 50), 2= middle (50-69), 3 = old (70+)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sex</span></code>: 1=female or 0=male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Emergency</span></code>: 1=emergency admission or 0=elective admission</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SysBP</span></code>: Systolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PulseRate</span></code>: Heart rate (beats per minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Infection</span></code>: 1=infection suspected or 0=no infection</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Death</span></code>: 1=patient died or 0=patient survived to discharge</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/icu.csv&quot;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">...1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">Survive</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Survive</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Sex</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Sex</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Infection</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Infection</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Emergency</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Emergency</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                 </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Death</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span><span class="n">Survive</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span>
+<span class="w">                                          </span><span class="n">Survive</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Death</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Death</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">Survive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span>
+<span class="w"> </span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New names:
+<span class=" -Color -Color-Cyan">•</span> `` -&gt; `...1`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">200</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">10</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (10): ...1, ID, Survive, Age, AgeGroup, Sex, Infection, SysBP, Pulse, Em...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 9</caption>
+<thead>
+	<tr><th scope=col>ID</th><th scope=col>Age</th><th scope=col>AgeGroup</th><th scope=col>Sex</th><th scope=col>Infection</th><th scope=col>SysBP</th><th scope=col>Pulse</th><th scope=col>Emergency</th><th scope=col>Death</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 4</td><td>87</td><td>3</td><td>1</td><td>1</td><td> 80</td><td> 96</td><td>1</td><td>1</td></tr>
+	<tr><td> 8</td><td>27</td><td>1</td><td>1</td><td>1</td><td>142</td><td> 88</td><td>1</td><td>0</td></tr>
+	<tr><td>12</td><td>59</td><td>2</td><td>0</td><td>0</td><td>112</td><td> 80</td><td>1</td><td>0</td></tr>
+	<tr><td>14</td><td>77</td><td>3</td><td>0</td><td>0</td><td>100</td><td> 70</td><td>0</td><td>0</td></tr>
+	<tr><td>27</td><td>76</td><td>3</td><td>1</td><td>1</td><td>128</td><td> 90</td><td>1</td><td>1</td></tr>
+	<tr><td>28</td><td>54</td><td>2</td><td>0</td><td>1</td><td>142</td><td>103</td><td>1</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will create a local <code class="docutils literal notranslate"><span class="pre">print_table</span></code> function to format the crosstables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># cross-table convenience function</span>
+<span class="n">print_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">txtRound</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">addmargins</span><span class="p">(</span><span class="n">input</span><span class="p">)}</span>
+
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">htmlTable</span><span class="p">(</span><span class="n">css.rgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;font-weight: 900; text-align: left;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Create a contingency table of counts with the <code class="docutils literal notranslate"><span class="pre">Emergency</span></code> and <code class="docutils literal notranslate"><span class="pre">Death</span></code> variables using the <code class="docutils literal notranslate"><span class="pre">table</span></code> function and store it in <code class="docutils literal notranslate"><span class="pre">table_ex</span></code></p>
+<ul class="simple">
+<li><p>Ensure the exposure and outcome are ordered in the conventional manner (Hint: use <code class="docutils literal notranslate"><span class="pre">fct_relevel</span></code> if necessary)</p></li>
+</ul>
+<p><img alt="test_count_fisher_table_small_label.png" src="../_images/test_count_fisher_table_small_label.png" /></p>
+<p>Print out the table using the local <code class="docutils literal notranslate"><span class="pre">print_table</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">table_ex</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">select</span><span class="p">(</span><span class="n">Emergency</span><span class="p">,</span><span class="w"> </span><span class="n">Death</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Emergency</span><span class="o">=</span><span class="nf">fct_relevel</span><span class="p">(</span><span class="n">Emergency</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">))</span><span class="w">  </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Death</span><span class="o">=</span><span class="nf">fct_relevel</span><span class="p">(</span><span class="n">Death</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">))</span><span class="w">  </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="n">table</span>
+
+<span class="n">table_ex</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">print_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr>
+<th style='border-top: 2px solid grey;'></th>
+<th colspan='2' style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Death</th>
+</tr>
+<tr><th style='border-bottom: 1px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>1</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; text-align: center;'>0</th>
+</tr>
+</thead>
+<tbody> 
+<tr><td colspan='3' style='font-weight: 900; text-align: left;'>Emergency</td></tr>
+<tr>
+<td style='text-align: left;'>&nbsp;&nbsp;1</td>
+<td style='text-align: center;'>38.0</td>
+<td style='text-align: center;'>109.0</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>&nbsp;&nbsp;0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>2.0</td>
+<td style='border-bottom: 2px solid grey; text-align: center;'>51.0</td>
+</tr>
+</tbody>
+</table></div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Plot a proportional barchart with <code class="docutils literal notranslate"><span class="pre">Emergency</span></code> and <code class="docutils literal notranslate"><span class="pre">Death</span></code> variables using <code class="docutils literal notranslate"><span class="pre">ggplot</span></code> from <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: Independent variable (exposure)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: Dependent variable (outcome)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="c1"># set plot dimension</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Emergency</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">Death</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s">&quot;fill&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/84715de78313a98125a2d3e8ed1f4072eb1ca74658a198e41ac9f0bb3047b848.png" src="../_images/84715de78313a98125a2d3e8ed1f4072eb1ca74658a198e41ac9f0bb3047b848.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="part-3">
+<h3>Part 3<a class="headerlink" href="#part-3" title="Permalink to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">table_ex</span></code> to calculate the p-value using the <code class="docutils literal notranslate"><span class="pre">fisher_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">table_ex</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">rstatix</span><span class="o">::</span><span class="nf">fisher_test</span><span class="p">(</span><span class="n">detailed</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A rstatix_test: 1 × 8</caption>
+<thead>
+	<tr><th></th><th scope=col>n</th><th scope=col>estimate</th><th scope=col>p</th><th scope=col>conf.low</th><th scope=col>conf.high</th><th scope=col>method</th><th scope=col>alternative</th><th scope=col>p.signif</th></tr>
+	<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>200</td><td>8.827488</td><td>0.000243</td><td>2.134956</td><td>78.34323</td><td>Fisher's Exact test</td><td>two.sided</td><td>***</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-4">
+<h3>Part 4<a class="headerlink" href="#part-4" title="Permalink to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">table_ex</span></code> to calculate the odds ratio of death if the patient had an emergency admission using the <code class="docutils literal notranslate"><span class="pre">oddsratio</span></code> function from the <code class="docutils literal notranslate"><span class="pre">epitools</span></code> library</p>
+<ul class="simple">
+<li><p>Note the order of the values in the table, which determines the reference</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">epitools</span><span class="o">::</span><span class="nf">oddsratio</span><span class="p">(</span><span class="n">table_ex</span><span class="p">,</span><span class="w"> </span><span class="n">rev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;both&quot;</span><span class="p">)</span><span class="o">$</span><span class="n">measure</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A matrix: 2 × 3 of type dbl</caption>
+<thead>
+	<tr><th></th><th scope=col>estimate</th><th scope=col>lower</th><th scope=col>upper</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>0</th><td>1.000000</td><td>      NA</td><td>      NA</td></tr>
+	<tr><th scope=row>1</th><td>8.256014</td><td>2.386407</td><td>56.27021</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04-1-anova.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Comparing measures from &gt;2 groups (unrelated subjects)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05-2-chisq.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Comparing counts between &gt;2x2 categories (unrelated subjects)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exact-permutation-approach">Exact permutation approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-probability-of-observing-the-exposure-outcome">1. Calculate the probability of observing the exposure/outcome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-by-permutation-and-calculate-the-p-value">2. Generate a null distribution by permutation and calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">Effect size</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#odds-ratio">1. Odds ratio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relative-risk">2. Relative risk</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caution">Caution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-comparing-counts-2x2-categories">Exercise - Comparing counts 2x2 categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4">Part 4</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

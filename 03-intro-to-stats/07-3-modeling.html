@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Generalized Linear Model - Categorical outcome &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/07-3-modeling';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modeling for Prediction" href="08-1-prediction.html" />
+    <link rel="prev" title="Linear Modeling - Categorical" href="07-2-modeling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/07-3-modeling.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Generalized Linear Model - Categorical outcome</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-categorical-outcomes">Modeling categorical outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-logistic-regression-with-glm-function">Performing logistic regression with <code class="docutils literal notranslate"><span class="pre">glm</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-we-interpret-the-coefficients">How do we interpret the coefficients?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-odds-ratio-from-the-coefficients">Calculating the odds ratio from the coefficients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-statistical-table-and-plotting">Application: Statistical table and plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-table">1. Statistical table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plot">2. Statistical plot</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="generalized-linear-model-categorical-outcome">
+<h1>Generalized Linear Model - Categorical outcome<a class="headerlink" href="#generalized-linear-model-categorical-outcome" title="Permalink to this heading">#</a></h1>
+<p>The linear model can be generalized to include a link function, which allows the modeling of different outcomes besides continuous variables</p>
+<p><img alt="glm_overview.png" src="../_images/glm_overview.png" /></p>
+<p>We will explore how we can model a <strong>binary categorical outcome</strong> (e.g. yes/no) using a generalized linear model with a link function log(odds Y)</p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will use the dataset from the Framingham study, which was a long term study of cardiovascular disease about subjsects in Framingham, USA. In this dataset ~4000 subjects were followed up and clinical data and chronic heart disease outcomes were examined longitudinally over &gt; 10 years</p>
+<p>Variables include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span></code> : 0 = female, 1 = male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : Age at the time of medical examination in years.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">education</span></code> : 1 = Some high school, 2 = high school/GED, 3 = some college/vocational school, 4 = college</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">currentSmoker</span></code>: Current cigarette smoking at the time of examinations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cigsPerDay</span></code>: Number of cigarettes smoked each day</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPmeds</span></code>: Use of Anti-hypertensive medication at exam</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentStroke</span></code>: Prevalent Stroke</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentHyp</span></code>: Prevalent Hypertensive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diabetes</span></code>: Diabetic according to criteria of first exam treated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">totChol</span></code>: Total cholesterol (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysBP</span></code>: Systolic Blood Pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diaBP</span></code>: Diastolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BMI</span></code>: Body Mass Index, weight (kg)/height (m)^2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heartRate</span></code>: Heart rate (beats/minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glucose</span></code>: Blood glucose level (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TenYearCHD</span></code>: 0 = No Chronic heart disease, 1 = Chronic heart Disease</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># load data</span>
+<span class="n">data</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># rename and change data types</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">))</span>
+
+<span class="c1"># drop missing values</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">drop_na</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 16</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>195</td><td>106.0</td><td> 70</td><td>26.97</td><td>80</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>121.0</td><td> 81</td><td>28.73</td><td>95</td><td> 76</td><td>0</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>127.5</td><td> 80</td><td>25.34</td><td>75</td><td> 70</td><td>0</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>1</td><td>30</td><td>0</td><td>0</td><td>1</td><td>0</td><td>225</td><td>150.0</td><td> 95</td><td>28.58</td><td>65</td><td>103</td><td>1</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>1</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td><td>285</td><td>130.0</td><td> 84</td><td>23.10</td><td>85</td><td> 85</td><td>0</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>228</td><td>180.0</td><td>110</td><td>30.30</td><td>77</td><td> 99</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will build a model with the categorical variable <code class="docutils literal notranslate"><span class="pre">TenYearCHD</span></code> as an outcome response and explore its relationship with covariate(s) <code class="docutils literal notranslate"><span class="pre">BMI</span></code> and <code class="docutils literal notranslate"><span class="pre">age</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="modeling-categorical-outcomes">
+<h2>Modeling categorical outcomes<a class="headerlink" href="#modeling-categorical-outcomes" title="Permalink to this heading">#</a></h2>
+<p>Recall in linear regression, we have</p>
+<div class="math notranslate nohighlight">
+\[Y_{i}=\beta_{0}+\beta_{1} X+\varepsilon_{i}\]</div>
+<p>In a generalized linear model, we can use a link function</p>
+<div class="math notranslate nohighlight">
+\[f\left(\mu_{Y \mid X}\right)=\beta_{0}+\beta_{1} X\]</div>
+<p>For a categorical binary outcome <span class="math notranslate nohighlight">\(Y\)</span>, we can define</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(Y) &amp;= \text{probability of }Y\text{ occurring}\\
+1-p(Y) &amp;= \text{probability of }Y\text{ not occurring}
+\end{align}
+\end{split}\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[\frac{p(Y)}{1-p(Y)} = \text{odds of }Y\text{ occurring}
+\]</div>
+<p>We can define a generalized linear equation for a categorical binary outcome <span class="math notranslate nohighlight">\(Y\)</span> using a logit function</p>
+<div class="math notranslate nohighlight">
+\[
+\log \left(\frac{p(Y)}{1-p(Y)}\right)=\beta_{0}+\beta_{1} X
+\]</div>
+<p>This is known as logistic regression</p>
+</section>
+<section id="performing-logistic-regression-with-glm-function">
+<h2>Performing logistic regression with <code class="docutils literal notranslate"><span class="pre">glm</span></code> function<a class="headerlink" href="#performing-logistic-regression-with-glm-function" title="Permalink to this heading">#</a></h2>
+<p>We can perform logistic regression by using the <code class="docutils literal notranslate"><span class="pre">glm</span></code> function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">outcome</span> <span class="pre">variable</span></code> ~ <code class="docutils literal notranslate"><span class="pre">covariate(s)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">family</span> <span class="pre">=</span> <span class="pre">&quot;binomial&quot;</span></code> for binary categorical outcomes</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">BMI</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span>
+<span class="w">              </span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="w"> </span>
+<span class="w">              </span><span class="n">family</span><span class="o">=</span><span class="s">&quot;binomial&quot;</span><span class="p">)</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">()</span><span class="w"> </span><span class="c1"># tidy output</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 3 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>-6.54292372</td><td>0.407430778</td><td>-16.058982</td><td>4.945986e-58</td></tr>
+	<tr><td>BMI        </td><td> 0.03532089</td><td>0.011176590</td><td>  3.160256</td><td>1.576305e-03</td></tr>
+	<tr><td>age        </td><td> 0.07581313</td><td>0.005744181</td><td> 13.198250</td><td>8.979749e-40</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="how-do-we-interpret-the-coefficients">
+<h2>How do we interpret the coefficients?<a class="headerlink" href="#how-do-we-interpret-the-coefficients" title="Permalink to this heading">#</a></h2>
+<p>The equation describing the relation can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+\log \left(\frac{p(Y)}{1-p(Y)}\right)=-6.54_\text{intercept} + \text{BMI} \times 0.035_\text{BMI} + \text{age} \times 0.076_\text{age} 
+\]</div>
+<p>Note that the coefficients <strong>do not</strong> have the same linear interpretation as in the linear regression model</p>
+<p>We can interpret the coefficients in terms of the link function</p>
+<div class="math notranslate nohighlight">
+\[\log \left(\frac{p(Y)}{1-p(Y)}\right) = \log(\text{odds})\]</div>
+<p>We can consider a covariate at the <span class="math notranslate nohighlight">\(n\)</span>th term (<span class="math notranslate nohighlight">\(b_nx_n\)</span>)</p>
+<p>Let <span class="math notranslate nohighlight">\(x_n = c\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\log(\text{odds}_{x_n=c}) &amp;= b_0 + \ldots + b_nc\\
+\text{odds}_{x_n=c} &amp;= \exp(b_0 + \ldots + b_nc)\\
+\end{align}
+\end{split}\]</div>
+<p>If we increase <span class="math notranslate nohighlight">\(x_n\)</span> by 1, then <span class="math notranslate nohighlight">\(x_n = c+1\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\log(\text{odds}_{x_n=c+1}) &amp;= b_0 + \ldots + b_n(c+1)\\
+\text{odds}_{x_n=c+1} &amp;= \exp(b_0 + \ldots + b_n(c+1)\\
+\end{align}
+\end{split}\]</div>
+<p>We can then find the odds ratio when <span class="math notranslate nohighlight">\(x_n\)</span> increases by 1 unit</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mathit{OR} = \frac{\text{odds}_{x_n=c+1}}{\text{odds}_{x_n=c}} &amp;= \frac{\exp(b_0 + \ldots + b_n(c+1))}{\exp(b_0 + \ldots + b_nc)}\\
+&amp;= \exp(b_n)
+\end{align}
+\end{split}\]</div>
+</section>
+<section id="calculating-the-odds-ratio-from-the-coefficients">
+<h2>Calculating the odds ratio from the coefficients<a class="headerlink" href="#calculating-the-odds-ratio-from-the-coefficients" title="Permalink to this heading">#</a></h2>
+<p>In this example</p>
+<ul class="simple">
+<li><p>BMI coefficient = 0.035</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathit{OR}_\text{BMI} = \exp(0.035) = 1.036\]</div>
+<ul class="simple">
+<li><p>age coefficient = 0.076</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathit{OR}_\text{age} = \exp(0.076) = 1.079\]</div>
+<p>We can see that the <span class="math notranslate nohighlight">\(\mathit{OR}\)</span> for both coefficients are &gt;1, indicating that they are associated with a higher odds of developing chronic heart disease after a 10 year follow-up</p>
+</section>
+<hr class="docutils" />
+<section id="application-statistical-table-and-plotting">
+<h2>Application: Statistical table and plotting<a class="headerlink" href="#application-statistical-table-and-plotting" title="Permalink to this heading">#</a></h2>
+<section id="statistical-table">
+<h3>1. Statistical table<a class="headerlink" href="#statistical-table" title="Permalink to this heading">#</a></h3>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">stargazer</span></code> function from the <code class="docutils literal notranslate"><span class="pre">stargazer</span></code> library to generate a statistical table from the model. The function can take one or more models as its input and we can specify the following options</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ci</span></code>: set to TRUE to print the confidence intervals</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: set to HTML to print the table in the notebook</p></li>
+</ul>
+<p>We will define a local function <code class="docutils literal notranslate"><span class="pre">print_html</span></code> to print the HTML output from <code class="docutils literal notranslate"><span class="pre">stargazer</span></code> in the notebook</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">print_html</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">capture.output</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">stargazer</span><span class="p">)</span>
+
+<span class="nf">stargazer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ci</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">print_html</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Please cite as: 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
+</pre></div>
+</div>
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>TenYearCHD</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">BMI</td><td>0.035<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.013, 0.057)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">age</td><td>0.076<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.065, 0.087)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>-6.543<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(-7.341, -5.744)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>3,658</td></tr><tr><td style="text-align:left">Log Likelihood</td><td>-1,455.388</td></tr><tr><td style="text-align:left">Akaike Inf. Crit.</td><td>2,916.777</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>Note that the coefficients are reported as log values, so they need to be exponentiated to get the odds ratio <span class="math notranslate nohighlight">\(\mathit{OR}\)</span></p>
+</section>
+<section id="statistical-plot">
+<h3>2. Statistical plot<a class="headerlink" href="#statistical-plot" title="Permalink to this heading">#</a></h3>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">ggcoefstats</span></code> function from <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code> to generate a plot of the coefficients with the confidence intervals and the associate p-values. We can specify the following options</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">exclude.intercept</span></code>: set to TRUE to omit the intercept</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats.label.args</span></code>: provide a list of options for the labels if desired</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggcoefstats</span><span class="p">(</span><span class="n">exclude.intercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">stats.label.args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                </span><span class="n">label.size</span><span class="o">=</span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">          </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You can cite this package as:
+     Patil, I. (2021). Visualizations with statistical details: The &#39;ggstatsplot&#39; approach.
+     Journal of Open Source Software, 6(61), 3167, doi:10.21105/joss.03167
+</pre></div>
+</div>
+<img alt="../_images/c5505717560c7a4a9c94cb1b0bb5fd4e5b9c6a5d9536d14e0b04b92de02ae02a.png" src="../_images/c5505717560c7a4a9c94cb1b0bb5fd4e5b9c6a5d9536d14e0b04b92de02ae02a.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07-2-modeling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linear Modeling - Categorical</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08-1-prediction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modeling for Prediction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-categorical-outcomes">Modeling categorical outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-logistic-regression-with-glm-function">Performing logistic regression with <code class="docutils literal notranslate"><span class="pre">glm</span></code> function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-we-interpret-the-coefficients">How do we interpret the coefficients?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-odds-ratio-from-the-coefficients">Calculating the odds ratio from the coefficients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-statistical-table-and-plotting">Application: Statistical table and plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-table">1. Statistical table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plot">2. Statistical plot</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

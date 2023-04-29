@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Mini-Datathon &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/10-datathon';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/10-datathon.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Mini-Datathon</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Mini-Datathon</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-1-heart-failure-dataset">Dataset 1: Heart Failure Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-2-pima-indians-diabetes-dataset">Dataset 2: Pima Indians Diabetes Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-3-hepatocellular-carcinoma-survival">Dataset 3: Hepatocellular Carcinoma Survival</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mini-datathon">
+<h1>Mini-Datathon<a class="headerlink" href="#mini-datathon" title="Permalink to this heading">#</a></h1>
+<p>For this session, we will be providing 3 datasets for the mini-datathon. However, you are free to choose other datasets, but do check with us first before proceeding.</p>
+<p>The aim of this mini-datathon is to see how we can apply what we learnt to</p>
+<ul class="simple">
+<li><p>process and tidy the data</p></li>
+<li><p>explore the data and define a question of interest</p></li>
+<li><p>visualize the relevant data</p></li>
+<li><p>use the appropriate statistical test/plot</p></li>
+<li><p>present and interpret the plot(s)</p></li>
+</ul>
+<p>For the mini-datathon, please choose <strong>ONE</strong> dataset and prepare a <strong>short slide presentation</strong> (e.g. 3-4 slides) of your analysis. We will provide the links on the day of the mini-datathon.</p>
+<p>The slides should contain the following:</p>
+<ul class="simple">
+<li><p>The team name and group members</p></li>
+<li><p>1 paragraph stating question(s) of interest</p></li>
+<li><p>1-2 plots to address the question(s)</p></li>
+<li><p>1 paragraph stating your choice of the statistical plot and your interpretation</p></li>
+<li><p>The code used to process and plot the data (include it as an appendix slide for documentation)</p></li>
+</ul>
+<p>We will review the submissions using the following rubric:</p>
+<p><img alt="datathon_rubric_stat.png" src="../_images/datathon_rubric_stat.png" /></p>
+<p>You may find the cheatsheets here:</p>
+<ul class="simple">
+<li><p>base R: <a class="github reference external" href="https://github.com/rstudio/cheatsheets/raw/main/base-r.pdf">rstudio/cheatsheets</a></p></li>
+<li><p>Tidy data transformation: <a class="reference external" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf">https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-transformation.pdf</a></p></li>
+<li><p>ggplot2: <a class="reference external" href="https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf">https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf</a></p></li>
+</ul>
+<p>We have also included a notebook that summarizes the statistical tables/tests/plots <strong>(09 - Summary)</strong></p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="dataset-1-heart-failure-dataset">
+<h1>Dataset 1: Heart Failure Dataset<a class="headerlink" href="#dataset-1-heart-failure-dataset" title="Permalink to this heading">#</a></h1>
+<p>This is a dataset containing the medical records of 299 heart failure patients collected at the Faisalabad Institute of Cardiology and at the Allied Hospital in Faisalabad (Punjab, Pakistan), during April–December 2015. All 299 patients had left ventricular systolic dysfunction and had previous heart failures that put them in classes III or IV of New York Heart Association (NYHA) classification of the stages of heart failure.</p>
+<p>The target outcome is <code class="docutils literal notranslate"><span class="pre">DEATH_EVENT</span></code> (0=alive, 1=dead)</p>
+<p>Columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: age of the patient (years)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">anaemia</span></code>: decrease of red blood cells or hemoglobin (0 = no, 1 = yes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">high_blood_pressure</span></code>: if the patient has hypertension (0 = no, 1 = yes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">creatinine_phosphokinase</span></code>: level of the CPK enzyme in the blood (mcg/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diabetes</span></code>: if the patient has diabetes (0 = no, 1 = yes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ejection_fraction</span></code>: percentage of blood leaving the heart at each contraction (percentage)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">platelets</span></code>: platelets in the blood (kiloplatelets/mL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sex</span></code>: woman or man (0 = woman, 1 = man)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serum_creatinine</span></code>: level of serum creatinine in the blood (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serum_sodium</span></code>: level of serum sodium in the blood (mEq/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smoking</span></code>: if the patient smokes or not (0 = no, 1 = yes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time</span></code>: follow-up period (days)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DEATH_EVENT</span></code>: if the patient deceased during the follow-up period (0 = no, 1 = yes)</p></li>
+</ul>
+<p><strong>Source:</strong> UCI Machine Learning Repository (<a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records">https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records</a>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/heart_failure_clinical_records_dataset.csv&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">299</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">13</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (13): age, anaemia, creatinine_phosphokinase, diabetes, ejection_fractio...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 13</caption>
+<thead>
+	<tr><th scope=col>age</th><th scope=col>anaemia</th><th scope=col>creatinine_phosphokinase</th><th scope=col>diabetes</th><th scope=col>ejection_fraction</th><th scope=col>high_blood_pressure</th><th scope=col>platelets</th><th scope=col>serum_creatinine</th><th scope=col>serum_sodium</th><th scope=col>sex</th><th scope=col>smoking</th><th scope=col>time</th><th scope=col>DEATH_EVENT</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>75</td><td>0</td><td> 582</td><td>0</td><td>20</td><td>1</td><td>265000</td><td>1.9</td><td>130</td><td>1</td><td>0</td><td>4</td><td>1</td></tr>
+	<tr><td>55</td><td>0</td><td>7861</td><td>0</td><td>38</td><td>0</td><td>263358</td><td>1.1</td><td>136</td><td>1</td><td>0</td><td>6</td><td>1</td></tr>
+	<tr><td>65</td><td>0</td><td> 146</td><td>0</td><td>20</td><td>0</td><td>162000</td><td>1.3</td><td>129</td><td>1</td><td>1</td><td>7</td><td>1</td></tr>
+	<tr><td>50</td><td>1</td><td> 111</td><td>0</td><td>20</td><td>0</td><td>210000</td><td>1.9</td><td>137</td><td>1</td><td>0</td><td>7</td><td>1</td></tr>
+	<tr><td>65</td><td>1</td><td> 160</td><td>1</td><td>20</td><td>0</td><td>327000</td><td>2.7</td><td>116</td><td>0</td><td>0</td><td>8</td><td>1</td></tr>
+	<tr><td>90</td><td>1</td><td>  47</td><td>0</td><td>40</td><td>1</td><td>204000</td><td>2.1</td><td>132</td><td>1</td><td>1</td><td>8</td><td>1</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="dataset-2-pima-indians-diabetes-dataset">
+<h1>Dataset 2: Pima Indians Diabetes Dataset<a class="headerlink" href="#dataset-2-pima-indians-diabetes-dataset" title="Permalink to this heading">#</a></h1>
+<p>This dataset is originally from the National Institute of Diabetes and Digestive and Kidney Diseases. The objective of the dataset is to diagnostically predict whether or not a patient has diabetes, based on certain diagnostic measurements included in the dataset. Several constraints were placed on the selection of these instances from a larger database. In particular, all patients here are females at least 21 years old of Pima Indian heritage.</p>
+<p>Columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Pregnancies</span></code>: Number of times pregnant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Glucose</span></code>: Plasma glucose concentration a 2 hours in an oral glucose tolerance test (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BloodPressure</span></code>: Diastolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SkinThickness</span></code>: Triceps skin fold thickness (mm)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Insulin</span></code>: 2-Hour serum insulin (micro U/ml)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BMI</span></code>: Body mass index (weight in kg/(height in m)^2)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DiabetesPedigreeFunction</span></code>: Diabetes pedigree function (derived by study authors - may ignore)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code>: Age (years)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Outcome</span></code>: Onset of non-insulin-dependent diabetes mellitus (DM) within a five-year period (0 = no, 1 = yes)</p></li>
+</ul>
+<p><strong>Source:</strong> Kaggle (<a class="reference external" href="https://www.kaggle.com/uciml/pima-indians-diabetes-database">https://www.kaggle.com/uciml/pima-indians-diabetes-database</a>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/diabetes.csv&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">768</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">9</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (9): Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, D...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 9</caption>
+<thead>
+	<tr><th scope=col>Pregnancies</th><th scope=col>Glucose</th><th scope=col>BloodPressure</th><th scope=col>SkinThickness</th><th scope=col>Insulin</th><th scope=col>BMI</th><th scope=col>DiabetesPedigreeFunction</th><th scope=col>Age</th><th scope=col>Outcome</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>6</td><td>148</td><td>72</td><td>35</td><td>  0</td><td>33.6</td><td>0.627</td><td>50</td><td>1</td></tr>
+	<tr><td>1</td><td> 85</td><td>66</td><td>29</td><td>  0</td><td>26.6</td><td>0.351</td><td>31</td><td>0</td></tr>
+	<tr><td>8</td><td>183</td><td>64</td><td> 0</td><td>  0</td><td>23.3</td><td>0.672</td><td>32</td><td>1</td></tr>
+	<tr><td>1</td><td> 89</td><td>66</td><td>23</td><td> 94</td><td>28.1</td><td>0.167</td><td>21</td><td>0</td></tr>
+	<tr><td>0</td><td>137</td><td>40</td><td>35</td><td>168</td><td>43.1</td><td>2.288</td><td>33</td><td>1</td></tr>
+	<tr><td>5</td><td>116</td><td>74</td><td> 0</td><td>  0</td><td>25.6</td><td>0.201</td><td>30</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="dataset-3-hepatocellular-carcinoma-survival">
+<h1>Dataset 3: Hepatocellular Carcinoma Survival<a class="headerlink" href="#dataset-3-hepatocellular-carcinoma-survival" title="Permalink to this heading">#</a></h1>
+<p>This dataset was obtained from a University Hospital in Portugal and contains several demographic, risk factors, laboratory and overall survival features of 165 patients diagnosed with HCC.</p>
+<p>This is an heterogeneous dataset, with 23 quantitative variables, and 26 qualitative variables. The target variable is the survival at 1 year (Alive/Dead)</p>
+<p>Columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Gender</span></code>: M/F</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Symptoms</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Alcohol</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBsAg</span></code>: Hepatitis B Surface Antigen (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBeAg</span></code>: Hepatitis B e Antigen (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HBcAb</span></code>: Hepatitis B Core Antibody (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HCVAb</span></code>: Hepatitis C Virus Antibody (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Cirrhosis</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Endemic</span></code>: Endemic country (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Smoking</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Diabetes</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Obesity</span></code>: Y/N</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hemochro</span></code>: Hemochromatosis (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AHT</span></code>: Arterial Hypertension (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CRI</span></code>: Chronic Renal Insufficiency (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HIV</span></code>: Human Immunodeficiency Virus (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NASH</span></code>: Nonalcoholic Steatohepatitis (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Varices</span></code>: Esophageal Varices (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Spleno</span></code>: Splenomegaly (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PHT</span></code>: Portal Hypertension (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PVT</span></code>: Portal Vein Thrombosis (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Metastasis</span></code>: Liver Metastasis (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hallmark</span></code>: Radiological Hallmark (Y/N)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Age</span></code>: Age at diagnosis (years)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Alcohol_grams_day</span></code>: Grams of Alcohol per day</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Packs_year</span></code>: Packs of cigarettes per year</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PS</span></code>: Performance Status (Active/Restricted/Ambulatory/Selfcare/Disabled)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Encephalopathy</span></code>: Encephalopathy degree (None/Grade_I_II/Grade_III_IV)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ascites</span></code>: Ascites degree (None/Mild/Moderate_Severe)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INR</span></code>: International Normalised Ratio</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AFP</span></code>: Alpha-Fetoprotein (ng/mL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hb</span></code>: Haemoglobin (g/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MCV</span></code>: Mean Corpuscular Volume (fl)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Leucocytes</span></code>: Leukocytes(G/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Platelets</span></code>: Platelets (G/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Albumin</span></code>: Albumin (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Total_Bil</span></code>: Total Bilirubin(mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALT</span></code>: Alanine transaminase (U/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AST</span></code>: Aspartate transaminase (U/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GGT</span></code>: Gamma glutamyl transferase (U/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALP</span></code>: Alkaline phosphatase (U/L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TP</span></code>: Total Proteins (g/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Creatinine</span></code>: Creatinine (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Nodules</span></code>: Number of Nodules</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Major_dim</span></code>: Major dimension of nodule (cm)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dir_Bil</span></code>: Direct Bilirubin (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Iron</span></code>: Iron (mcg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Sat</span></code>: Oxygen Saturation (%)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Ferritin</span></code>: Ferritin (ng/mL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Outcome</span></code>: Alive/Dead</p></li>
+</ul>
+<p>In the original dataset, missing data represents 10.22% of the whole dataset and only eight patients have complete information in all fields. For this mini-datathon, the missing values  were imputed using the <code class="docutils literal notranslate"><span class="pre">missForest</span></code> package</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">data_input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/hcc_survival.csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># original with missing values</span>
+<span class="n">data_input</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate_if</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">data_input</span><span class="p">,</span><span class="w"> </span><span class="n">is.character</span><span class="p">),</span><span class="w"> </span><span class="n">as.factor</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="n">missForest</span><span class="o">:</span><span class="nf">missForest</span><span class="p">()</span><span class="w"> </span><span class="c1"># impute</span>
+</pre></div>
+</div>
+<p><strong>Source:</strong> <a class="reference external" href="https://archive.ics.uci.edu/ml/datasets/HCC+Survival">https://archive.ics.uci.edu/ml/datasets/HCC+Survival</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/hcc_survival_impute.csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">mutate_if</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">is.character</span><span class="p">),</span><span class="w"> </span><span class="n">as.factor</span><span class="p">)</span><span class="w"> </span><span class="c1"># strings to factors</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data3</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">165</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">50</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (27): Gender, Symptoms, Alcohol, HbsAg, HbeAg, HBcAb, HCVAb, Cirrhosis, ...
+<span class=" -Color -Color-Green">dbl</span> (23): Age, Alcohol_grams_day, Packs_year, INR, AFP, Hb, MCV, Leucocytes,...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 50</caption>
+<thead>
+	<tr><th scope=col>Gender</th><th scope=col>Symptoms</th><th scope=col>Alcohol</th><th scope=col>HbsAg</th><th scope=col>HbeAg</th><th scope=col>HBcAb</th><th scope=col>HCVAb</th><th scope=col>Cirrhosis</th><th scope=col>Endemic</th><th scope=col>Smoking</th><th scope=col>⋯</th><th scope=col>ALP</th><th scope=col>TP</th><th scope=col>Creatinine</th><th scope=col>Nodules</th><th scope=col>Major_dim</th><th scope=col>Dir_Bil</th><th scope=col>Iron</th><th scope=col>Sat</th><th scope=col>Ferritin</th><th scope=col>Outcome</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>⋯</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>M</td><td>N</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>150.00</td><td> 7.100</td><td>0.7000</td><td>1</td><td> 3.5</td><td>0.5000</td><td>123.764</td><td>52.0346</td><td>465.1570</td><td>Alive</td></tr>
+	<tr><td>F</td><td>N</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>159.95</td><td>12.144</td><td>1.5108</td><td>1</td><td> 1.8</td><td>0.7689</td><td> 95.070</td><td>32.1664</td><td>259.0123</td><td>Alive</td></tr>
+	<tr><td>M</td><td>N</td><td>Y</td><td>Y</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>109.00</td><td> 7.000</td><td>2.1000</td><td>5</td><td>13.0</td><td>0.1000</td><td> 28.000</td><td> 6.0000</td><td> 16.0000</td><td>Alive</td></tr>
+	<tr><td>M</td><td>Y</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>174.00</td><td> 8.100</td><td>1.1100</td><td>2</td><td>15.7</td><td>0.2000</td><td> 83.889</td><td>25.5402</td><td>290.5700</td><td>Dead </td></tr>
+	<tr><td>M</td><td>Y</td><td>Y</td><td>Y</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>109.00</td><td> 6.900</td><td>1.8000</td><td>1</td><td> 9.0</td><td>1.2152</td><td> 59.000</td><td>15.0000</td><td> 22.0000</td><td>Alive</td></tr>
+	<tr><td>M</td><td>N</td><td>Y</td><td>N</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>N</td><td>Y</td><td>⋯</td><td>396.00</td><td> 5.600</td><td>0.9000</td><td>1</td><td>10.0</td><td>1.4000</td><td> 53.000</td><td>22.0000</td><td>111.0000</td><td>Dead </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Mini-Datathon</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-1-heart-failure-dataset">Dataset 1: Heart Failure Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-2-pima-indians-diabetes-dataset">Dataset 2: Pima Indians Diabetes Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-3-hepatocellular-carcinoma-survival">Dataset 3: Hepatocellular Carcinoma Survival</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

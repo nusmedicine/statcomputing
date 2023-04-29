@@ -1,0 +1,1808 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Joining data &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02-intro-to-tidyverse/06-joining';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualizing Data - Overview" href="07-1-plotting.html" />
+    <link rel="prev" title="Tidying data" href="05-tidying.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/02-intro-to-tidyverse/06-joining.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Joining data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-columns-datasets-with-common-key">Combining columns (datasets with common key)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">3. Right join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-join">4. Full join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-based-on-join-to-another-table">Filtering based on join to another table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-join">1. Semi-join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anti-join">2. Anti-join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-rows-datasets-with-same-columns">Combining rows (datasets with same columns)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#union">1. Union</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intersect">2. Intersect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-joining-data">Exercise - Joining Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="joining-data">
+<h1>Joining data<a class="headerlink" href="#joining-data" title="Permalink to this heading">#</a></h1>
+<p>Data is often organized into different tables that be combined in different ways to obtain a dataset of interest</p>
+<ul class="simple">
+<li><p>Each table has a column with a unique identifier (<code class="docutils literal notranslate"><span class="pre">primary</span> <span class="pre">key</span></code>) for each row</p></li>
+<li><p>This process of joining data depends on a <code class="docutils literal notranslate"><span class="pre">common</span> <span class="pre">identifier</span> <span class="pre">(key)</span></code> in the different tables</p></li>
+</ul>
+<p><img alt="data_relational.png" src="../_images/data_relational.png" /></p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will use simulated polyclinic data showing 4 datasets</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">visit</span></code>: patient visits to polyclinics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lab</span></code>: lab tests for each visit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diagnosis</span></code>: diagnosis for each visit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">patient</span></code>: patient data and identifier</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">visit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_visit.csv&quot;</span><span class="p">)</span>
+<span class="n">lab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_lab.csv&quot;</span><span class="p">)</span>
+<span class="n">diagnosis</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_diagnosis.csv&quot;</span><span class="p">)</span>
+<span class="n">patient</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_patient.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">10</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">4</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): Polyclinic, VIsitDate
+<span class=" -Color -Color-Green">dbl</span> (2): VisitID, PatientID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">15</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): LabTest, Unit
+<span class=" -Color -Color-Green">dbl</span> (3): TestID, VisitID, Value
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">17</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">3</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (1): Diagnosis
+<span class=" -Color -Color-Green">dbl</span> (2): DiagnosisID, VisitID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">5</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (4): DOB, Gender, Race, NRIC
+<span class=" -Color -Color-Green">dbl</span> (1): PatientID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us take a look at the 4 datasets</p>
+<ul class="simple">
+<li><p>Note columns that have a common identifier that we could use for joining the data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">visit</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td></tr>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>DiagnosisID</th><th scope=col>VisitID</th><th scope=col>Diagnosis</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>1</td><td>DM,   </td></tr>
+	<tr><td>2</td><td>1</td><td>HPT   </td></tr>
+	<tr><td>3</td><td>2</td><td>DM    </td></tr>
+	<tr><td>4</td><td>2</td><td>HPT   </td></tr>
+	<tr><td>5</td><td>3</td><td>Asthma</td></tr>
+	<tr><td>6</td><td>4</td><td>Asthma</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 5</caption>
+<thead>
+	<tr><th scope=col>TestID</th><th scope=col>VisitID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td>2</td><td>1</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td>3</td><td>2</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td>4</td><td>2</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td>5</td><td>5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>6</td><td>5</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can represent the relationships between the datasets as an entity relationship (ER) diagram, as previously covered in the lesson on data modelling</p>
+<p><img alt="join_model.png" src="../_images/join_model.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="combining-columns-datasets-with-common-key">
+<h2>Combining columns (datasets with common key)<a class="headerlink" href="#combining-columns-datasets-with-common-key" title="Permalink to this heading">#</a></h2>
+<p>Different columns from tables can be joined using relational operators based on a <code class="docutils literal notranslate"><span class="pre">common</span> <span class="pre">key</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inner_join</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left_join</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right_join</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">full_join</span></code></p></li>
+</ul>
+<section id="inner-join">
+<h3>1. Inner join<a class="headerlink" href="#inner-join" title="Permalink to this heading">#</a></h3>
+<p>For an <code class="docutils literal notranslate"><span class="pre">inner</span> <span class="pre">join</span></code>, only rows that have matching keys in both tables are included</p>
+<p><img alt="join_inner.png" src="../_images/join_inner.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">inner</span> <span class="pre">join</span></code> the <code class="docutils literal notranslate"><span class="pre">visit</span></code> dataset to the <code class="docutils literal notranslate"><span class="pre">patient</span></code> dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span>
+<span class="n">patient</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 10 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can perform the join with or without the pipe syntax</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inner_join(visit,</span> <span class="pre">patient)</span></code> (without pipe syntax)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">visit</span> <span class="pre">%&gt;%</span> <span class="pre">inner_join(patient)</span></code> (pipe syntax)</p></li>
+</ul>
+<p>The common key will be inferred but we can also explicitly state it by specifying <code class="docutils literal notranslate"><span class="pre">by</span> <span class="pre">=</span> <span class="pre">&quot;common</span> <span class="pre">key&quot;</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(PatientID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 10 × 8</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="left-join">
+<h3>2. Left join<a class="headerlink" href="#left-join" title="Permalink to this heading">#</a></h3>
+<p>For an <code class="docutils literal notranslate"><span class="pre">left</span> <span class="pre">join</span></code>, <strong>all</strong> rows of the <strong>left</strong> table are included. For the data on the <strong>right</strong> table</p>
+<ul class="simple">
+<li><p>if there is a matching key, the data are included</p></li>
+<li><p>if there is no matching key, an <code class="docutils literal notranslate"><span class="pre">NA</span></code> value will be added</p></li>
+</ul>
+<p><img alt="join_left.png" src="../_images/join_left.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">left</span> <span class="pre">join</span></code> the <code class="docutils literal notranslate"><span class="pre">visit</span></code> dataset to the <code class="docutils literal notranslate"><span class="pre">lab</span></code> dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span>
+<span class="n">lab</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 10 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 15 × 5</caption>
+<thead>
+	<tr><th scope=col>TestID</th><th scope=col>VisitID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td> 1</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 3</td><td> 2</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 4</td><td> 2</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 5</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td> 5</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td> 5</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 8</td><td> 7</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td> 7</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td>10</td><td> 9</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td>11</td><td> 9</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td>12</td><td> 9</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>13</td><td>10</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>14</td><td>10</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>15</td><td>10</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">left_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 19 × 8</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in this left join</p>
+<ul class="simple">
+<li><p>All data from the left table <code class="docutils literal notranslate"><span class="pre">visits</span></code> is included</p></li>
+<li><p>Patients that have records of <code class="docutils literal notranslate"><span class="pre">lab</span></code> tests have their data included in the join</p></li>
+<li><p>Patients (visit ID 3,4,6,8) that do not have records of <code class="docutils literal notranslate"><span class="pre">lab</span></code> tests have <code class="docutils literal notranslate"><span class="pre">NA</span></code> values</p></li>
+</ul>
+</section>
+<section id="right-join">
+<h3>3. Right join<a class="headerlink" href="#right-join" title="Permalink to this heading">#</a></h3>
+<p>For an <code class="docutils literal notranslate"><span class="pre">right</span> <span class="pre">join</span></code>, <strong>all</strong> rows of the <strong>right</strong> table are included. For the data on the <strong>left</strong> table</p>
+<ul class="simple">
+<li><p>if there is a matching key, the data are included</p></li>
+<li><p>if there is no matching key, an <code class="docutils literal notranslate"><span class="pre">NA</span></code> value will be added</p></li>
+</ul>
+<p><img alt="join_right.png" src="../_images/join_right.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">inner</span> <span class="pre">join</span></code> the <code class="docutils literal notranslate"><span class="pre">visit</span></code> dataset to the <code class="docutils literal notranslate"><span class="pre">patient</span></code> dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">right_join</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(PatientID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 11 × 8</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>NA</td><td>NA           </td><td>NA        </td><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in this right join</p>
+<ul class="simple">
+<li><p>All patient data in the right table <code class="docutils literal notranslate"><span class="pre">patient</span></code> are retained</p></li>
+<li><p>Patients with matching keys in the left table are included</p></li>
+<li><p>Patient 5 had no matching keys and was assigned <code class="docutils literal notranslate"><span class="pre">NA</span></code> values</p></li>
+</ul>
+</section>
+<section id="full-join">
+<h3>4. Full join<a class="headerlink" href="#full-join" title="Permalink to this heading">#</a></h3>
+<p>For an <code class="docutils literal notranslate"><span class="pre">full</span> <span class="pre">join</span></code>, <strong>all</strong> rows of <strong>both</strong> tables are included. For the data in the <strong>both</strong> tables</p>
+<ul class="simple">
+<li><p>if there is a matching key, the data are included</p></li>
+<li><p>if there is no matching key, an <code class="docutils literal notranslate"><span class="pre">NA</span></code> value will be added</p></li>
+</ul>
+<p><img alt="join_full.png" src="../_images/join_full.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">full</span> <span class="pre">join</span></code> all 4 datasets: <code class="docutils literal notranslate"><span class="pre">visit</span></code>, <code class="docutils literal notranslate"><span class="pre">patient</span></code>, <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code> and <code class="docutils literal notranslate"><span class="pre">lab</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span>
+<span class="n">patient</span>
+<span class="n">diagnosis</span>
+<span class="n">lab</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 10 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 17 × 3</caption>
+<thead>
+	<tr><th scope=col>DiagnosisID</th><th scope=col>VisitID</th><th scope=col>Diagnosis</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td> 1</td><td>DM,            </td></tr>
+	<tr><td> 2</td><td> 1</td><td>HPT            </td></tr>
+	<tr><td> 3</td><td> 2</td><td>DM             </td></tr>
+	<tr><td> 4</td><td> 2</td><td>HPT            </td></tr>
+	<tr><td> 5</td><td> 3</td><td>Asthma         </td></tr>
+	<tr><td> 6</td><td> 4</td><td>Asthma         </td></tr>
+	<tr><td> 7</td><td> 4</td><td>URTI           </td></tr>
+	<tr><td> 8</td><td> 5</td><td>Hyperlipidemia </td></tr>
+	<tr><td> 9</td><td> 5</td><td>IHD            </td></tr>
+	<tr><td>10</td><td> 6</td><td>Gastroenteritis</td></tr>
+	<tr><td>11</td><td> 7</td><td>DM             </td></tr>
+	<tr><td>12</td><td> 7</td><td>HPT            </td></tr>
+	<tr><td>13</td><td> 8</td><td>URTI           </td></tr>
+	<tr><td>14</td><td> 9</td><td>Hyperlipidemia </td></tr>
+	<tr><td>15</td><td> 9</td><td>IHD            </td></tr>
+	<tr><td>16</td><td>10</td><td>Hyperlipidemia </td></tr>
+	<tr><td>17</td><td>10</td><td>IHD            </td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 15 × 5</caption>
+<thead>
+	<tr><th scope=col>TestID</th><th scope=col>VisitID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td> 1</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 3</td><td> 2</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 4</td><td> 2</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 5</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td> 5</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td> 5</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 8</td><td> 7</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td> 7</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td>10</td><td> 9</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td>11</td><td> 9</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td>12</td><td> 9</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>13</td><td>10</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>14</td><td>10</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>15</td><td>10</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">full_join</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">full_join</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">full_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(PatientID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in full_join(., lab):
+“Detected an unexpected many-to-many relationship between `x` and `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `x` matches multiple rows in `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `y` matches multiple rows in `x`.
+<span class=" -Color -Color-Cyan">ℹ</span> If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to
+  silence this warning.”
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 36 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 5</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 6</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 7</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>10</td><td>Gastroenteritis</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>13</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+	<tr><td>NA</td><td>NA           </td><td>NA        </td><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td><td>NA</td><td>NA             </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in this full join</p>
+<ul class="simple">
+<li><p>All data from the tables are retained</p></li>
+<li><p>Where are are no records matching between tables, the values are marked as <code class="docutils literal notranslate"><span class="pre">NA</span></code></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="filtering-based-on-join-to-another-table">
+<h2>Filtering based on join to another table<a class="headerlink" href="#filtering-based-on-join-to-another-table" title="Permalink to this heading">#</a></h2>
+<p>This is similar to the join functions, except that the data from the other table is not included</p>
+<ul class="simple">
+<li><p>It is used to filter rows in one table, based on whether the key is present in the other table</p></li>
+</ul>
+<section id="semi-join">
+<h3>1. Semi-join<a class="headerlink" href="#semi-join" title="Permalink to this heading">#</a></h3>
+<p>For a <code class="docutils literal notranslate"><span class="pre">semi-join</span></code>, rows in the <strong>left</strong> are <strong>included</strong> if there is a matching key in the <strong>right</strong> table</p>
+<p><img alt="join_semi.png" src="../_images/join_semi.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">semi-join</span></code> the <code class="docutils literal notranslate"><span class="pre">visit</span></code> and the <code class="docutils literal notranslate"><span class="pre">lab</span></code> datasets</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">semi_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 6 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in this semi-join</p>
+<ul class="simple">
+<li><p>Only <code class="docutils literal notranslate"><span class="pre">visits</span></code> that have a matching <code class="docutils literal notranslate"><span class="pre">patient</span></code> record are retained</p></li>
+<li><p>No data from the <code class="docutils literal notranslate"><span class="pre">patient</span></code> table is included</p></li>
+</ul>
+</section>
+<section id="anti-join">
+<h3>2. Anti-join<a class="headerlink" href="#anti-join" title="Permalink to this heading">#</a></h3>
+<p>For a <code class="docutils literal notranslate"><span class="pre">anti-join</span></code>, rows in the <strong>left</strong> are <strong>excluded</strong> if there is a matching key in the <strong>right</strong> table</p>
+<p><img alt="join_anti.png" src="../_images/join_anti.png" /></p>
+<p>As an example, we will <code class="docutils literal notranslate"><span class="pre">anti-join</span></code> the <code class="docutils literal notranslate"><span class="pre">visit</span></code> and <code class="docutils literal notranslate"><span class="pre">lab</span></code> datasets</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">anti_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 4 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td></tr>
+	<tr><td>8</td><td>Choa Chu Kang</td><td>25/9/2015</td><td>4</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in this anti-join</p>
+<ul class="simple">
+<li><p>Only <code class="docutils literal notranslate"><span class="pre">visits</span></code> that do <strong>not</strong> have matching <code class="docutils literal notranslate"><span class="pre">lab</span></code> record are retained</p></li>
+<li><p>No data from the right table <code class="docutils literal notranslate"><span class="pre">lab</span></code> is included</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="combining-rows-datasets-with-same-columns">
+<h2>Combining rows (datasets with same columns)<a class="headerlink" href="#combining-rows-datasets-with-same-columns" title="Permalink to this heading">#</a></h2>
+<p>Datasets with the same columns/variables can be combined using set operators</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">union</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intersect</span></code></p></li>
+</ul>
+<section id="id1">
+<h3>Data preparation<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>We will generate 2 datasets <code class="docutils literal notranslate"><span class="pre">data_set_1</span></code> and <code class="docutils literal notranslate"><span class="pre">data_set_2</span></code> that come from the same polyclinic source, but differ in the set of <code class="docutils literal notranslate"><span class="pre">visitID</span></code> to simulate 2 different tables that have the same columns/variables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_join</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">full_join</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">full_join</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">full_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+
+<span class="n">data_set_1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_join</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">filter</span><span class="p">(</span><span class="n">VisitID</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">))</span>
+
+<span class="n">data_set_2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_join</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">filter</span><span class="p">(</span><span class="n">VisitID</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">,</span><span class="m">6</span><span class="p">,</span><span class="m">7</span><span class="p">,</span><span class="m">8</span><span class="p">,</span><span class="m">9</span><span class="p">,</span><span class="m">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(PatientID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in full_join(., lab):
+“Detected an unexpected many-to-many relationship between `x` and `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `x` matches multiple rows in `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `y` matches multiple rows in `x`.
+<span class=" -Color -Color-Cyan">ℹ</span> If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to
+  silence this warning.”
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_set_1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 22 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 5</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 6</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 7</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>10</td><td>Gastroenteritis</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_set_2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 27 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 5</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 6</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 7</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>10</td><td>Gastroenteritis</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>13</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="union">
+<h3>1. Union<a class="headerlink" href="#union" title="Permalink to this heading">#</a></h3>
+<p>For a <code class="docutils literal notranslate"><span class="pre">union</span></code>, all rows from both datasets are included and duplicate rows are removed</p>
+<p><img alt="set_union.png" src="../_images/set_union.png" /></p>
+<p>As an example, we will perform the <code class="docutils literal notranslate"><span class="pre">union</span></code> operation on <code class="docutils literal notranslate"><span class="pre">data_set_1</span></code> and <code class="docutils literal notranslate"><span class="pre">data_set_2</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_set_1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">union</span><span class="p">(</span><span class="n">data_set_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 35 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 1</td><td>DM,            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 2</td><td>HPT            </td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 3</td><td>DM             </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td> 4</td><td>HPT            </td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 3</td><td>Clementi     </td><td>15/4/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 5</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 6</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 4</td><td>Clementi     </td><td>5/5/2015  </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 7</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 6</td><td>Choa Chu Kang</td><td>3/7/2015  </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>10</td><td>Gastroenteritis</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 8</td><td>Choa Chu Kang</td><td>25/9/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>13</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>14</td><td>Hyperlipidemia </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>15</td><td>IHD            </td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>16</td><td>Hyperlipidemia </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td>17</td><td>IHD            </td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in the <code class="docutils literal notranslate"><span class="pre">union</span></code> of 2 datasets, all duplicate records (overlapping visits) are removed</p>
+</section>
+<section id="intersect">
+<h3>2. Intersect<a class="headerlink" href="#intersect" title="Permalink to this heading">#</a></h3>
+<p>For an <code class="docutils literal notranslate"><span class="pre">intersect</span></code>, only rows that are matched in <code class="docutils literal notranslate"><span class="pre">both</span></code> tables are included</p>
+<p><img alt="set_intersect.png" src="../_images/set_intersect.png" /></p>
+<p>As an example, we will perform the <code class="docutils literal notranslate"><span class="pre">intersect</span></code> operation on <code class="docutils literal notranslate"><span class="pre">data_set_1</span></code> and <code class="docutils literal notranslate"><span class="pre">data_set_2</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_set_1</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">intersect</span><span class="p">(</span><span class="n">data_set_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 14 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 5</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 6</td><td>Asthma         </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td><td> 7</td><td>URTI           </td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 8</td><td>Hyperlipidemia </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td><td> 9</td><td>IHD            </td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td><td>10</td><td>Gastroenteritis</td><td>NA</td><td>NA     </td><td> NA</td><td>NA    </td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>11</td><td>DM             </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td>7</td><td>Bukit Batok  </td><td>13/8/2015</td><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td><td>12</td><td>HPT            </td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Note that in an <code class="docutils literal notranslate"><span class="pre">intersect</span></code> of 2 datasets, only records that appear in both datasets are retained</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="exercise-joining-data">
+<h2>Exercise - Joining Data<a class="headerlink" href="#exercise-joining-data" title="Permalink to this heading">#</a></h2>
+<p>We will use the same simulated polyclinic dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">visit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_visit.csv&quot;</span><span class="p">)</span>
+<span class="n">lab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_lab.csv&quot;</span><span class="p">)</span>
+<span class="n">diagnosis</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_diagnosis.csv&quot;</span><span class="p">)</span>
+<span class="n">patient</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/tidy_patient.csv&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">visit</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">10</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">4</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): Polyclinic, VIsitDate
+<span class=" -Color -Color-Green">dbl</span> (2): VisitID, PatientID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">15</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): LabTest, Unit
+<span class=" -Color -Color-Green">dbl</span> (3): TestID, VisitID, Value
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">17</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">3</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (1): Diagnosis
+<span class=" -Color -Color-Green">dbl</span> (2): DiagnosisID, VisitID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">5</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (4): DOB, Gender, Race, NRIC
+<span class=" -Color -Color-Green">dbl</span> (1): PatientID
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 4</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>Bukit Batok  </td><td>14/1/2015</td><td>1</td></tr>
+	<tr><td>2</td><td>Choa Chu Kang</td><td>7/4/2015 </td><td>1</td></tr>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td></tr>
+	<tr><td>5</td><td>Jurong       </td><td>22/6/2015</td><td>3</td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 5</caption>
+<thead>
+	<tr><th scope=col>TestID</th><th scope=col>VisitID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td>2</td><td>1</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td>3</td><td>2</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td>4</td><td>2</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td>5</td><td>5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td>6</td><td>5</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>DiagnosisID</th><th scope=col>VisitID</th><th scope=col>Diagnosis</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>1</td><td>DM,   </td></tr>
+	<tr><td>2</td><td>1</td><td>HPT   </td></tr>
+	<tr><td>3</td><td>2</td><td>DM    </td></tr>
+	<tr><td>4</td><td>2</td><td>HPT   </td></tr>
+	<tr><td>5</td><td>3</td><td>Asthma</td></tr>
+	<tr><td>6</td><td>4</td><td>Asthma</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>PatientID</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>20/5/1951 </td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td>2</td><td>12/11/1999</td><td>F</td><td>Chinese</td><td>S9952322D</td></tr>
+	<tr><td>3</td><td>27/6/1943 </td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>4</td><td>5/8/1996  </td><td>M</td><td>Malay  </td><td>S9698987X</td></tr>
+	<tr><td>5</td><td>7/3/1974  </td><td>F</td><td>Chinese</td><td>S7423728U</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Join the <code class="docutils literal notranslate"><span class="pre">visit</span></code> dataset to the <code class="docutils literal notranslate"><span class="pre">lab</span></code> dataset, only showing data that have common keys in both datasets</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 15 × 8</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Show the visits and diagnosis from that do not have <code class="docutils literal notranslate"><span class="pre">lab</span></code> tests. Do not show the lab test results</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">anti_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">left_join</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 5 × 6</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>3</td><td>Clementi     </td><td>15/4/2015</td><td>2</td><td> 5</td><td>Asthma         </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td> 6</td><td>Asthma         </td></tr>
+	<tr><td>4</td><td>Clementi     </td><td>5/5/2015 </td><td>2</td><td> 7</td><td>URTI           </td></tr>
+	<tr><td>6</td><td>Choa Chu Kang</td><td>3/7/2015 </td><td>4</td><td>10</td><td>Gastroenteritis</td></tr>
+	<tr><td>8</td><td>Choa Chu Kang</td><td>25/9/2015</td><td>4</td><td>13</td><td>URTI           </td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-3">
+<h3>Part 3<a class="headerlink" href="#part-3" title="Permalink to this heading">#</a></h3>
+<p>Combine datasets from <code class="docutils literal notranslate"><span class="pre">visit</span></code>, <code class="docutils literal notranslate"><span class="pre">lab</span></code>, <code class="docutils literal notranslate"><span class="pre">diagnosis</span></code>, and <code class="docutils literal notranslate"><span class="pre">patient</span></code>, to obtain a dataset that only has data present in <em>all</em> the tables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">visit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">inner_join</span><span class="p">(</span><span class="n">lab</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">inner_join</span><span class="p">(</span><span class="n">diagnosis</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">inner_join</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(VisitID)`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in inner_join(., diagnosis):
+“Detected an unexpected many-to-many relationship between `x` and `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `x` matches multiple rows in `y`.
+<span class=" -Color -Color-Cyan">ℹ</span> Row 1 of `y` matches multiple rows in `x`.
+<span class=" -Color -Color-Cyan">ℹ</span> If a many-to-many relationship is expected, set `relationship = &quot;many-to-many&quot;` to
+  silence this warning.”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Joining with `by = join_by(PatientID)`
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 30 × 14</caption>
+<thead>
+	<tr><th scope=col>VisitID</th><th scope=col>Polyclinic</th><th scope=col>VIsitDate</th><th scope=col>PatientID</th><th scope=col>TestID</th><th scope=col>LabTest</th><th scope=col>Value</th><th scope=col>Unit</th><th scope=col>DiagnosisID</th><th scope=col>Diagnosis</th><th scope=col>DOB</th><th scope=col>Gender</th><th scope=col>Race</th><th scope=col>NRIC</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td><td> 1</td><td>DM,           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 1</td><td>Glucose</td><td>6.1</td><td>mmol/L</td><td> 2</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td><td> 1</td><td>DM,           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 1</td><td>Bukit Batok  </td><td>14/1/2015 </td><td>1</td><td> 2</td><td>HbA1c  </td><td>8.5</td><td>%     </td><td> 2</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td><td> 3</td><td>DM            </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 3</td><td>Glucose</td><td>7.2</td><td>mmol/L</td><td> 4</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td><td> 3</td><td>DM            </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 2</td><td>Choa Chu Kang</td><td>7/4/2015  </td><td>1</td><td> 4</td><td>HbA1c  </td><td>7.6</td><td>%     </td><td> 4</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td><td> 8</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 5</td><td>TG     </td><td>3.5</td><td>mmol/L</td><td> 9</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td><td> 8</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 6</td><td>LDL    </td><td>4.4</td><td>mmol/L</td><td> 9</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td><td> 8</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 5</td><td>Jurong       </td><td>22/6/2015 </td><td>3</td><td> 7</td><td>HDL    </td><td>0.5</td><td>mmol/L</td><td> 9</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td><td>11</td><td>DM            </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 8</td><td>Glucose</td><td>5.3</td><td>mmol/L</td><td>12</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td><td>11</td><td>DM            </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 7</td><td>Bukit Batok  </td><td>13/8/2015 </td><td>1</td><td> 9</td><td>HbA1c  </td><td>7.8</td><td>%     </td><td>12</td><td>HPT           </td><td>20/5/1951</td><td>M</td><td>Chinese</td><td>S0477990F</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td><td>14</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>10</td><td>TG     </td><td>3.2</td><td>mmol/L</td><td>15</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td><td>14</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>11</td><td>LDL    </td><td>3.7</td><td>mmol/L</td><td>15</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td><td>14</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td> 9</td><td>Jurong       </td><td>3/10/2015 </td><td>3</td><td>12</td><td>HDL    </td><td>0.7</td><td>mmol/L</td><td>15</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td><td>16</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>13</td><td>TG     </td><td>2.5</td><td>mmol/L</td><td>17</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td><td>16</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>14</td><td>LDL    </td><td>3.3</td><td>mmol/L</td><td>17</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td><td>16</td><td>Hyperlipidemia</td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+	<tr><td>10</td><td>Jurong       </td><td>15/12/2015</td><td>3</td><td>15</td><td>HDL    </td><td>0.9</td><td>mmol/L</td><td>17</td><td>IHD           </td><td>27/6/1943</td><td>M</td><td>Indian </td><td>S0298538J</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./02-intro-to-tidyverse"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-tidying.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tidying data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07-1-plotting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualizing Data - Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-columns-datasets-with-common-key">Combining columns (datasets with common key)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">3. Right join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-join">4. Full join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-based-on-join-to-another-table">Filtering based on join to another table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-join">1. Semi-join</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#anti-join">2. Anti-join</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-rows-datasets-with-same-columns">Combining rows (datasets with same columns)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#union">1. Union</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intersect">2. Intersect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-joining-data">Exercise - Joining Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

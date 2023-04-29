@@ -1,0 +1,932 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Computational Thinking for Problem Solving &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/00-intro';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview" href="../00-md/intro-to-r.html" />
+    <link rel="prev" title="Welcome" href="../00-md/intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/00-intro.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Computational Thinking for Problem Solving</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Computational Thinking for Problem Solving</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-a-problem-making-a-banana-split">Solving a problem: making a banana split</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">1. Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-recognition">2. Pattern recognition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction">3. Abstraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm">4. Algorithm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programming-concepts">Programming concepts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ordered-sequence-of-steps">1. Ordered sequence of steps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-and-data">2. Variables and Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">3. Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">4. Conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iteration-looping">5. Iteration/Looping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-procedures">6. Functions/Procedures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-prelude">A prelude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-programming-with-r">1. Introduction to Programming with R</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-data-exploration-visualization-with-tidyverse">2. Introduction to Data Exploration/Visualization with Tidyverse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-statistical-computing">3. Introduction to Statistical Computing</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="computational-thinking-for-problem-solving">
+<h1>Computational Thinking for Problem Solving<a class="headerlink" href="#computational-thinking-for-problem-solving" title="Permalink to this heading">#</a></h1>
+<p><img alt="thinking_recipe.jpg" src="../_images/thinking_recipe.jpg" /></p>
+<p>From: <a class="reference external" href="https://www.tinythinkers.org/benefits">https://www.tinythinkers.org/benefits</a></p>
+<p>Computational thinking is a framework for solving problems using the following approaches:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Decomposition</span></code>: breaking down a problem into smaller, manageable parts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pattern</span> <span class="pre">recognition</span></code>: identifying similarities and patterns in parts</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Abstraction</span></code>: identifying key features that can be generalized</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Algorithm</span></code>: creating a step-by-step instruction for solving the problem</p></li>
+</ul>
+<section id="solving-a-problem-making-a-banana-split">
+<h2>Solving a problem: making a banana split<a class="headerlink" href="#solving-a-problem-making-a-banana-split" title="Permalink to this heading">#</a></h2>
+<p><img alt="thinking_recipe_0.png" src="../_images/thinking_recipe_0.png" /></p>
+<section id="decomposition">
+<h3>1. Decomposition<a class="headerlink" href="#decomposition" title="Permalink to this heading">#</a></h3>
+<p><img alt="thinking_recipe_1.png" src="../_images/thinking_recipe_1.png" /></p>
+<ul class="simple">
+<li><p>To solve a problem, we can begin by breaking it down into smaller parts</p></li>
+<li><p>In trying to make a sundae, we can see what we need (i.e. the ingredients)</p>
+<ul>
+<li><p>Ice cream</p></li>
+<li><p>Whipped cream</p></li>
+<li><p>Cherries</p></li>
+<li><p>Banana</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pattern-recognition">
+<h3>2. Pattern recognition<a class="headerlink" href="#pattern-recognition" title="Permalink to this heading">#</a></h3>
+<p><img alt="thinking_recipe_2.png" src="../_images/thinking_recipe_2.png" /></p>
+<ul class="simple">
+<li><p>We see that there are parts that form a pattern</p></li>
+<li><p>The ice cream, whipped cream, and cherry are repeated</p></li>
+</ul>
+</section>
+<section id="abstraction">
+<h3>3. Abstraction<a class="headerlink" href="#abstraction" title="Permalink to this heading">#</a></h3>
+<p><img alt="thinking_recipe_3.png" src="../_images/thinking_recipe_3.png" /></p>
+<ul class="simple">
+<li><p>We look to see if there are ways to generalize a pattern but removing the details</p></li>
+<li><p>The ice cream, whipped cream, and cherry appear to be organized as a unit if we ignore the details like:</p>
+<ul>
+<li><p>the flavor/color of the ice cream</p></li>
+<li><p>the height of the whipped cream</p></li>
+<li><p>the size/shape of the cherry</p></li>
+</ul>
+</li>
+<li><p>We can abstract away the details and think of it as a common unit (let’s call it IWC)</p></li>
+</ul>
+</section>
+<section id="algorithm">
+<h3>4. Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this heading">#</a></h3>
+<p><img alt="thinking_recipe_4.png" src="../_images/thinking_recipe_4.png" /></p>
+<ul class="simple">
+<li><p>Now that we have thought through the problem, we can start to compose all the steps needed to make a banana split</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Recipe for Banana Split with [n] IWCs
+
+1. Get a bowl
+2. Lay the banana at the bottom of the bowl
+3. Check if [n] exceeds the capacity of the bowl
+   - if it does, reduce the number of [n]
+   - otherwise, continue to next step
+4. Repeat [n] times putting IWCs on top of banana
+5. Profit!
+</pre></div>
+</div>
+<p>The main recipe refers to another smaller recipe to make IWCs</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Recipe</span> <span class="k">for</span> <span class="n">making</span> <span class="n">IWCs</span> 
+
+<span class="mf">1.</span> <span class="n">Take</span> <span class="n">one</span> <span class="n">scoop</span> <span class="n">of</span> <span class="n">ice</span> <span class="n">cream</span>
+<span class="mf">2.</span> <span class="n">Squirt</span> <span class="n">whipping</span> <span class="n">cream</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">ice</span> <span class="n">cream</span>
+<span class="mf">3.</span> <span class="n">Place</span> <span class="n">a</span> <span class="n">cherry</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">the</span> <span class="n">whipping</span> <span class="n">cream</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="programming-concepts">
+<h2>Programming concepts<a class="headerlink" href="#programming-concepts" title="Permalink to this heading">#</a></h2>
+<p>As you can see, computational thinking is one of the strategies for problem solving, and is a framework that we can use in programming, which is to translate the ideas into a form that a computer can act on.</p>
+<p>The recipe for making banana split(s) illustrates some principles used in programming:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Recipe for Banana Split with [n] IWCs
+
+1. Get a bowl
+2. Lay the banana at the bottom of the bowl
+3. Check if [n] exceeds the capacity of the bowl
+   - if it does, reduce the number of [n]
+   - otherwise, continue to next step
+4. Repeat [n] times putting IWCs on top of banana
+5. Profit!
+</pre></div>
+</div>
+<section id="ordered-sequence-of-steps">
+<h3>1. Ordered sequence of steps<a class="headerlink" href="#ordered-sequence-of-steps" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_1.png" src="../_images/programming_1.png" /></p>
+<ul class="simple">
+<li><p>We can see that the recipe calls for following a defined sequence of steps</p></li>
+<li><p>This is analogous to the flow of a program</p></li>
+</ul>
+</section>
+<section id="variables-and-data">
+<h3>2. Variables and Data<a class="headerlink" href="#variables-and-data" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_2.png" src="../_images/programming_2.png" /></p>
+<ul class="simple">
+<li><p>The recipe can be adapted to different sizes and the number of ICWs is stored with a label [<code class="docutils literal notranslate"><span class="pre">n</span></code>] , and used in other parts of the recipe</p></li>
+<li><p>We call this a <code class="docutils literal notranslate"><span class="pre">variable</span></code>, which is a label to store data and also other recipes</p></li>
+<li><p>A related concept is <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">types</span></code> and how data can be organized into larger units known as <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">structures</span></code></p></li>
+</ul>
+</section>
+<section id="operations">
+<h3>3. Operations<a class="headerlink" href="#operations" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_3.png" src="../_images/programming_3.png" /></p>
+<ul class="simple">
+<li><p>In the recipe, we use the data stored in [<code class="docutils literal notranslate"><span class="pre">n</span></code>] in different ways</p>
+<ul>
+<li><p>We <code class="docutils literal notranslate"><span class="pre">compare</span></code> the value in [<code class="docutils literal notranslate"><span class="pre">n</span></code>] to see if it exceeds the capacity of the bowl</p></li>
+<li><p>We also <code class="docutils literal notranslate"><span class="pre">change</span></code> the value in [<code class="docutils literal notranslate"><span class="pre">n</span></code>] by reducing it</p></li>
+</ul>
+</li>
+<li><p>We call these <code class="docutils literal notranslate"><span class="pre">operations</span></code> that we can apply to data in a program</p></li>
+</ul>
+</section>
+<section id="conditionals">
+<h3>4. Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_4.png" src="../_images/programming_4.png" /></p>
+<ul class="simple">
+<li><p>In the recipe, the sequence of steps includes checks that will alter how the recipe should proceed</p></li>
+<li><p>We call these checks <code class="docutils literal notranslate"><span class="pre">conditionals</span></code>, where the flow of a program can change, depending on outcome (true/false) of a conditional check</p></li>
+</ul>
+</section>
+<section id="iteration-looping">
+<h3>5. Iteration/Looping<a class="headerlink" href="#iteration-looping" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_5.png" src="../_images/programming_5.png" /></p>
+<ul class="simple">
+<li><p>We can see that there is a step in the recipe that a same procedure (making IWCs) is repeated</p></li>
+<li><p>We call this <code class="docutils literal notranslate"><span class="pre">iteration/looping</span></code>, where steps or procedures can be called repeated until a condition is satisfied</p></li>
+</ul>
+</section>
+<section id="functions-procedures">
+<h3>6. Functions/Procedures<a class="headerlink" href="#functions-procedures" title="Permalink to this heading">#</a></h3>
+<p><img alt="programming_6.png" src="../_images/programming_6.png" /></p>
+<ul class="simple">
+<li><p>The main recipe for making a banana split calls for a smaller recipe for making IWCs</p></li>
+<li><p>This abstraction simplifies the main recipe, allowing one to see the main steps without thinking too much about the details</p></li>
+<li><p>In programming, the smaller recipe is called a <code class="docutils literal notranslate"><span class="pre">function/procedure</span></code>, which encapsulates the steps with a label that can be used are part of a larger program</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="a-prelude">
+<h1>A prelude<a class="headerlink" href="#a-prelude" title="Permalink to this heading">#</a></h1>
+<p>In this course, we will be learning a programming language called R, an open source language that is widely used for data science and statistical computing</p>
+<p>We will be learning how to use R in 3 parts</p>
+<ol class="arabic simple">
+<li><p>Introduction to Programming in R</p></li>
+<li><p>Introduction to Data Exploration/Visualization with Tidyverse</p></li>
+<li><p>Introduction to Statistical Computing</p></li>
+</ol>
+<section id="introduction-to-programming-with-r">
+<h2>1. Introduction to Programming with R<a class="headerlink" href="#introduction-to-programming-with-r" title="Permalink to this heading">#</a></h2>
+<p>We will be learning about the base R language and see how we can use the concepts of variables, data types, data structures, operations, conditionals, iteration and functions</p>
+<p>We will learn how to write a simple decision making program that will output recommendations to admit or review a patient</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Variables and data structure</span>
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="c1"># Iteration, decision-making and functions</span>
+<span class="n">decide</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">age_limit</span><span class="o">=</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vector</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">for </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">nrow</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">index</span><span class="p">,]</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">age_limit</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># append</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span>
+<span class="p">}</span>
+
+<span class="c1"># Process data to get output</span>
+<span class="n">df</span><span class="o">$</span><span class="n">decision</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th><th scope=col>decision</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>19</td><td>Alice  </td><td>low </td><td>review later</td></tr>
+	<tr><td>2</td><td>45</td><td>Bob    </td><td>med </td><td>review later</td></tr>
+	<tr><td>3</td><td>23</td><td>Charlie</td><td>high</td><td>admit       </td></tr>
+	<tr><td>4</td><td>55</td><td>David  </td><td>high</td><td>admit       </td></tr>
+	<tr><td>5</td><td>65</td><td>Eliza  </td><td>med </td><td>admit       </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="introduction-to-data-exploration-visualization-with-tidyverse">
+<h2>2. Introduction to Data Exploration/Visualization with Tidyverse<a class="headerlink" href="#introduction-to-data-exploration-visualization-with-tidyverse" title="Permalink to this heading">#</a></h2>
+<p>We will next learn how to extend the functionality of base R by using a library called <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></p>
+<p>This library allows use to perform exploration and visualization of data more easily by combining different functions.</p>
+<p>The example below show how we can process data and visualize it using <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">GGally</span><span class="p">)</span>
+
+<span class="c1"># read data and process</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">))</span>
+
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">15</span><span class="p">)</span>
+
+<span class="c1"># plot pairs</span>
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">sex</span><span class="p">,</span><span class="w"> </span><span class="n">currentSmoker</span><span class="p">,</span><span class="w"> </span><span class="n">diabetes</span><span class="p">,</span><span class="w"> </span><span class="n">sysBP</span><span class="p">,</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">totChol</span><span class="p">,</span><span class="w"> </span><span class="n">TenYearCHD</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">         </span><span class="nf">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">ggpairs</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;salmon&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Registered S3 method overwritten by &#39;GGally&#39;:
+  method from   
+  +.gg   ggplot2
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="../_images/190da9c79ad332066fb9970bfed575fb018930eb9aef0d93f8deb7c18089f8a4.png" src="../_images/190da9c79ad332066fb9970bfed575fb018930eb9aef0d93f8deb7c18089f8a4.png" />
+</div>
+</div>
+</section>
+<section id="introduction-to-statistical-computing">
+<h2>3. Introduction to Statistical Computing<a class="headerlink" href="#introduction-to-statistical-computing" title="Permalink to this heading">#</a></h2>
+<p>Finally, we will learn statistical concepts using R by resampling and simulation</p>
+<ul class="simple">
+<li><p>Descriptive statistics</p></li>
+<li><p>Inferential statistics</p>
+<ul>
+<li><p>Sampling</p></li>
+<li><p>Hypothesis testing</p></li>
+<li><p>Statistical modeling</p></li>
+</ul>
+</li>
+</ul>
+<p>As an example, we can use R to examine relationships between an outcome (systolic BP) and possible factors (BMI and age) and quantify their effects</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">stargazer</span><span class="p">)</span>
+
+<span class="c1"># fit a linear regression model</span>
+<span class="n">fit_BMI_age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">BMI</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">.</span><span class="p">)</span>
+
+<span class="c1"># print table</span>
+<span class="nf">capture.output</span><span class="p">(</span><span class="nf">stargazer</span><span class="p">(</span><span class="n">fit_BMI_age</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="c1"># plot coefficients</span>
+<span class="nf">ggcoefstats</span><span class="p">(</span><span class="n">fit_BMI_age</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You can cite this package as:
+     Patil, I. (2021). Visualizations with statistical details: The &#39;ggstatsplot&#39; approach.
+     Journal of Open Source Software, 6(61), 3167, doi:10.21105/joss.03167
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Please cite as: 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
+</pre></div>
+</div>
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>sysBP</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">BMI</td><td>1.500<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.073)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">age</td><td>0.910<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.035)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>48.509<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(2.406)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>4,221</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.230</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.230</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>19.275 (df = 4218)</td></tr><tr><td style="text-align:left">F Statistic</td><td>631.228<sup>***</sup> (df = 2; 4218)</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div><img alt="../_images/6aa72cd580e23b4958902dc3ab5250b8fd6e8dfe07f970bfee6deea9fb6ecfc0.png" src="../_images/6aa72cd580e23b4958902dc3ab5250b8fd6e8dfe07f970bfee6deea9fb6ecfc0.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../00-md/intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../00-md/intro-to-r.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Computational Thinking for Problem Solving</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solving-a-problem-making-a-banana-split">Solving a problem: making a banana split</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">1. Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-recognition">2. Pattern recognition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstraction">3. Abstraction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm">4. Algorithm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programming-concepts">Programming concepts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ordered-sequence-of-steps">1. Ordered sequence of steps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-and-data">2. Variables and Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">3. Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conditionals">4. Conditionals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iteration-looping">5. Iteration/Looping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-procedures">6. Functions/Procedures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-prelude">A prelude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-programming-with-r">1. Introduction to Programming with R</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-data-exploration-visualization-with-tidyverse">2. Introduction to Data Exploration/Visualization with Tidyverse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-statistical-computing">3. Introduction to Statistical Computing</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

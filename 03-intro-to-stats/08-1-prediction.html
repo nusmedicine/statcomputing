@@ -1,0 +1,1614 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Modeling for Prediction &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/08-1-prediction';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modeling for Explanation" href="08-2-explanation.html" />
+    <link rel="prev" title="Generalized Linear Model - Categorical outcome" href="07-3-modeling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/08-1-prediction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modeling for Prediction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Modeling for Prediction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-systolic-bp-as-an-example">Predicting systolic BP as an example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-on-hold-out-test-dataset">Predicting on hold-out test dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-of-overfitting">Problem of overfitting</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gauging-out-of-sample-performance-with-data-at-hand">Gauging out-of-sample performance with data at hand</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-fold-cross-validation">1. K-fold cross validation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aic-criterion">2. AIC criterion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-building-a-predictive-model-and-plotting">Application: Building a predictive model and plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-covariates-based-on-aic">1. Selection of covariates based on AIC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plotting-of-coefficients">2. Statistical plotting of coefficients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-modeling-for-prediction">Exercise - Modeling for prediction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modeling-for-prediction">
+<h1>Modeling for Prediction<a class="headerlink" href="#modeling-for-prediction" title="Permalink to this heading">#</a></h1>
+<p>We explore how we can build a model using available data with the intent of predicting a response/outcome with new data</p>
+<p><img alt="modeling_prediction.png" src="../_images/modeling_prediction.png" /></p>
+<p>Here, the selection of covariates is guided by the prediction accuracy on new data (actual or inferred)</p>
+<ul class="simple">
+<li><p>the coefficients give an indication of which covariates are important for the prediction</p></li>
+<li><p>the coefficients are <strong>not meant</strong> to explain the effect size on the outcome</p></li>
+</ul>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will use the dataset from the Framingham study, which was a long term study of cardiovascular disease about subjsects in Framingham, USA. In this dataset ~4000 subjects were followed up and clinical data and chronic heart disease outcomes were examined longitudinally over &gt; 10 years</p>
+<p>Variables include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span></code> : 0 = female, 1 = male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : Age at the time of medical examination in years.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">education</span></code> : 1 = Some high school, 2 = high school/GED, 3 = some college/vocational school, 4 = college</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">currentSmoker</span></code>: Current cigarette smoking at the time of examinations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cigsPerDay</span></code>: Number of cigarettes smoked each day</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPmeds</span></code>: Use of Anti-hypertensive medication at exam</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentStroke</span></code>: Prevalent Stroke</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentHyp</span></code>: Prevalent Hypertensive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diabetes</span></code>: Diabetic according to criteria of first exam treated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">totChol</span></code>: Total cholesterol (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysBP</span></code>: Systolic Blood Pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diaBP</span></code>: Diastolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BMI</span></code>: Body Mass Index, weight (kg)/height (m)^2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heartRate</span></code>: Heart rate (beats/minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glucose</span></code>: Blood glucose level (mg/dL)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># read data</span>
+<span class="n">data</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># rename and change data types</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">))</span>
+
+<span class="c1"># drop missing values</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">drop_na</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will choose a subset of variables and find a model to predict the systolic BP <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> from a combination of these variables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">filter</span><span class="p">(</span><span class="n">BPMeds</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">TenYearCHD</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentStroke</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentHyp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">diaBP</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">currentSmoker</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">BPMeds</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 10</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>cigsPerDay</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td> 0</td><td>0</td><td>195</td><td>106.0</td><td>26.97</td><td>80</td><td> 77</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td> 0</td><td>0</td><td>250</td><td>121.0</td><td>28.73</td><td>95</td><td> 76</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>20</td><td>0</td><td>245</td><td>127.5</td><td>25.34</td><td>75</td><td> 70</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>30</td><td>0</td><td>225</td><td>150.0</td><td>28.58</td><td>65</td><td>103</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>23</td><td>0</td><td>285</td><td>130.0</td><td>23.10</td><td>85</td><td> 85</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td> 0</td><td>0</td><td>228</td><td>180.0</td><td>30.30</td><td>77</td><td> 99</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="predicting-systolic-bp-as-an-example">
+<h2>Predicting systolic BP as an example<a class="headerlink" href="#predicting-systolic-bp-as-an-example" title="Permalink to this heading">#</a></h2>
+<p>In predictive modeling, we would like to achieve the lowest prediction error on an out-of-sample dataset that was not used to build the model</p>
+<p>We will explore this idea by splitting the dataset into training and test sets</p>
+<ul class="simple">
+<li><p>The training dataset will be used to build models with different parameters (covariates)</p></li>
+<li><p>The model will be used to predict the systolic BP based on the model parameters (covariates)</p></li>
+</ul>
+<p><img alt="predict_train_test.png" src="../_images/predict_train_test.png" /></p>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">initial_split</span></code>, <code class="docutils literal notranslate"><span class="pre">training</span></code> and <code class="docutils literal notranslate"><span class="pre">testing</span></code> functions from the <code class="docutils literal notranslate"><span class="pre">tidymodels</span></code> library</p>
+<ul class="simple">
+<li><p>Define the proportion of the split: <code class="docutils literal notranslate"><span class="pre">initial_split(data,</span> <span class="pre">prop</span> <span class="pre">=</span> <span class="pre">&lt;proportion</span> <span class="pre">of</span> <span class="pre">training</span> <span class="pre">split&gt;)</span></code></p></li>
+<li><p>Generate the training and testing datasets: <code class="docutils literal notranslate"><span class="pre">training(&lt;initial_split</span> <span class="pre">data&gt;)</span></code> and <code class="docutils literal notranslate"><span class="pre">testing(&lt;initial_split</span> <span class="pre">data&gt;)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidymodels</span><span class="p">)</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">246</span><span class="p">)</span><span class="w"> </span><span class="c1"># for reproducibility</span>
+
+<span class="n">data_subset_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_split</span><span class="p">(</span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="o">/</span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="c1"># 3/4 training data</span>
+<span class="n">data_subset_train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">data_subset_split</span><span class="p">)</span>
+<span class="n">data_subset_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">data_subset_split</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data_subset_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching packages</span> ─────────────────────────────────────────── tidymodels 1.0.0 ──
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">broom       </span> 1.0.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">rsample     </span> 1.1.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dials       </span> 1.2.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tune        </span> 1.1.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">infer       </span> 1.0.4     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">workflows   </span> 1.1.3
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">modeldata   </span> 1.1.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">workflowsets</span> 1.0.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">parsnip     </span> 1.1.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">yardstick   </span> 1.1.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">recipes     </span> 1.0.5     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ────────────────────────────────────────────── tidymodels_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">scales</span>::<span class=" -Color -Color-Green">discard()</span> masks <span class=" -Color -Color-Blue">purrr</span>::discard()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span>   masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">recipes</span>::<span class=" -Color -Color-Green">fixed()</span>  masks <span class=" -Color -Color-Blue">stringr</span>::fixed()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>      masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">yardstick</span>::<span class=" -Color -Color-Green">spec()</span> masks <span class=" -Color -Color-Blue">readr</span>::spec()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">recipes</span>::<span class=" -Color -Color-Green">step()</span>   masks <span class=" -Color -Color-Blue">stats</span>::step()
+<span class=" -Color -Color-Blue">•</span> Learn how to get started at <span class=" -Color -Color-Green">https://www.tidymodels.org/start/</span>
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 10</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>cigsPerDay</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>46</td><td>3</td><td> 0</td><td>0</td><td>305</td><td>150.0</td><td>26.82</td><td>75</td><td> 75</td></tr>
+	<tr><td>0</td><td>53</td><td>3</td><td>20</td><td>0</td><td>221</td><td>131.0</td><td>24.09</td><td>90</td><td> 95</td></tr>
+	<tr><td>0</td><td>59</td><td>3</td><td> 0</td><td>0</td><td>240</td><td>149.0</td><td>27.48</td><td>80</td><td> 82</td></tr>
+	<tr><td>0</td><td>40</td><td>4</td><td> 3</td><td>0</td><td>230</td><td>107.5</td><td>26.38</td><td>75</td><td> 76</td></tr>
+	<tr><td>0</td><td>61</td><td>2</td><td> 0</td><td>0</td><td>255</td><td>114.0</td><td>24.79</td><td>83</td><td>107</td></tr>
+	<tr><td>0</td><td>43</td><td>1</td><td> 0</td><td>0</td><td>229</td><td>124.0</td><td>30.28</td><td>72</td><td> 77</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 10</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>cigsPerDay</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>63</td><td>1</td><td> 0</td><td>0</td><td>205</td><td>138</td><td>33.11</td><td>60</td><td> 85</td></tr>
+	<tr><td>0</td><td>45</td><td>2</td><td>20</td><td>0</td><td>313</td><td>100</td><td>21.68</td><td>79</td><td> 78</td></tr>
+	<tr><td>1</td><td>43</td><td>1</td><td>30</td><td>0</td><td>225</td><td>162</td><td>23.61</td><td>93</td><td> 88</td></tr>
+	<tr><td>1</td><td>41</td><td>2</td><td> 0</td><td>0</td><td>195</td><td>139</td><td>26.88</td><td>85</td><td> 65</td></tr>
+	<tr><td>0</td><td>52</td><td>1</td><td> 0</td><td>0</td><td>234</td><td>148</td><td>34.17</td><td>70</td><td>113</td></tr>
+	<tr><td>1</td><td>35</td><td>2</td><td>20</td><td>0</td><td>225</td><td>132</td><td>26.09</td><td>73</td><td> 83</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will build different models with combinations of covariates on the training dataset <code class="docutils literal notranslate"><span class="pre">data_subset_train</span></code>. Note that the <code class="docutils literal notranslate"><span class="pre">.</span></code> notation is a short form for all covariates</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">education</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model6</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">totChol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BMI</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">heartRate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+<span class="n">model8</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can look at the <span class="math notranslate nohighlight">\(R^2\)</span> fit for the models by extracting it from the fitted model</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">summary(model)$r.squared</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># collect r2 values for all 8 models</span>
+
+<span class="n">r2_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">            </span><span class="n">model</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">,</span>
+<span class="w">            </span><span class="n">formula</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">model1</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="c1"># extract formula</span>
+<span class="w">                      </span><span class="n">model2</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model3</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model4</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model5</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model6</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model7</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model8</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">),</span>
+<span class="w">            </span><span class="n">r2</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">model1</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span><span class="w"> </span><span class="c1"># extract r2</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model2</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model3</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model4</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model5</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model6</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model7</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">,</span>
+<span class="w">                 </span><span class="nf">summary</span><span class="p">(</span><span class="n">model8</span><span class="p">)</span><span class="o">$</span><span class="n">r.squared</span><span class="p">)</span>
+<span class="w">             </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">formula</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">formula</span><span class="p">))</span>
+
+<span class="n">r2_fit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 8 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>formula</th><th scope=col>r2</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>sysBP ~ age                                            </td><td>0.1413048</td></tr>
+	<tr><td>2</td><td>sysBP ~ age + sex                                      </td><td>0.1414696</td></tr>
+	<tr><td>3</td><td>sysBP ~ age + sex + education                          </td><td>0.1448863</td></tr>
+	<tr><td>4</td><td>sysBP ~ age + sex + education + glucose                </td><td>0.1520279</td></tr>
+	<tr><td>5</td><td>sysBP ~ age + sex + glucose                            </td><td>0.1487736</td></tr>
+	<tr><td>6</td><td>sysBP ~ age + sex + glucose + BMI                      </td><td>0.2274826</td></tr>
+	<tr><td>7</td><td>sysBP ~ age + sex + totChol + BMI + heartRate + glucose</td><td>0.2593385</td></tr>
+	<tr><td>8</td><td>sysBP ~ .                                              </td><td>0.2611845</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+
+<span class="n">r2_fit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="nf">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/af301932ccebacf31126a8e3bdcadcbf5713a7c29eccb598d94fe0ef7ccceab6.png" src="../_images/af301932ccebacf31126a8e3bdcadcbf5713a7c29eccb598d94fe0ef7ccceab6.png" />
+</div>
+</div>
+<p>It appears that the model with all the covariates <code class="docutils literal notranslate"><span class="pre">(sysBP</span> <span class="pre">~</span> <span class="pre">.)</span></code> would give the best fit based on the highest <span class="math notranslate nohighlight">\(R^2\)</span> value.</p>
+<ul class="simple">
+<li><p>The <span class="math notranslate nohighlight">\(R^2\)</span> shows that the model explains at best ~20% of the variation in the dataset</p></li>
+<li><p>The highest <span class="math notranslate nohighlight">\(R^2\)</span> does not mean that the model has the best ability to predict on  out-of-sample data</p></li>
+</ul>
+<hr class="docutils" />
+<section id="predicting-on-hold-out-test-dataset">
+<h3>Predicting on hold-out test dataset<a class="headerlink" href="#predicting-on-hold-out-test-dataset" title="Permalink to this heading">#</a></h3>
+<p>To evaluate whether the model is able to predict using out-of-sample data, we will use the test dataset <code class="docutils literal notranslate"><span class="pre">data_subset_test</span></code> and use the <code class="docutils literal notranslate"><span class="pre">predict</span></code> function to calculate the predicted <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> values from the covariates in the test data</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">predict(&lt;model&gt;,</span> <span class="pre">&lt;test</span> <span class="pre">dataset&gt;)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">predict1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model2</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model3</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model4</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model5</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict6</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model6</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model7</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+<span class="n">predict8</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model8</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will look at a sample of one of the prediction sets <code class="docutils literal notranslate"><span class="pre">predict1</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">tibble</span><span class="p">(</span><span class="n">data_subset_test</span><span class="p">,</span><span class="w"> </span><span class="n">predict</span><span class="o">=</span><span class="n">predict1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 11</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>cigsPerDay</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>predict</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0</td><td>63</td><td>1</td><td> 0</td><td>0</td><td>205</td><td>138</td><td>33.11</td><td>60</td><td> 85</td><td>144.0469</td></tr>
+	<tr><td>0</td><td>45</td><td>2</td><td>20</td><td>0</td><td>313</td><td>100</td><td>21.68</td><td>79</td><td> 78</td><td>127.3206</td></tr>
+	<tr><td>1</td><td>43</td><td>1</td><td>30</td><td>0</td><td>225</td><td>162</td><td>23.61</td><td>93</td><td> 88</td><td>125.4621</td></tr>
+	<tr><td>1</td><td>41</td><td>2</td><td> 0</td><td>0</td><td>195</td><td>139</td><td>26.88</td><td>85</td><td> 65</td><td>123.6037</td></tr>
+	<tr><td>0</td><td>52</td><td>1</td><td> 0</td><td>0</td><td>234</td><td>148</td><td>34.17</td><td>70</td><td>113</td><td>133.8253</td></tr>
+	<tr><td>1</td><td>35</td><td>2</td><td>20</td><td>0</td><td>225</td><td>132</td><td>26.09</td><td>73</td><td> 83</td><td>118.0282</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>To gauge how close the predictions are to the actual values in the test dataset, we can calculate the root mean squared error (RMSE)</p>
+<div class="math notranslate nohighlight">
+\[
+\mathit{RMSE} = \sqrt{(\mathit{predicted}-\mathit{observed})^2}
+\]</div>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">RMSE</span></code> function from the <code class="docutils literal notranslate"><span class="pre">caret</span></code> library</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RMSE(&lt;predict</span> <span class="pre">data&gt;,</span> <span class="pre">&lt;observed</span> <span class="pre">data&gt;</span></code> where the observed data is the <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> variable in <code class="docutils literal notranslate"><span class="pre">data_subset_test</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+
+<span class="c1"># collect RMSE results for all 8 models from test dataset</span>
+
+<span class="n">test_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">formula</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">model1</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span><span class="w"> </span><span class="c1"># extract formula</span>
+<span class="w">                            </span><span class="n">model2</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model3</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model4</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model5</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model6</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model7</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">model8</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">RMSE</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict1</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span><span class="w"> </span><span class="c1"># extract RMSE</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict2</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict3</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict4</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict5</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict6</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict7</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">),</span>
+<span class="w">                          </span><span class="nf">RMSE</span><span class="p">(</span><span class="n">predict8</span><span class="p">,</span><span class="w"> </span><span class="n">data_subset_test</span><span class="o">$</span><span class="n">sysBP</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">formula</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">formula</span><span class="p">))</span>
+
+<span class="n">test_fit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: lattice
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘caret’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:yardstick’:
+
+    precision, recall, sensitivity, specificity
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:purrr’:
+
+    lift
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 8 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>formula</th><th scope=col>RMSE</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>sysBP ~ age                                            </td><td>19.92564</td></tr>
+	<tr><td>2</td><td>sysBP ~ age + sex                                      </td><td>19.90763</td></tr>
+	<tr><td>3</td><td>sysBP ~ age + sex + education                          </td><td>19.83316</td></tr>
+	<tr><td>4</td><td>sysBP ~ age + sex + education + glucose                </td><td>19.85367</td></tr>
+	<tr><td>5</td><td>sysBP ~ age + sex + glucose                            </td><td>19.92666</td></tr>
+	<tr><td>6</td><td>sysBP ~ age + sex + glucose + BMI                      </td><td>18.96923</td></tr>
+	<tr><td>7</td><td>sysBP ~ age + sex + totChol + BMI + heartRate + glucose</td><td>18.72770</td></tr>
+	<tr><td>8</td><td>sysBP ~ .                                              </td><td>18.74517</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+
+<span class="n">test_fit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">RMSE</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/90043cc35138db608c54f179a776bc3e34aa7676ef58741f68b44753fd851743.png" src="../_images/90043cc35138db608c54f179a776bc3e34aa7676ef58741f68b44753fd851743.png" />
+</div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">model7</span></code> gives the lowest RMSE, indicating that it has the lowest error when predicting the sysBP on the hold-out test dataset that was not used for building the model.</p>
+<ul class="simple">
+<li><p>It suggests that <code class="docutils literal notranslate"><span class="pre">model7</span></code> has higher generalizability on other unseen datasets</p></li>
+<li><p>The model with the best fit <span class="math notranslate nohighlight">\(R^2\)</span> (<code class="docutils literal notranslate"><span class="pre">model8</span></code>) is not necessarily the one with the lowest prediction error</p></li>
+</ul>
+<section id="problem-of-overfitting">
+<h4>Problem of overfitting<a class="headerlink" href="#problem-of-overfitting" title="Permalink to this heading">#</a></h4>
+<p>As you can see, adding more covariates may not necessarily give the best prediction accuracy for out-of-sample data</p>
+<ul class="simple">
+<li><p>The addition of covariates will increase the model fit for the training data</p></li>
+<li><p>However, the model may overfit (i.e. learn patterns that are specific for the training data)</p></li>
+<li><p>Overfitting will reduce the ability for the model to predict well on new unseen samples</p></li>
+</ul>
+<p><img alt="predict_overfitting.png" src="../_images/predict_overfitting.png" /></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="gauging-out-of-sample-performance-with-data-at-hand">
+<h3>Gauging out-of-sample performance with data at hand<a class="headerlink" href="#gauging-out-of-sample-performance-with-data-at-hand" title="Permalink to this heading">#</a></h3>
+<section id="k-fold-cross-validation">
+<h4>1. K-fold cross validation<a class="headerlink" href="#k-fold-cross-validation" title="Permalink to this heading">#</a></h4>
+<p>In some cases, we may not have enough data at hand to be able to split them into training and test datasets in order to evaluate which model would have the best predictive performance</p>
+<p>We can gauge out-of-sample prediction performance by using <strong>all</strong> the data at hand <code class="docutils literal notranslate"><span class="pre">data_subset</span></code> by using a cross-validation approach</p>
+<ul class="simple">
+<li><p>The dataset is shuffled randomly and split into <span class="math notranslate nohighlight">\(k\)</span> groups</p></li>
+<li><p>For each of the <span class="math notranslate nohighlight">\(k^\mathit{th}\)</span> group</p>
+<ul>
+<li><p>Use the <span class="math notranslate nohighlight">\(k^\mathit{th}\)</span> group as the hold-out test dataset</p></li>
+<li><p>Use the remaining data of <span class="math notranslate nohighlight">\(k - 1\)</span> groups as the training dataset</p></li>
+<li><p>Fit the model and use it to predict the <span class="math notranslate nohighlight">\(k^\mathit{th}\)</span> test dataset</p></li>
+<li><p>Evaluate the prediction error</p></li>
+</ul>
+</li>
+<li><p>Evaluate the average prediction error for the <span class="math notranslate nohighlight">\(k\)</span> groups for the model</p></li>
+</ul>
+<p><img alt="predict_kfold.png" src="../_images/predict_kfold.png" /></p>
+<p>To do this, we will use the <code class="docutils literal notranslate"><span class="pre">trainControl</span></code> and <code class="docutils literal notranslate"><span class="pre">train</span></code> functions fro the <code class="docutils literal notranslate"><span class="pre">caret</span></code> library</p>
+<ul class="simple">
+<li><p>We specify the cross validation and number of <span class="math notranslate nohighlight">\(k\)</span> folds: <code class="docutils literal notranslate"><span class="pre">trainControl(method</span> <span class="pre">=</span> <span class="pre">&quot;cv&quot;,</span> <span class="pre">number</span> <span class="pre">=</span> <span class="pre">&lt;k-folds&gt;)</span></code></p></li>
+<li><p>We train the cross validation dataset: <code class="docutils literal notranslate"><span class="pre">train(&lt;formula&gt;,</span> <span class="pre">dataset,</span> <span class="pre">method=&quot;lm&quot;,</span> <span class="pre">trControl</span> <span class="pre">=</span> <span class="pre">&lt;trainControl</span> <span class="pre">specification&gt;)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">246</span><span class="p">)</span><span class="w"> </span><span class="c1"># for reproducibility</span>
+
+<span class="c1"># set the cross validation (10-fold)</span>
+
+<span class="n">train.control</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">trainControl</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cv&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+
+<span class="c1"># train the different models</span>
+
+<span class="n">model1_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model2_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model3_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">education</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model4_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">education</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model5_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model6_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model7_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">totChol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BMI</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">heartRate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+<span class="n">model8_cv</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train.control</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can check the prediction error by looking at the <code class="docutils literal notranslate"><span class="pre">RMSE</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># collect RMSE results for all 8 models from 10-fold CV of full dataset</span>
+
+<span class="n">cv_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">            </span><span class="n">model</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">,</span>
+<span class="w">            </span><span class="n">formula</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">model1_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span><span class="w"> </span><span class="c1"># extract formula</span>
+<span class="w">                      </span><span class="n">model2_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model3_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model4_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model5_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model6_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model7_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">model8_cv</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">form</span><span class="p">),</span>
+<span class="w">             </span><span class="n">RMSE</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">model1_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span><span class="w"> </span><span class="c1"># extract RMSE</span>
+<span class="w">                    </span><span class="n">model2_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model3_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model4_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model5_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model6_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model7_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">model8_cv</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">RMSE</span><span class="p">)</span>
+<span class="w">           </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">formula</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">formula</span><span class="p">))</span>
+
+<span class="n">cv_fit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 8 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>formula</th><th scope=col>RMSE</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>sysBP ~ age                                            </td><td>19.57238</td></tr>
+	<tr><td>2</td><td>sysBP ~ age + sex                                      </td><td>19.55591</td></tr>
+	<tr><td>3</td><td>sysBP ~ age + sex + education                          </td><td>19.52496</td></tr>
+	<tr><td>4</td><td>sysBP ~ age + sex + education + glucose                </td><td>19.48790</td></tr>
+	<tr><td>5</td><td>sysBP ~ age + sex + glucose                            </td><td>19.51754</td></tr>
+	<tr><td>6</td><td>sysBP ~ age + sex + glucose + BMI                      </td><td>18.60048</td></tr>
+	<tr><td>7</td><td>sysBP ~ age + sex + totChol + BMI + heartRate + glucose</td><td>18.24255</td></tr>
+	<tr><td>8</td><td>sysBP ~ .                                              </td><td>18.25071</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+
+<span class="n">cv_fit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">RMSE</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">             </span><span class="nf">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">             </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">             </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b745b814391e8ca919426b5f258080a5bc9e90b5792e2b641b3ffbf383a66495.png" src="../_images/b745b814391e8ca919426b5f258080a5bc9e90b5792e2b641b3ffbf383a66495.png" />
+</div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">model7</span></code> has the lowest RMSE, consistent with our previous conclusion using the one-time training/test split dataset</p>
+</section>
+<section id="aic-criterion">
+<h4>2. AIC criterion<a class="headerlink" href="#aic-criterion" title="Permalink to this heading">#</a></h4>
+<p>The cross validation can be done for different number of groups and if the number of folds is maximum <span class="math notranslate nohighlight">\(k = n - 1\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of samples, this is known as leave-one-out cross validation (LOOCV)</p>
+<p><img alt="predict_loocv.png" src="../_images/predict_loocv.png" /></p>
+<p>As <span class="math notranslate nohighlight">\(n \to \infty\)</span>, the estimate of the LOOCV prediction error is given by the Akaike information criterion (AIC)</p>
+<div class="math notranslate nohighlight">
+\[
+\mathit{AIC} \approx n\log\left(\frac{RSS}{n}\right) + 2p
+\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{where } n &amp;= \text{number of samples}\\
+p &amp;= \text{number of parameters}\\
+RSS &amp;= \text{residual sum of squares}
+\end{align}
+\end{split}\]</div>
+<p>We can obtain the AIC score using the <code class="docutils literal notranslate"><span class="pre">AIC</span></code> function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AIC(model)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># collect AIC values from all 8 models for full dataset</span>
+
+<span class="n">AIC_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">             </span><span class="n">model</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">,</span>
+<span class="w">             </span><span class="n">formula</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">model1</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model2</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model3</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model4</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model5</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model6</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model7</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">model8</span><span class="o">$</span><span class="n">call</span><span class="o">$</span><span class="n">formula</span><span class="p">),</span>
+<span class="w">              </span><span class="n">AIC</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="nf">AIC</span><span class="p">(</span><span class="n">model1</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model2</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model3</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model4</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model5</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model6</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model7</span><span class="p">),</span>
+<span class="w">                    </span><span class="nf">AIC</span><span class="p">(</span><span class="n">model8</span><span class="p">))</span>
+<span class="w">                 </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">formula</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">formula</span><span class="p">))</span>
+
+<span class="n">AIC_fit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 8 × 3</caption>
+<thead>
+	<tr><th scope=col>model</th><th scope=col>formula</th><th scope=col>AIC</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>sysBP ~ age                                            </td><td>23345.72</td></tr>
+	<tr><td>2</td><td>sysBP ~ age + sex                                      </td><td>23347.21</td></tr>
+	<tr><td>3</td><td>sysBP ~ age + sex + education                          </td><td>23342.60</td></tr>
+	<tr><td>4</td><td>sysBP ~ age + sex + education + glucose                </td><td>23322.29</td></tr>
+	<tr><td>5</td><td>sysBP ~ age + sex + glucose                            </td><td>23326.48</td></tr>
+	<tr><td>6</td><td>sysBP ~ age + sex + glucose + BMI                      </td><td>23070.40</td></tr>
+	<tr><td>7</td><td>sysBP ~ age + sex + totChol + BMI + heartRate + glucose</td><td>22962.39</td></tr>
+	<tr><td>8</td><td>sysBP ~ .                                              </td><td>22965.75</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+
+<span class="n">AIC_fit</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">AIC</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">              </span><span class="nf">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">              </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">              </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8a5a41077cf576286537d44ca4f43fa78c9b258d10d2b3fa0f4d4c47feb8bdcd.png" src="../_images/8a5a41077cf576286537d44ca4f43fa78c9b258d10d2b3fa0f4d4c47feb8bdcd.png" />
+</div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">model7</span></code> has the lowest AIC, indicating that it is likely to have lower out-of-sample predictive error that the other models. This is consistent with the 10-fold cross validation result as well as the prediction error from the one-time train/test dataset split</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="application-building-a-predictive-model-and-plotting">
+<h2>Application: Building a predictive model and plotting<a class="headerlink" href="#application-building-a-predictive-model-and-plotting" title="Permalink to this heading">#</a></h2>
+<p>Now that we have an idea how we can evaluate the predictive out-of-sample error for a model, we will consider how we search for the set of covariates for prediction. There are several strategies</p>
+<ul class="simple">
+<li><p>Forward stepwise selection</p></li>
+<li><p>Backward stepwise selection</p></li>
+<li><p>Best subset selection</p></li>
+</ul>
+<p>For stepwise selections, covariates are added or removed one at a time based on a criteria (e.g. only covariates with significant p-values are retained). However, this is not recommended as the resultant model often has poor predictive performance</p>
+<section id="selection-of-covariates-based-on-aic">
+<h3>1. Selection of covariates based on AIC<a class="headerlink" href="#selection-of-covariates-based-on-aic" title="Permalink to this heading">#</a></h3>
+<p>Here, we will demonstrate best subset selection, whereby combinations of covariates are evaluated (in this case, using AIC). To do this we will use the <code class="docutils literal notranslate"><span class="pre">glmulti</span></code> function from the <code class="docutils literal notranslate"><span class="pre">glmulti</span></code> library</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">level</span> <span class="pre">=</span> <span class="pre">1</span></code> to consider only independent covariates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: <code class="docutils literal notranslate"><span class="pre">h</span></code> for exhaustive search, <code class="docutils literal notranslate"><span class="pre">g</span></code> for genetic search</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">report</span></code>: set to FALSE to suppress reports for each step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plotty</span></code>: set to FALSE to suppress plots for each step</p></li>
+</ul>
+<p>Note that the search can be computationally intensive</p>
+<ul class="simple">
+<li><p>use exhaustive search <code class="docutils literal notranslate"><span class="pre">h</span></code> if number of covariates is small</p></li>
+<li><p>use genetic search <code class="docutils literal notranslate"><span class="pre">g</span></code> if number of covariates is large</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># read data</span>
+<span class="n">data</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># rename and change data types</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">))</span>
+
+<span class="c1"># drop missing values</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">drop_na</span>
+
+<span class="n">data_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">filter</span><span class="p">(</span><span class="n">BPMeds</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">TenYearCHD</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentStroke</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentHyp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">diaBP</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">currentSmoker</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">BPMeds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">glmulti</span><span class="p">)</span>
+
+<span class="n">models</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glmulti</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w">              </span><span class="c1"># . = consider all covariates</span>
+<span class="w">                  </span><span class="n">data</span><span class="o">=</span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">level</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w">                </span><span class="c1"># consider only independent covariates</span>
+<span class="w">                  </span><span class="n">method</span><span class="o">=</span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="w">             </span><span class="c1"># exhaustive search</span>
+<span class="w">                  </span><span class="n">report</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">           </span><span class="c1"># suppress messages</span>
+<span class="w">                  </span><span class="n">plotty</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">           </span><span class="c1"># suppress messages</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: rJava
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: leaps
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can look at the models evaluated with their AIC scores using the <code class="docutils literal notranslate"><span class="pre">weightable</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">weightable</span><span class="p">(</span><span class="n">models</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 10 × 3</caption>
+<thead>
+	<tr><th></th><th scope=col>model</th><th scope=col>aic</th><th scope=col>weights</th></tr>
+	<tr><th></th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>sysBP ~ 1 + sex + age + totChol + BMI + heartRate + glucose                         </td><td>30677.29</td><td>0.17761325</td></tr>
+	<tr><th scope=row>2</th><td>sysBP ~ 1 + sex + education + age + totChol + BMI + heartRate + glucose             </td><td>30678.11</td><td>0.11802975</td></tr>
+	<tr><th scope=row>3</th><td>sysBP ~ 1 + sex + diabetes + age + totChol + BMI + heartRate + glucose              </td><td>30678.69</td><td>0.08842642</td></tr>
+	<tr><th scope=row>4</th><td>sysBP ~ 1 + sex + age + cigsPerDay + totChol + BMI + heartRate + glucose            </td><td>30679.14</td><td>0.07059790</td></tr>
+	<tr><th scope=row>5</th><td>sysBP ~ 1 + age + totChol + BMI + heartRate + glucose                               </td><td>30679.19</td><td>0.06884899</td></tr>
+	<tr><th scope=row>6</th><td>sysBP ~ 1 + sex + education + diabetes + age + totChol + BMI + heartRate + glucose  </td><td>30679.48</td><td>0.05941903</td></tr>
+	<tr><th scope=row>7</th><td>sysBP ~ 1 + education + age + totChol + BMI + heartRate + glucose                   </td><td>30679.65</td><td>0.05456322</td></tr>
+	<tr><th scope=row>8</th><td>sysBP ~ 1 + sex + education + age + cigsPerDay + totChol + BMI + heartRate + glucose</td><td>30679.89</td><td>0.04835294</td></tr>
+	<tr><th scope=row>9</th><td>sysBP ~ 1 + age + cigsPerDay + totChol + BMI + heartRate + glucose                  </td><td>30680.04</td><td>0.04497316</td></tr>
+	<tr><th scope=row>10</th><td>sysBP ~ 1 + education + age + cigsPerDay + totChol + BMI + heartRate + glucose      </td><td>30680.44</td><td>0.03686890</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can pick the model with the lowest AIC by selecting <code class="docutils literal notranslate"><span class="pre">objects[[1]]</span></code> from the <code class="docutils literal notranslate"><span class="pre">glmulti</span></code> object</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">top_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">models</span><span class="o">@</span><span class="n">objects</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="c1"># top model with lowest AIC</span>
+
+<span class="n">top_model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 7 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>25.29907956</td><td>3.341256428</td><td> 7.571726</td><td>4.670821e-14</td></tr>
+	<tr><td>sex1       </td><td>-1.23306570</td><td>0.625202482</td><td>-1.972266</td><td>4.865695e-02</td></tr>
+	<tr><td>age        </td><td> 0.78236573</td><td>0.037771790</td><td>20.712964</td><td>4.726352e-90</td></tr>
+	<tr><td>totChol    </td><td> 0.03521470</td><td>0.007323071</td><td> 4.808734</td><td>1.582146e-06</td></tr>
+	<tr><td>BMI        </td><td> 1.40539355</td><td>0.078236370</td><td>17.963430</td><td>4.044733e-69</td></tr>
+	<tr><td>heartRate  </td><td> 0.27045117</td><td>0.026326424</td><td>10.272993</td><td>2.046549e-24</td></tr>
+	<tr><td>glucose    </td><td> 0.03723685</td><td>0.013644571</td><td> 2.729060</td><td>6.382910e-03</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The formula for predicting the systolic BP can be expressed as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathit{sysBP} = 25.3 +\mathit{sex_{(0/1)}} \times -1.23 + \mathit{age} \times 0.78 + \mathit{totChol} \times 0.04 + \mathit{BMI} \times 1.41 + \mathit{heartRate} \times 0.27 + \mathit{glucose} \times 0.04
+\]</div>
+<p>Note that in a predictive model, not all coefficients will have significant p-values (p &lt; 0.05)</p>
+</section>
+<section id="statistical-plotting-of-coefficients">
+<h3>2. Statistical plotting of coefficients<a class="headerlink" href="#statistical-plotting-of-coefficients" title="Permalink to this heading">#</a></h3>
+<p>We can plot the coefficients to show the relative weights of the coefficients that contribute to the predictive model using <code class="docutils literal notranslate"><span class="pre">ggcoefstats</span></code> from <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sort</span></code>: set to <code class="docutils literal notranslate"><span class="pre">ascending</span></code> to sort by effect size</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exclude.intercept</span></code>: set to TRUE to omit intercept</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">top_model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggcoefstats</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="s">&quot;ascending&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                          </span><span class="n">exclude.intercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">              </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You can cite this package as:
+     Patil, I. (2021). Visualizations with statistical details: The &#39;ggstatsplot&#39; approach.
+     Journal of Open Source Software, 6(61), 3167, doi:10.21105/joss.03167
+</pre></div>
+</div>
+<img alt="../_images/5b86cf12c90a3467689d565b68996ffb6cb044a3cf618f32b495541ec7798a95.png" src="../_images/5b86cf12c90a3467689d565b68996ffb6cb044a3cf618f32b495541ec7798a95.png" />
+</div>
+</div>
+<p>The best subset selection approach may not be feasible with increasing number of parameters, as the total number of models to be evaluated is <span class="math notranslate nohighlight">\(2^p\)</span>. For example</p>
+<ul class="simple">
+<li><p>for 9 parameters in the dataset = <span class="math notranslate nohighlight">\(2^9 = 512\)</span></p></li>
+<li><p>for 20 parameters = <span class="math notranslate nohighlight">\(2^{20} = 1048576\)</span></p></li>
+<li><p>for 50 parameters = <span class="math notranslate nohighlight">\(2^{50} = 1125899906842624\)</span></p></li>
+</ul>
+<p>There are alternative regression methods that can be used fo variable selection (e.g. Ridge, LASSO, Elastic Net) but they are outside the scope of this course</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="exercise-modeling-for-prediction">
+<h1>Exercise - Modeling for prediction<a class="headerlink" href="#exercise-modeling-for-prediction" title="Permalink to this heading">#</a></h1>
+<p>For this exercise, we will use the subset of the Framingham data <code class="docutils literal notranslate"><span class="pre">data_subset</span></code> and find the model that predicts <code class="docutils literal notranslate"><span class="pre">totChol</span></code> with the lowest AIC</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># read data</span>
+<span class="n">data</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># rename and change data types</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">))</span>
+
+<span class="c1"># drop missing values</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">drop_na</span>
+
+<span class="c1"># prepare subset of data</span>
+<span class="n">data_subset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">filter</span><span class="p">(</span><span class="n">BPMeds</span><span class="o">==</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">TenYearCHD</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentStroke</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">prevalentHyp</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">diaBP</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">currentSmoker</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">BPMeds</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_subset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 10</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>cigsPerDay</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td> 0</td><td>0</td><td>195</td><td>106.0</td><td>26.97</td><td>80</td><td> 77</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td> 0</td><td>0</td><td>250</td><td>121.0</td><td>28.73</td><td>95</td><td> 76</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>20</td><td>0</td><td>245</td><td>127.5</td><td>25.34</td><td>75</td><td> 70</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>30</td><td>0</td><td>225</td><td>150.0</td><td>28.58</td><td>65</td><td>103</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>23</td><td>0</td><td>285</td><td>130.0</td><td>23.10</td><td>85</td><td> 85</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td> 0</td><td>0</td><td>228</td><td>180.0</td><td>30.30</td><td>77</td><td> 99</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="part-1">
+<h2>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">glmulti</span></code> to do a best subset selection of covariates and find the top model with the lowest AIC that predicts <code class="docutils literal notranslate"><span class="pre">totChol</span></code></p>
+<ul class="simple">
+<li><p>Store the results of the <code class="docutils literal notranslate"><span class="pre">glmulti</span></code> best subsets selection in <code class="docutils literal notranslate"><span class="pre">my_models</span></code></p></li>
+<li><p>Inspect the top 10 models using <code class="docutils literal notranslate"><span class="pre">weightable</span></code></p></li>
+<li><p>Store the model with the lowest AIC in <code class="docutils literal notranslate"><span class="pre">my_top_model</span></code></p></li>
+<li><p>Print the top model with <code class="docutils literal notranslate"><span class="pre">broom::tidy</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">glmulti</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">glmulti</span><span class="p">)</span>
+
+<span class="n">my_models</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glmulti</span><span class="p">(</span><span class="n">totChol</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w">              </span><span class="c1"># . = consider all covariates</span>
+<span class="w">                  </span><span class="n">data</span><span class="o">=</span><span class="n">data_subset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">level</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w">                </span><span class="c1"># consider only independent covariates</span>
+<span class="w">                  </span><span class="n">method</span><span class="o">=</span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="w">             </span><span class="c1"># exhaustive search</span>
+<span class="w">                  </span><span class="n">report</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w">           </span><span class="c1"># suppress messages</span>
+<span class="w">                  </span><span class="n">plotty</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">           </span><span class="c1"># suppress messages</span>
+
+<span class="nf">weightable</span><span class="p">(</span><span class="n">my_models</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">my_top_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my_models</span><span class="o">@</span><span class="n">objects</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span>
+
+<span class="n">my_top_model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 10 × 3</caption>
+<thead>
+	<tr><th></th><th scope=col>model</th><th scope=col>aic</th><th scope=col>weights</th></tr>
+	<tr><th></th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>totChol ~ 1 + sex + education + age + cigsPerDay + sysBP + BMI + heartRate                     </td><td>36535.41</td><td>0.448623015</td></tr>
+	<tr><th scope=row>2</th><td>totChol ~ 1 + sex + education + age + cigsPerDay + sysBP + BMI + heartRate + glucose           </td><td>36537.25</td><td>0.178791795</td></tr>
+	<tr><th scope=row>3</th><td>totChol ~ 1 + sex + education + diabetes + age + cigsPerDay + sysBP + BMI + heartRate          </td><td>36537.40</td><td>0.165098241</td></tr>
+	<tr><th scope=row>4</th><td>totChol ~ 1 + sex + education + diabetes + age + cigsPerDay + sysBP + BMI + heartRate + glucose</td><td>36539.18</td><td>0.068054519</td></tr>
+	<tr><th scope=row>5</th><td>totChol ~ 1 + sex + age + cigsPerDay + sysBP + BMI + heartRate                                 </td><td>36539.95</td><td>0.046128611</td></tr>
+	<tr><th scope=row>6</th><td>totChol ~ 1 + sex + age + cigsPerDay + sysBP + BMI + heartRate + glucose                       </td><td>36541.78</td><td>0.018559577</td></tr>
+	<tr><th scope=row>7</th><td>totChol ~ 1 + sex + diabetes + age + cigsPerDay + sysBP + BMI + heartRate                      </td><td>36541.95</td><td>0.017023842</td></tr>
+	<tr><th scope=row>8</th><td>totChol ~ 1 + sex + education + age + sysBP + BMI + heartRate                                  </td><td>36541.98</td><td>0.016755020</td></tr>
+	<tr><th scope=row>9</th><td>totChol ~ 1 + sex + education + age + sysBP + BMI + heartRate + glucose                        </td><td>36543.69</td><td>0.007133634</td></tr>
+	<tr><th scope=row>10</th><td>totChol ~ 1 + sex + diabetes + age + cigsPerDay + sysBP + BMI + heartRate + glucose            </td><td>36543.73</td><td>0.006983164</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 10 × 5</caption>
+<thead>
+	<tr><th scope=col>term</th><th scope=col>estimate</th><th scope=col>std.error</th><th scope=col>statistic</th><th scope=col>p.value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>(Intercept)</td><td>113.8290528</td><td>7.75899885</td><td>14.670585</td><td>2.384013e-47</td></tr>
+	<tr><td>sex1       </td><td> -6.0739199</td><td>1.53543384</td><td>-3.955833</td><td>7.776392e-05</td></tr>
+	<tr><td>education2 </td><td>  3.7887521</td><td>1.73243683</td><td> 2.186950</td><td>2.881148e-02</td></tr>
+	<tr><td>education3 </td><td>  5.2297499</td><td>2.06161340</td><td> 2.536727</td><td>1.123206e-02</td></tr>
+	<tr><td>education4 </td><td>  5.6922220</td><td>2.36553669</td><td> 2.406313</td><td>1.616542e-02</td></tr>
+	<tr><td>age        </td><td>  1.2585000</td><td>0.09213703</td><td>13.659004</td><td>1.971854e-41</td></tr>
+	<tr><td>cigsPerDay </td><td>  0.1869214</td><td>0.06388416</td><td> 2.925942</td><td>3.456008e-03</td></tr>
+	<tr><td>sysBP      </td><td>  0.1854999</td><td>0.03822853</td><td> 4.852394</td><td>1.272473e-06</td></tr>
+	<tr><td>BMI        </td><td>  0.7246850</td><td>0.18871204</td><td> 3.840163</td><td>1.251061e-04</td></tr>
+	<tr><td>heartRate  </td><td>  0.2052317</td><td>0.06121968</td><td> 3.352382</td><td>8.096151e-04</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h2>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h2>
+<p>Plot the coefficients using <code class="docutils literal notranslate"><span class="pre">ggcoeftstats</span></code>. You may exclude the intercept</p>
+<ul class="simple">
+<li><p>Comment on the covariates that have the largest contribution to the prediction model</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="n">my_top_model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggcoefstats</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="s">&quot;ascending&quot;</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">exclude.intercept</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of labels is greater than default palette color count.
+<span class=" -Color -Color-Cyan">•</span> Select another color `palette` (and/or `package`).
+</pre></div>
+</div>
+<img alt="../_images/7636bb40a2be953d793969147407b71fa3286d24e1201523d9385b1062fa337c.png" src="../_images/7636bb40a2be953d793969147407b71fa3286d24e1201523d9385b1062fa337c.png" />
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07-3-modeling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Generalized Linear Model - Categorical outcome</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08-2-explanation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modeling for Explanation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Modeling for Prediction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-systolic-bp-as-an-example">Predicting systolic BP as an example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#predicting-on-hold-out-test-dataset">Predicting on hold-out test dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-of-overfitting">Problem of overfitting</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gauging-out-of-sample-performance-with-data-at-hand">Gauging out-of-sample performance with data at hand</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#k-fold-cross-validation">1. K-fold cross validation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aic-criterion">2. AIC criterion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#application-building-a-predictive-model-and-plotting">Application: Building a predictive model and plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-of-covariates-based-on-aic">1. Selection of covariates based on AIC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plotting-of-coefficients">2. Statistical plotting of coefficients</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-modeling-for-prediction">Exercise - Modeling for prediction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

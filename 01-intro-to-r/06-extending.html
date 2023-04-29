@@ -1,0 +1,1034 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Extending R &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/06-extending';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview of Tidyverse" href="../02-intro-to-tidyverse/01-overview.html" />
+    <link rel="prev" title="Functions" href="05-functions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-functions.html">Functions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/06-extending.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Extending R</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-library-package-into-current-environment">Loading a library package into current environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unloading-a-library-from-the-current-environment">Unloading a library from the current environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-library-function-without-loading-it">Using a library function without loading it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-packages-from-libraries">Finding packages from libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-other-repositories">Finding other repositories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bioconductor">Bioconductor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="extending-r">
+<h1>Extending R<a class="headerlink" href="#extending-r" title="Permalink to this heading">#</a></h1>
+<p>We have seen how functionality can be encapsulated in functions that abstract away details. A collection of functions (and associated data, if any) can be grouped together into a <code class="docutils literal notranslate"><span class="pre">library</span></code> called a <strong>package</strong></p>
+<p>The use of packages can extend the functionality of R</p>
+<p><img alt="package.png" src="../_images/package.png" /></p>
+<p>We can list the packages that are currently loaded into our environment by using the <code class="docutils literal notranslate"><span class="pre">.packages</span></code> function and printing it out</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">print</span><span class="p">(</span><span class="nf">.packages</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot;  &quot;methods&quot;  
+[7] &quot;base&quot;     
+</pre></div>
+</div>
+</div>
+</div>
+<p>For example, we will look at the <code class="docutils literal notranslate"><span class="pre">paste</span></code> function from the built-in <code class="docutils literal notranslate"><span class="pre">base</span></code> package. To look for documentation about a function, we prepend the function name with <code class="docutils literal notranslate"><span class="pre">?</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="n">paste</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us see how paste can be used to generate a string output by joining/concatenating values together</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create variables for a patient</span>
+
+<span class="n">pt_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span>
+<span class="n">pt_age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<span class="n">pt_symptom</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;wheezing&quot;</span>
+<span class="n">pt_symptom_duration</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+<span class="n">pt_symptom_duration_unit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;day(s)&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print a string that incorporates the variables</span>
+
+<span class="nf">paste</span><span class="p">(</span><span class="n">pt_name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;is a&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pt_age</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;year-old patient who presented with&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pt_symptom</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;for&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pt_symptom_duration</span><span class="p">,</span><span class="w"> </span><span class="n">pt_symptom_duration_unit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'Alice is a 10 year-old patient who presented with wheezing for 2 day(s)'</div></div>
+</div>
+<section id="loading-a-library-package-into-current-environment">
+<h2>Loading a library package into current environment<a class="headerlink" href="#loading-a-library-package-into-current-environment" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>We can use the <code class="docutils literal notranslate"><span class="pre">library</span></code> function to list packages that have been installed</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="package_import.png" src="../_images/package_import.png" /></p>
+<p>To use a library, it must be loaded into the working environment (namespace) so that the functions can be recognized and run</p>
+<p>As an example, we will load another library called <code class="docutils literal notranslate"><span class="pre">glue</span></code> that offers a different way of generating a string output from different variables</p>
+<ul class="simple">
+<li><p>To load it we specify the name when calling the <code class="docutils literal notranslate"><span class="pre">library</span></code> function</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">glue</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check if it is loaded into environment</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="nf">.packages</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;glue&quot;      &quot;stats&quot;     &quot;graphics&quot;  &quot;grDevices&quot; &quot;utils&quot;     &quot;datasets&quot; 
+[7] &quot;methods&quot;   &quot;base&quot;     
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once a package is loaded, we can find information about its usage using the <code class="docutils literal notranslate"><span class="pre">help</span></code> function and specifying the <code class="docutils literal notranslate"><span class="pre">package</span></code> name</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">help</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s">&quot;glue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can find help for the <code class="docutils literal notranslate"><span class="pre">glue</span></code> function inside the <code class="docutils literal notranslate"><span class="pre">glue</span></code> library</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="n">glue</span><span class="w"> </span><span class="c1"># see documentation about function</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now use the <code class="docutils literal notranslate"><span class="pre">glue</span></code> function to generate the string output</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create variables for a patient</span>
+
+<span class="n">pt_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span>
+<span class="n">pt_NRIC</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;S1041233J&quot;</span>
+<span class="n">pt_age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;10&quot;</span>
+<span class="n">pt_symptom</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;wheezing&quot;</span>
+<span class="n">pt_symptom_duration</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+<span class="n">pt_symptom_duration_unit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;day(s)&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Instead of joining them in sequence, we can use the <code class="docutils literal notranslate"><span class="pre">{</span></code> <code class="docutils literal notranslate"><span class="pre">}</span></code> brackets to indicate where a variable should be substituted when generating a string</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">glue</span><span class="p">(</span><span class="s">&quot;{pt_name} ({pt_NRIC}) is a {pt_age}-year-old patient who presented with {pt_symptom} for {pt_symptom_duration} {pt_symptom_duration_unit}&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'Alice (S1041233J) is a 10-year-old patient who presented with wheezing for 2 day(s)'</div></div>
+</div>
+</section>
+<section id="unloading-a-library-from-the-current-environment">
+<h2>Unloading a library from the current environment<a class="headerlink" href="#unloading-a-library-from-the-current-environment" title="Permalink to this heading">#</a></h2>
+<p>If we want to remove a library from our environment, we use the <code class="docutils literal notranslate"><span class="pre">detach</span></code> function and specify <code class="docutils literal notranslate"><span class="pre">&quot;package:&lt;PACKAGE</span> <span class="pre">NAME&gt;&quot;</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">detach</span><span class="p">(</span><span class="s">&quot;package:glue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glue</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">):</span> <span class="nb">object</span> <span class="s1">&#39;glue&#39;</span> <span class="ow">not</span> <span class="n">found</span>
+<span class="ne">Traceback</span>:
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-a-library-function-without-loading-it">
+<h2>Using a library function without loading it<a class="headerlink" href="#using-a-library-function-without-loading-it" title="Permalink to this heading">#</a></h2>
+<p>Occasionally we would like to use just a specific function from a library, without loading the entire package</p>
+<p><img alt="package_reference.png" src="../_images/package_reference.png" /></p>
+<ul class="simple">
+<li><p>To do this, we can call a function by prepending <code class="docutils literal notranslate"><span class="pre">&lt;PACKAGE</span> <span class="pre">NAME&gt;::&quot;</span></code> to the function of interest</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;glue&quot;</span>
+<span class="n">package_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;glue&quot;</span>
+
+<span class="n">glue</span><span class="o">::</span><span class="nf">glue</span><span class="p">(</span><span class="s">&quot;we are using the {function_name} function from the {package_name} package without loading it&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'we are using the glue function from the glue package without loading it'</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="finding-packages-from-libraries">
+<h2>Finding packages from libraries<a class="headerlink" href="#finding-packages-from-libraries" title="Permalink to this heading">#</a></h2>
+<p>R has a rich ecosystem with many packages that are organized into repositories.</p>
+<p>The main repository is CRAN (Comprehensive R Archive Network): <a class="reference external" href="https://cran.r-project.org">https://cran.r-project.org</a>. You can browse packages</p>
+<ul class="simple">
+<li><p>Alphabetically: <a class="reference external" href="https://cran.r-project.org/web/packages/available_packages_by_name.html">https://cran.r-project.org/web/packages/available_packages_by_name.html</a></p></li>
+<li><p>By tasks: <a class="reference external" href="https://cran.r-project.org/web/views/">https://cran.r-project.org/web/views/</a></p></li>
+</ul>
+<p>To install a package, we use the <code class="docutils literal notranslate"><span class="pre">install.packages</span></code> function and specify the name of package. Note that by default, the repository used is CRAN</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;secrettext&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>also installing the dependencies ‘rprojroot’, ‘diffobj’, ‘brio’, ‘desc’, ‘pkgload’, ‘praise’, ‘waldo’, ‘testthat’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Updating HTML index of packages in &#39;.Library&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Making &#39;packages.html&#39; ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Having installed <code class="docutils literal notranslate"><span class="pre">secrettext</span></code>, we can load it and find out about its functions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">secrettext</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Documentation about package</span>
+
+<span class="nf">help</span><span class="p">(</span><span class="n">package</span><span class="o">=</span><span class="s">&quot;secrettext&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Documentation about setcode function</span>
+
+<span class="o">?</span><span class="n">setcode</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Documentation about decode function</span>
+
+<span class="o">?</span><span class="n">decode</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now use the functions in the <code class="docutils literal notranslate"><span class="pre">secrettext</span></code> library</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">setcode</span></code>: encrypt input using key1 and key2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">decode</span></code>: decrypt input using key1 and key2</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Encrypt NRIC with key1 = 4, key2 = 6</span>
+
+<span class="n">pt_NRIC_encrypt</span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">setcode</span><span class="p">(</span><span class="n">pt_NRIC</span><span class="p">,</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">key2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span>
+<span class="n">pt_NRIC_encrypt</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'o1041233z'</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decode but with wrong key1 and key2</span>
+
+<span class="nf">decode</span><span class="p">(</span><span class="n">pt_NRIC_encrypt</span><span class="p">,</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="n">key2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">23</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'m1041233u'</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decode with original key1 and key2</span>
+
+<span class="nf">decode</span><span class="p">(</span><span class="n">pt_NRIC_encrypt</span><span class="p">,</span><span class="w"> </span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">key2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'s1041233j'</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="finding-other-repositories">
+<h2>Finding other repositories<a class="headerlink" href="#finding-other-repositories" title="Permalink to this heading">#</a></h2>
+<p>CRAN is the default repository. We can confirm this by using the <code class="docutils literal notranslate"><span class="pre">getOption</span></code> function and specifying <code class="docutils literal notranslate"><span class="pre">&quot;repos&quot;</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">getOption</span><span class="p">(</span><span class="s">&quot;repos&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><strong>CRAN:</strong> 'https://cran.r-project.org'</div></div>
+</div>
+<p>To get a list of repositories, we use and internal function <code class="docutils literal notranslate"><span class="pre">.get_repositories</span></code> from the <code class="docutils literal notranslate"><span class="pre">tools</span></code> library</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">tools</span><span class="o">:::</span><span class="nf">.get_repositories</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 7 × 6</caption>
+<thead>
+	<tr><th></th><th scope=col>menu_name</th><th scope=col>URL</th><th scope=col>default</th><th scope=col>source</th><th scope=col>win.binary</th><th scope=col>mac.binary</th></tr>
+	<tr><th></th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>CRAN</th><td>CRAN           </td><td>@CRAN@                                                </td><td> TRUE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><th scope=row>BioCsoft</th><td>BioC software  </td><td>https://bioconductor.org/packages/3.16/bioc           </td><td>FALSE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><th scope=row>BioCann</th><td>BioC annotation</td><td>https://bioconductor.org/packages/3.16/data/annotation</td><td>FALSE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><th scope=row>BioCexp</th><td>BioC experiment</td><td>https://bioconductor.org/packages/3.16/data/experiment</td><td>FALSE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><th scope=row>CRANextra</th><td>CRAN (extras)  </td><td>https://www.stats.ox.ac.uk/pub/RWin                   </td><td>FALSE</td><td>TRUE</td><td>FALSE</td><td>FALSE</td></tr>
+	<tr><th scope=row>R-Forge</th><td>R-Forge        </td><td>https://R-Forge.R-project.org                         </td><td>FALSE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><th scope=row>rforge.net</th><td>rforge.net     </td><td>https://www.rforge.net                                </td><td>FALSE</td><td>TRUE</td><td> TRUE</td><td> TRUE</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="bioconductor">
+<h3>Bioconductor<a class="headerlink" href="#bioconductor" title="Permalink to this heading">#</a></h3>
+<p>Bioconductor is another popular repository that provides tools for analysis of biological data: <a class="reference external" href="https://www.bioconductor.org/">https://www.bioconductor.org/</a></p>
+<ul class="simple">
+<li><p>List of packages: <a class="reference external" href="https://www.bioconductor.org/packages/release/BiocViews.html#___Software">https://www.bioconductor.org/packages/release/BiocViews.html#___Software</a></p></li>
+</ul>
+<p>We will install the <code class="docutils literal notranslate"><span class="pre">Biostrings</span></code> package that can be used to manipulate genetic sequences</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;Biostrings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“package ‘Biostrings’ is not available for this version of R
+
+A version of this package for your version of R might be available elsewhere,
+see the ideas at
+https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages”
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our current set-up only has CRAN as its repository. To add more repositories, we use the <code class="docutils literal notranslate"><span class="pre">setRepositories</span></code> function with the <code class="docutils literal notranslate"><span class="pre">ind</span></code> argument that accepts a vector of indices corresponding to each repository</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">setRepositories</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">8</span><span class="p">))</span><span class="w"> </span><span class="c1"># we include all known repositories</span>
+
+<span class="nf">getOption</span><span class="p">(</span><span class="s">&quot;repos&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style><dl class=dl-inline><dt>CRAN</dt><dd>'https://cran.r-project.org'</dd><dt>BioCsoft</dt><dd>'https://bioconductor.org/packages/3.16/bioc'</dd><dt>BioCann</dt><dd>'https://bioconductor.org/packages/3.16/data/annotation'</dd><dt>BioCexp</dt><dd>'https://bioconductor.org/packages/3.16/data/experiment'</dd><dt>CRANextra</dt><dd>'https://www.stats.ox.ac.uk/pub/RWin'</dd><dt>R-Forge</dt><dd>'https://R-Forge.R-project.org'</dd><dt>rforge.net</dt><dd>'https://www.rforge.net'</dd><dt>8</dt><dd>NA</dd></dl>
+</div></div>
+</div>
+<p>Now that we have included the bioconductor repository, we can install the Biostring package and load it. The installation may take some time</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;Biostrings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“unable to access index for repository NA/src/contrib:
+  cannot open URL &#39;NA/src/contrib/PACKAGES&#39;”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>also installing the dependencies ‘zlibbioc’, ‘RCurl’, ‘GenomeInfoDbData’, ‘BiocGenerics’, ‘S4Vectors’, ‘IRanges’, ‘XVector’, ‘GenomeInfoDb’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Updating HTML index of packages in &#39;.Library&#39;
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Making &#39;packages.html&#39; ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> done
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">Biostrings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: BiocGenerics
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘BiocGenerics’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which.max, which.min
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: S4Vectors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: stats4
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘S4Vectors’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:secrettext’:
+
+    decode
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: IRanges
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: XVector
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: GenomeInfoDb
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘Biostrings’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:base’:
+
+    strsplit
+</pre></div>
+</div>
+</div>
+</div>
+<p>As an example, we will use the <code class="docutils literal notranslate"><span class="pre">DNAString</span></code> function that creates a new data structure to store DNA sequences</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">dna</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">DNAString</span><span class="p">(</span><span class="s">&#39;ATGATAGCTAGCTCGCTACTA&#39;</span><span class="p">)</span>
+<span class="n">dna</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21-letter DNAString object
+seq: <span class=" -Color -Color-Black -Color-Black-BGWhite">ATGATAGCTAGCTCGCTACTA</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this new data structure, we can use functions such as <code class="docutils literal notranslate"><span class="pre">translate</span></code> on DNA sequences</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">translate</span><span class="p">(</span><span class="n">dna</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7-letter AAString object
+seq: MIASSLL
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">print(.packages())</span></code> to view packages currently in environment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">library()</span></code> to view installed packages</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">library(</span></code>PACKAGE NAME<code class="docutils literal notranslate"><span class="pre">)</span></code> to load package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">detach(&quot;package:</span></code>PACKAGE NAME<code class="docutils literal notranslate"><span class="pre">,</span> <span class="pre">unload=TRUE)</span></code> to unload package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">help(package=&quot;</span></code>PACKAGE NAME<code class="docutils literal notranslate"><span class="pre">&quot;)</span></code> to view help for package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">?</span></code>FUNCTION NAME to view help for function in loaded package</p></li>
+<li><p>PACKAGE NAME<code class="docutils literal notranslate"><span class="pre">::</span></code>FUNCTION to use a function in a package without loading it</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">install.packages(&quot;</span></code>PACKAGE NAME<code class="docutils literal notranslate"><span class="pre">&quot;)</span></code> to install package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tools:::.get_repositories()</span></code> to list all available repositories</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">getOption(&quot;repos&quot;)</span></code> to list current repositories</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setRepositories(ind=c(1:8))</span></code> to include all repositories</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-functions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../02-intro-to-tidyverse/01-overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Overview of Tidyverse</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-library-package-into-current-environment">Loading a library package into current environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unloading-a-library-from-the-current-environment">Unloading a library from the current environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-library-function-without-loading-it">Using a library function without loading it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-packages-from-libraries">Finding packages from libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-other-repositories">Finding other repositories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bioconductor">Bioconductor</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

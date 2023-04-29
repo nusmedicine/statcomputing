@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Decision making &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/03-decision';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Iterating" href="04-iteration.html" />
+    <link rel="prev" title="Operations" href="02-operations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-operations.html">Operations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/03-decision.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Decision making</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-if-statement">Using <code class="docutils literal notranslate"><span class="pre">if</span></code> statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-else-statement">Using the <code class="docutils literal notranslate"><span class="pre">else</span></code> statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-else-if-statement-to-chain-conditions">Using <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement to chain conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-conditionals">Exercise - Conditionals</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="decision-making">
+<h1>Decision making<a class="headerlink" href="#decision-making" title="Permalink to this heading">#</a></h1>
+<p>A computer program executes statements in sequential steps. In some cases, the flow of a program will need to be altered depending on a condition</p>
+<p><img alt="programming_4.png" src="../_images/programming_4.png" /></p>
+<p>In the case of the recipe, we can see that we need to check for a condition to ensure that it does not overflow the container</p>
+<ul class="simple">
+<li><p>The condition can include any combination of the <code class="docutils literal notranslate"><span class="pre">comparison/boolean</span> <span class="pre">operators</span></code> we previously covered (e.g. &lt;,==, &gt;, &amp;, |, !)</p></li>
+<li><p>Depending on the result of the condition (<code class="docutils literal notranslate"><span class="pre">TRUE/FALSE</span></code>), the flow of the steps in the program can be altered</p></li>
+</ul>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>To illustrate the use of conditionals to alter the flow of a program, we will use the example data frame with patient data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Let us take a row from the data frame</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="m">1</span><span class="p">,]</span><span class="w"> </span><span class="c1"># Alice</span>
+
+<span class="n">person</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 1 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>20201</td><td>19</td><td>Alice</td><td>low</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Having data from a particular patient, we would like use it to make a decision that depends on a set of conditions.</p>
+<p>To do this, we use conditional statements to change the flow of the program to output a decision. We will cover the following statements and see how they can be used</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-if-statement">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">if</span></code> statement<a class="headerlink" href="#using-if-statement" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> statement signals that we want to check for a condition</p>
+<ul class="simple">
+<li><p>If the condition is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, it executes the statements enclosed within the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block</p></li>
+<li><p>Otherwise, the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block is bypassed and the program continues</p></li>
+</ul>
+<p><img alt="if.png" src="../_images/if.png" /></p>
+<p>As an example, we can use an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement to check if the age is less than 50. If the condition is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, we will print <code class="docutils literal notranslate"><span class="pre">&quot;review</span> <span class="pre">later&quot;</span></code> as the output</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w">    </span><span class="c1"># print is a built-in function that prints out text or contents of a variable</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us see what happens if the condition is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>. In this case, we will check if the age if greater or equal than 50 and print <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code> if this condition is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w">   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>What happened here? There is no output because the condition test (age &gt; 50) is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, the print statement within the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block is not executed</p>
+<ul class="simple">
+<li><p>To handle a case when a condition is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, we use the <code class="docutils literal notranslate"><span class="pre">else</span></code> statement</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-the-else-statement">
+<h2>Using the <code class="docutils literal notranslate"><span class="pre">else</span></code> statement<a class="headerlink" href="#using-the-else-statement" title="Permalink to this heading">#</a></h2>
+<p>We can extend the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement to cover the case when the condition is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> by adding an <code class="docutils literal notranslate"><span class="pre">else</span></code> statement</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block after the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement is executed if the condition is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block after the <code class="docutils literal notranslate"><span class="pre">else</span></code> statement is executed if the condition is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code></p></li>
+</ul>
+<p><img alt="if_else.png" src="../_images/if_else.png" /></p>
+<p>We can now write the <code class="docutils literal notranslate"><span class="pre">if...else</span></code> statements to cover both conditions</p>
+<ul class="simple">
+<li><p>age &gt;= 50: print <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code></p></li>
+<li><p>age &lt; 50: print <code class="docutils literal notranslate"><span class="pre">&quot;review</span> <span class="pre">later&quot;</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adding an alternate choice with else</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see, the combination of the <code class="docutils literal notranslate"><span class="pre">if...else</span></code> statements allows for handling of a <em>binary</em> decision</p>
+<ul class="simple">
+<li><p>To have more than 1 decision, we use the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement to chain the conditions</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-else-if-statement-to-chain-conditions">
+<h2>Using <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement to chain conditions<a class="headerlink" href="#using-else-if-statement-to-chain-conditions" title="Permalink to this heading">#</a></h2>
+<p>We can have more than 1 decision point by adding <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement to test additional conditions after the initial <code class="docutils literal notranslate"><span class="pre">if</span></code> statement</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block after the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement is executed if <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block after the <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement is executed if <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block after the final <code class="docutils literal notranslate"><span class="pre">else</span></code> statement is executed if <strong>none</strong> of the previous conditions are <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+</ul>
+<p><img alt="if_elseif.png" src="../_images/if_elseif.png" /></p>
+<p>We take another patient from the data frame as an example to check 2 conditions: <code class="docutils literal notranslate"><span class="pre">age</span></code> and level of <code class="docutils literal notranslate"><span class="pre">risk</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="m">3</span><span class="p">,]</span><span class="w"> </span><span class="c1"># Charlie</span>
+
+<span class="n">person</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 1 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>3</th><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Here, we want to <code class="docutils literal notranslate"><span class="pre">admit</span></code> patients if  their <code class="docutils literal notranslate"><span class="pre">age</span></code> is greater than 50 or if their <code class="docutils literal notranslate"><span class="pre">risk</span></code> level is <code class="docutils literal notranslate"><span class="pre">high</span></code>. Patients who do not fit these criteria can <code class="docutils literal notranslate"><span class="pre">reviewed</span> <span class="pre">later</span></code></p>
+<p>We can structure the statements as such</p>
+<ul class="simple">
+<li><p>if <code class="docutils literal notranslate"><span class="pre">age</span></code> &gt; 50,  print <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code></p></li>
+<li><p>else, if <code class="docutils literal notranslate"><span class="pre">risk</span></code> is <code class="docutils literal notranslate"><span class="pre">high</span></code>, print <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code></p></li>
+<li><p>else, print <code class="docutils literal notranslate"><span class="pre">&quot;review</span> <span class="pre">later&quot;</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># chaining if statements</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">   </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="w"> </span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">   </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we see same outcomes from a chain of conditions, we can try to combine the comparisons into a single test using a combination of boolean operators (e.g. AND/OR)</p>
+<ul class="simple">
+<li><p>In this case, both conditions of <code class="docutils literal notranslate"><span class="pre">age</span></code> &gt;50 <strong>or</strong> high <code class="docutils literal notranslate"><span class="pre">risk</span></code> will have the outcome <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code></p></li>
+<li><p>We can combine this with a OR operation in the conditional statement instead of <code class="docutils literal notranslate"><span class="pre">if...else</span> <span class="pre">if</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># combining comparisons into single if statement</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Conditional statements alter the flow of the program  depending on the outcome of a condition (<code class="docutils literal notranslate"><span class="pre">TRUE/FALSE</span></code>)</p></li>
+<li><p>Conditions can use comparison operators (<code class="docutils literal notranslate"><span class="pre">&lt;,&lt;=,==,&gt;=,&gt;</span></code>) and boolean operators AND/OR/NOT (<code class="docutils literal notranslate"><span class="pre">&amp;,|,!</span></code>)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> statement</p>
+<ul>
+<li><p>defined as <code class="docutils literal notranslate"><span class="pre">if(condition)</span> <span class="pre">{</span> <span class="pre">code</span> <span class="pre">executed</span> <span class="pre">}</span></code></p></li>
+<li><p>the code is executed only if the condition returns <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> statement combined with <code class="docutils literal notranslate"><span class="pre">else</span></code></p>
+<ul>
+<li><p>defined as <code class="docutils literal notranslate"><span class="pre">if(condition)</span> <span class="pre">{</span> <span class="pre">code</span> <span class="pre">executed</span> <span class="pre">if</span> <span class="pre">TRUE</span> <span class="pre">}</span> <span class="pre">else</span> <span class="pre">{</span> <span class="pre">code</span> <span class="pre">executed</span> <span class="pre">if</span> <span class="pre">FALSE</span> <span class="pre">}</span></code></p></li>
+<li><p>allows for a binary decision dependent on single condition</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> statement combined with <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">else</span></code></p>
+<ul>
+<li><p>defined as <code class="docutils literal notranslate"><span class="pre">if(condition</span> <span class="pre">1)</span> <span class="pre">{code</span> <span class="pre">executed</span> <span class="pre">if</span> <span class="pre">condition</span> <span class="pre">1</span> <span class="pre">TRUE)</span> <span class="pre">else</span> <span class="pre">if(condition</span> <span class="pre">2)</span> <span class="pre">{</span> <span class="pre">code</span> <span class="pre">executed</span> <span class="pre">if</span> <span class="pre">condition</span> <span class="pre">2</span> <span class="pre">TRUE)</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">{code</span> <span class="pre">executed</span> <span class="pre">if</span> <span class="pre">no</span> <span class="pre">conditions</span> <span class="pre">met}</span></code></p></li>
+<li><p>allows for testing of multiple conditions</p></li>
+</ul>
+</li>
+<li><p>Multiple conditional statements can be combined into a single condition using boolean operators AND/OR (<code class="docutils literal notranslate"><span class="pre">&amp;,|</span></code>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exercise-conditionals">
+<h2>Exercise - Conditionals<a class="headerlink" href="#exercise-conditionals" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">screen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">sysBP</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">130</span><span class="p">,</span><span class="m">65</span><span class="p">,</span><span class="m">155</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">contact</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">F</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">cluster</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="n">screen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Select patient 4 and store it as <code class="docutils literal notranslate"><span class="pre">pt</span></code></p>
+<p>Write conditionals to check the following on <code class="docutils literal notranslate"><span class="pre">pt</span></code>:</p>
+<ul class="simple">
+<li><p>if systolic BP is less than 80, print “send to ED”</p></li>
+<li><p>otherwise if patient has contact or stays near a cluster, print “send for screening”</p></li>
+<li><p>otherwise if patient if older than 65, print “review in 3 days”</p></li>
+<li><p>if they do no meet any of these criteria, print “review in 1 week”</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">pt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="p">[</span><span class="m">4</span><span class="p">,]</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">80</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send to ED&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">contact</span><span class="o">==</span><span class="bp">T</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">pt</span><span class="o">$</span><span class="n">cluster</span><span class="w"> </span><span class="o">==</span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send for screening&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 3 days&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 1 week&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;send to ED&quot;
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-operations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Operations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04-iteration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Iterating</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-if-statement">Using <code class="docutils literal notranslate"><span class="pre">if</span></code> statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-else-statement">Using the <code class="docutils literal notranslate"><span class="pre">else</span></code> statement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-else-if-statement-to-chain-conditions">Using <code class="docutils literal notranslate"><span class="pre">else</span> <span class="pre">if</span></code> statement to chain conditions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-conditionals">Exercise - Conditionals</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1676 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Estimating Mean/Variance of a Population &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/02-1-estimation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Estimating Uncertainty" href="02-2-estimation.html" />
+    <link rel="prev" title="Inferential Statistics" href="02-inferential.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/02-1-estimation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estimating Mean/Variance of a Population</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-the-estimates-of-mean-and-variance-in-one-sample">What are the estimates of mean and variance in one sample?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-are-the-sample-estimates-over-a-long-run">How are the sample estimates over a long run?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-n-1-used-as-a-correction-in-the-sample-variance-estimation">Why is n-1 used as a correction in the sample variance estimation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-unbiased-sample-estimators-important">Why are unbiased sample estimators important?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-the-sample-size-n-matter">Does the sample size (n) matter?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-error-of-means-sem">Standard error of means (SEM)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-the-population-distribution-matter-when-estimating-the-mean-from-a-sample">Does the population distribution matter when estimating the mean from a sample?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ns-justify-the-means">The ‘n’s justify the means</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="estimating-mean-variance-of-a-population">
+<h1>Estimating Mean/Variance of a Population<a class="headerlink" href="#estimating-mean-variance-of-a-population" title="Permalink to this heading">#</a></h1>
+<p>We would like to infer the measures of centrality and spread of a population based on a representative/random sample</p>
+<p><img alt="estimation_point.png" src="../_images/estimation_point.png" /></p>
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>Let’s simulate a population and see how we can estimate its mean/variance through a random sample</p>
+<p>We’ll simulate a population of 100,000 residents with their height (cm) measurements</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># Imagine a town with 100,000 residents and measure everyone&#39;s height (cm)</span>
+<span class="n">population</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100000</span><span class="p">,</span><span class="m">160</span><span class="p">,</span><span class="m">25</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">population</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">tibble</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">.</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">height</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s">&quot;salmon&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">binwidth</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<img alt="../_images/33e8bb54d6594bbc0baecf316bc92f05505b323845b273dcdc98d7ae15cf0a95.png" src="../_images/33e8bb54d6594bbc0baecf316bc92f05505b323845b273dcdc98d7ae15cf0a95.png" />
+</div>
+</div>
+<p>Here, we can calculate the population mean and variance that we will try and estimate through sampling</p>
+<div class="math notranslate nohighlight">
+\[
+\mu=\frac{\sum{x}}{n}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathit{var}=\frac{\sum(x-\bar{x})^{2}}{n}
+\]</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">variance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sum_squares</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">((</span><span class="n">data</span><span class="o">-</span><span class="n">input_mean</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">num_input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="w">    </span><span class="n">variance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sum_squares</span><span class="o">/</span><span class="n">num_input</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span>
+
+<span class="n">population_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+<span class="n">population_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+
+<span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Population mean&quot;</span><span class="p">,</span><span class="s">&quot;Population variance&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">population_var</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Population mean    </td><td>160.0402</td></tr>
+	<tr><td>Population variance</td><td>625.2841</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="what-are-the-estimates-of-mean-and-variance-in-one-sample">
+<h2>What are the estimates of mean and variance in one sample?<a class="headerlink" href="#what-are-the-estimates-of-mean-and-variance-in-one-sample" title="Permalink to this heading">#</a></h2>
+<p>Let’s try and take one sample (n=10) and calculate the mean and variance of the sample and see if it resembles the population parameters</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># sample once and report the mean and variance</span>
+<span class="c1"># you can rerun this cell to see how it changes with each sample</span>
+<span class="n">sample_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="n">sample_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+<span class="n">sample_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+
+<span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Population mean&quot;</span><span class="p">,</span><span class="s">&quot;Population variance&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s">&quot;Sample mean&quot;</span><span class="p">,</span><span class="s">&quot;Sample variance&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">population_var</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">sample_mean</span><span class="p">,</span><span class="n">sample_var</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Population mean    </td><td>160.0402</td></tr>
+	<tr><td>Population variance</td><td>625.2841</td></tr>
+	<tr><td>Sample mean        </td><td>171.3290</td></tr>
+	<tr><td>Sample variance    </td><td>177.3336</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="how-are-the-sample-estimates-over-a-long-run">
+<h2>How are the sample estimates over a long run?<a class="headerlink" href="#how-are-the-sample-estimates-over-a-long-run" title="Permalink to this heading">#</a></h2>
+<p>Let us repeat the samples multiple times to see how these sample estimates change over the long run. We can also determine the average of these sample estimates and to see if they approximate the population estimates</p>
+<p>We define a function <code class="docutils literal notranslate"><span class="pre">sample_multiple</span></code> that repeats the sampling and calculates the sample mean and variance for each replicate</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_multiple</span><span class="p">(</span><span class="n">num_replicate</span> <span class="o">=</span> <span class="n">number</span> <span class="n">of</span> <span class="n">replicates</span><span class="p">,</span>
+                <span class="n">num_sample</span> <span class="o">=</span> <span class="n">sample</span> <span class="n">size</span> <span class="n">per</span> <span class="n">replicate</span>
+                <span class="n">pop</span> <span class="o">=</span> <span class="n">population</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># function to generate replicates by calling sample_once function</span>
+<span class="n">sample_multiple</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">num_replicate</span><span class="p">,</span><span class="w"> </span><span class="n">num_sample</span><span class="p">,</span><span class="w"> </span><span class="n">pop</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">replicate</span><span class="p">(</span><span class="n">num_replicate</span><span class="p">,</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">tibble</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="nf">sample</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">num_sample</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="bp">F</span><span class="p">)),</span><span class="w"> </span>
+<span class="w">              </span><span class="n">simplify</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">bind_rows</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="o">=</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="n">num_replicate</span><span class="p">,</span><span class="w"> </span><span class="n">each</span><span class="o">=</span><span class="n">num_sample</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">num_sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># add replicate and sample numbers</span>
+<span class="w">    </span><span class="n">return</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># for reproducibility</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">101</span><span class="p">)</span>
+
+<span class="c1"># sample 10 at a time, and repeat 1000 times for each sample</span>
+<span class="n">sample_1000</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="n">num_replicate</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span>
+<span class="w">                               </span><span class="n">num_sample</span><span class="o">=</span><span class="m">10</span><span class="p">,</span>
+<span class="w">                               </span><span class="n">pop</span><span class="o">=</span><span class="n">population</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">sample_1000</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">sample_1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>163.4539</td><td>1</td><td>10</td></tr>
+	<tr><td>150.1739</td><td>1</td><td>10</td></tr>
+	<tr><td>179.1317</td><td>1</td><td>10</td></tr>
+	<tr><td>134.2324</td><td>1</td><td>10</td></tr>
+	<tr><td>177.8324</td><td>1</td><td>10</td></tr>
+	<tr><td>155.6900</td><td>1</td><td>10</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>105.8971</td><td>1000</td><td>10</td></tr>
+	<tr><td>151.7960</td><td>1000</td><td>10</td></tr>
+	<tr><td>173.1708</td><td>1000</td><td>10</td></tr>
+	<tr><td>165.0167</td><td>1000</td><td>10</td></tr>
+	<tr><td>164.0956</td><td>1000</td><td>10</td></tr>
+	<tr><td>155.7179</td><td>1000</td><td>10</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will visualize the distribution of the sample mean and variance estimates over 1000 replicates. We will then calculate the average of these sample estimates and compare them to the population estimates</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">red</span></code> line indicates the population estimate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">blue</span></code> line indicates the average of the sample estimate over 1000 replicates</p></li>
+</ul>
+<div class="cell tag_hide-input tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">estimate_mean_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample_1000</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                     </span><span class="nf">group_by</span><span class="p">(</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                     </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                               </span><span class="n">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+<span class="c1"># find average estimates of mean and variance over multiple runs</span>
+<span class="n">estimate_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_mean_var</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                 </span><span class="nf">pull</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">mean</span>
+<span class="n">estimate_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_mean_var</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">pull</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="n">mean</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">estimate_mean_var</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mean</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_mean</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+
+<span class="n">estimate_mean_var</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population_var</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_var</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+<span class=" -Color -Color-Cyan">ℹ</span> Please use `linewidth` instead.”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="../_images/9111e05039e2e0cf8c185ac1b61f113727f77588994f5ec5bf17e7bdf1b089a5.png" src="../_images/9111e05039e2e0cf8c185ac1b61f113727f77588994f5ec5bf17e7bdf1b089a5.png" />
+<img alt="../_images/b9984478e4bda6bce47c5c82bbdf839c0a0231db454b6364376cd1abf20a27df.png" src="../_images/b9984478e4bda6bce47c5c82bbdf839c0a0231db454b6364376cd1abf20a27df.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Population mean&quot;</span><span class="p">,</span><span class="s">&quot;Population variance&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s">&quot;Sample mean&quot;</span><span class="p">,</span><span class="s">&quot;Sample variance&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">population_var</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">estimate_mean</span><span class="p">,</span><span class="n">estimate_var</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Population mean    </td><td>160.0402</td></tr>
+	<tr><td>Population variance</td><td>625.2841</td></tr>
+	<tr><td>Sample mean        </td><td>160.5045</td></tr>
+	<tr><td>Sample variance    </td><td>564.5713</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>It appears that in multiple samples over a long run:</p>
+<ul class="simple">
+<li><p>The sample mean is a good estimate of the population mean</p></li>
+<li><p>The sample variance is <em>underestimating</em> the population variance</p></li>
+</ul>
+<p>To address the underestimation of the population variance, we will define another function <code class="docutils literal notranslate"><span class="pre">variance_unbiased</span></code> that includes a correction factor</p>
+<div class="math notranslate nohighlight">
+\[
+\mathit{var}=\frac{\sum(x-\bar{x})^{2}}{n-1}
+\]</div>
+<ul class="simple">
+<li><p>Instead of dividing the sum of squares by the number of samples, we divide it by the <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">samples</span> <span class="pre">minus</span> <span class="pre">1</span></code></p></li>
+</ul>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">variance_unbiased</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sum_squares</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">((</span><span class="n">data</span><span class="o">-</span><span class="n">input_mean</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">num_input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w">          </span><span class="c1"># correction factor</span>
+<span class="w">    </span><span class="n">variance_unbiased</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sum_squares</span><span class="o">/</span><span class="n">num_input</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">variance_unbiased</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We will take 1000 replicates of samples (n=10) from the population and find the average of the sample mean and unbiased variance estimators</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">estimate_mean_var_unbiased</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample_1000</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                              </span><span class="nf">group_by</span><span class="p">(</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                              </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                                        </span><span class="n">var</span><span class="o">=</span><span class="nf">variance_unbiased</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+<span class="n">estimate_var_unbiased</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">estimate_mean_var_unbiased</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                         </span><span class="nf">pull</span><span class="p">(</span><span class="n">var</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                         </span><span class="n">mean</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We can plot the distribution and compare the average of the sample estimates with the population estimates</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">red</span></code> line indicates the population estimate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">blue</span></code> line indicates the average of sample estimate over 1000 replicates</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">estimate_mean_var_unbiased</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mean</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_mean</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+
+<span class="n">estimate_mean_var_unbiased</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population_var</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_var_unbiased</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="../_images/9111e05039e2e0cf8c185ac1b61f113727f77588994f5ec5bf17e7bdf1b089a5.png" src="../_images/9111e05039e2e0cf8c185ac1b61f113727f77588994f5ec5bf17e7bdf1b089a5.png" />
+<img alt="../_images/ef4e46204130b7b984696ebcd8c5dd3fc02d8c16e935a5f0f69d1a537608f177.png" src="../_images/ef4e46204130b7b984696ebcd8c5dd3fc02d8c16e935a5f0f69d1a537608f177.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Population mean&quot;</span><span class="p">,</span><span class="s">&quot;Population variance&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s">&quot;Sample mean&quot;</span><span class="p">,</span><span class="s">&quot;Sample variance&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s">&quot;Sample variance (unbiased)&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">population_mean</span><span class="p">,</span><span class="w"> </span><span class="n">population_var</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">estimate_mean</span><span class="p">,</span><span class="n">estimate_var</span><span class="p">,</span><span class="w"> </span><span class="n">estimate_var_unbiased</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 5 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Population mean           </td><td>160.0402</td></tr>
+	<tr><td>Population variance       </td><td>625.2841</td></tr>
+	<tr><td>Sample mean               </td><td>160.5045</td></tr>
+	<tr><td>Sample variance           </td><td>564.5713</td></tr>
+	<tr><td>Sample variance (unbiased)</td><td>627.3015</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We see that the unbiased estimate of the variance with the correction factor is closer to the true population variance</p>
+</section>
+<section id="why-is-n-1-used-as-a-correction-in-the-sample-variance-estimation">
+<h2>Why is n-1 used as a correction in the sample variance estimation?<a class="headerlink" href="#why-is-n-1-used-as-a-correction-in-the-sample-variance-estimation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Intuitively:</p></li>
+</ul>
+<p><img alt="sample_var.png" src="../_images/sample_var.png" /></p>
+<ul class="simple">
+<li><p>for a technical explanation see: <a class="reference external" href="http://mathcenter.oxford.emory.edu/site/math117/besselCorrection/">http://mathcenter.oxford.emory.edu/site/math117/besselCorrection/</a></p></li>
+</ul>
+</section>
+<section id="why-are-unbiased-sample-estimators-important">
+<h2>Why are unbiased sample estimators important?<a class="headerlink" href="#why-are-unbiased-sample-estimators-important" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The unbiased sample estimates of the mean and variance can be used as parameters to calculate the distribution of the population analytically using a theoretical distribution</p></li>
+<li><p>In other words, the sample can be used to infer the population, provided we have an idea of the underlying distribution</p></li>
+</ul>
+<p>Let’s take a sample of 100 people and calculate the sample mean and variance</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">num_samples</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+
+<span class="c1"># sample without replacement</span>
+<span class="n">sample_fraction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="c1"># calculate sample mean and variance (unbiased)</span>
+<span class="n">sample_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">sample_fraction</span><span class="p">)</span>
+<span class="n">sample_var</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">((</span><span class="n">sample_fraction</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sample_mean</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">num_samples</span><span class="m">-1</span><span class="p">)</span><span class="w"> </span><span class="c1"># correction</span>
+
+<span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Sample mean&quot;</span><span class="p">,</span><span class="s">&quot;Sample variance&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">,</span><span class="w"> </span><span class="n">sample_var</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Sample mean    </td><td>160.2870</td></tr>
+	<tr><td>Sample variance</td><td>677.0657</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can now use these sample estimates to recreate the population using a theoretical distribution</p>
+<ul class="simple">
+<li><p>a normal distribution of heights is assumed</p></li>
+<li><p>the shape of a normal distribution is determined by 2 parameters, the mean and the standard deviation (the square root of the variance)</p></li>
+</ul>
+<p>We generate values of heights from a theoretical normal distribution using the <code class="docutils literal notranslate"><span class="pre">rnorm</span></code> function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rnorm</span><span class="p">(</span><span class="n">number</span> <span class="n">of</span> <span class="n">values</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">standard</span> <span class="n">deviation</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">population_values</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;population&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population</span><span class="p">)</span>
+
+<span class="n">sample_values</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;theoretical&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                        </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100000</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                      </span><span class="n">sample_mean</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                      </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">sample_var</span><span class="p">)))</span>
+
+<span class="n">compare_dist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">population_values</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                          </span><span class="n">sample_values</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_dist</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">compare_dist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>type</th><th scope=col>height</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>population</td><td>156.6504</td></tr>
+	<tr><td>population</td><td>154.9202</td></tr>
+	<tr><td>population</td><td>153.6009</td></tr>
+	<tr><td>population</td><td>177.4955</td></tr>
+	<tr><td>population</td><td>198.8322</td></tr>
+	<tr><td>population</td><td>139.8744</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>type</th><th scope=col>height</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>theoretical</td><td>159.5795</td></tr>
+	<tr><td>theoretical</td><td>158.0847</td></tr>
+	<tr><td>theoretical</td><td>175.6528</td></tr>
+	<tr><td>theoretical</td><td>197.2000</td></tr>
+	<tr><td>theoretical</td><td>205.8885</td></tr>
+	<tr><td>theoretical</td><td>163.9360</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see how the theoretical distribution of heights (based on the sample mean/variance) compares to the actual population</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">compare_dist</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">type</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">binwidth</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/d4d2bbb10594ddab4e1ecc3e036ce062c7c4cf356d37d83376e089aa1a85d16c.png" src="../_images/d4d2bbb10594ddab4e1ecc3e036ce062c7c4cf356d37d83376e089aa1a85d16c.png" />
+</div>
+</div>
+<p>The distributions look pretty similar, which means that we can infer the characteristics of the population based on the sample estimates and underlying theoretical distribution</p>
+</section>
+<section id="does-the-sample-size-n-matter">
+<h2>Does the sample size (n) matter?<a class="headerlink" href="#does-the-sample-size-n-matter" title="Permalink to this heading">#</a></h2>
+<p>It appears that we can get a pretty good approximation of the population characteristics based on a sample of 100.</p>
+<p>Let’s see how taking different sample sizes (10, 100, 1000) affects our ability to infer the mean of the population. We will generate 1000 replicates of samples for each of the sample sizes</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># sample 10, 100, 1000 people</span>
+<span class="n">sample_n_10</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="n">population</span><span class="p">)</span>
+<span class="n">sample_n_100</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="n">population</span><span class="p">)</span>
+<span class="n">sample_n_1000</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="n">population</span><span class="p">)</span>
+
+<span class="n">compare_sample_n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">sample_n_10</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                              </span><span class="n">sample_n_100</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                              </span><span class="n">sample_n_1000</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">10</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">100</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>160.6910</td><td>1</td><td>10</td></tr>
+	<tr><td>128.4854</td><td>1</td><td>10</td></tr>
+	<tr><td>127.2235</td><td>1</td><td>10</td></tr>
+	<tr><td>146.3435</td><td>1</td><td>10</td></tr>
+	<tr><td>122.5698</td><td>1</td><td>10</td></tr>
+	<tr><td>202.2426</td><td>1</td><td>10</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>193.1568</td><td>1</td><td>100</td></tr>
+	<tr><td>162.5266</td><td>1</td><td>100</td></tr>
+	<tr><td>185.5297</td><td>1</td><td>100</td></tr>
+	<tr><td>139.6971</td><td>1</td><td>100</td></tr>
+	<tr><td>145.1682</td><td>1</td><td>100</td></tr>
+	<tr><td>164.3018</td><td>1</td><td>100</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>161.8186</td><td>1</td><td>1000</td></tr>
+	<tr><td>182.9369</td><td>1</td><td>1000</td></tr>
+	<tr><td>190.0679</td><td>1</td><td>1000</td></tr>
+	<tr><td>188.0208</td><td>1</td><td>1000</td></tr>
+	<tr><td>173.2195</td><td>1</td><td>1000</td></tr>
+	<tr><td>133.5056</td><td>1</td><td>1000</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We calculate the sample mean for each replicate with the different sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                         </span><span class="nf">group_by</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                         </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">10</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">100</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`summarise()` has grouped output by &#39;n&#39;. You can override using the `.groups`
+argument.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>10</td><td>1</td><td>159.2800</td></tr>
+	<tr><td>10</td><td>2</td><td>156.7822</td></tr>
+	<tr><td>10</td><td>3</td><td>154.2340</td></tr>
+	<tr><td>10</td><td>4</td><td>159.0187</td></tr>
+	<tr><td>10</td><td>5</td><td>154.9101</td></tr>
+	<tr><td>10</td><td>6</td><td>165.3388</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>100</td><td>1</td><td>160.4973</td></tr>
+	<tr><td>100</td><td>2</td><td>157.6280</td></tr>
+	<tr><td>100</td><td>3</td><td>162.7415</td></tr>
+	<tr><td>100</td><td>4</td><td>160.0037</td></tr>
+	<tr><td>100</td><td>5</td><td>160.6045</td></tr>
+	<tr><td>100</td><td>6</td><td>161.2250</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1000</td><td>1</td><td>159.7950</td></tr>
+	<tr><td>1000</td><td>2</td><td>160.2797</td></tr>
+	<tr><td>1000</td><td>3</td><td>158.8432</td></tr>
+	<tr><td>1000</td><td>4</td><td>159.9301</td></tr>
+	<tr><td>1000</td><td>5</td><td>160.1586</td></tr>
+	<tr><td>1000</td><td>6</td><td>159.4924</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can plot the distribution of the sample means (1000 replicates) for the different sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">15</span><span class="p">)</span>
+
+<span class="c1"># split plots by the number of samples</span>
+<span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_grid</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="o">=</span><span class="s">&quot;free_y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/177a57887beb464ebfe0784efd1561d0eadeddd048c32f1f69274ec0bac116d9.png" src="../_images/177a57887beb464ebfe0784efd1561d0eadeddd048c32f1f69274ec0bac116d9.png" />
+</div>
+</div>
+<p>We can see that the estimated population mean based on the sample varies depending on the sample size. The larger the sample size, the smaller the variation in the estimate of the mean</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">sd_means</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">mean</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 3 × 2</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>sd_means</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>10  </td><td>7.9563493</td></tr>
+	<tr><td>100 </td><td>2.5055992</td></tr>
+	<tr><td>1000</td><td>0.7353308</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The variation (standard deviation) in the sample means is known as the standard error of means (SEM)</p>
+<section id="standard-error-of-means-sem">
+<h3>Standard error of means (SEM)<a class="headerlink" href="#standard-error-of-means-sem" title="Permalink to this heading">#</a></h3>
+<p>Instead of doing resampling, the standard error of means can be approximated analytically by dividing the standard deviation of measurements in <strong>one sample</strong> by the square root of the number of measurements</p>
+<div class="math notranslate nohighlight">
+\[SE=\frac{\sigma}{\sqrt{n}}\]</div>
+<p>To illustrate this, let us take one random sample of 100 from the population</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Take 1 random sample</span>
+<span class="n">sample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>157.409116526947</li><li>187.215273083622</li><li>133.222385662324</li><li>165.634202513889</li><li>133.05050953571</li><li>177.247187419275</li></ol>
+</div></div>
+</div>
+<p>We can obtain the standard error by calculating the standard deviation from this one sample and dividing it by the square root of the number of measurements  (n=100)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate the standard deviation of 1 sample</span>
+<span class="n">sample_sd</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+<span class="c1"># calculate the standard error of means</span>
+<span class="n">sample_sem</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="o">/</span><span class="nf">sqrt</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>
+
+<span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Standard deviation&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Standard error of means&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">sample_sd</span><span class="p">,</span><span class="w"> </span><span class="n">sample_sem</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 2 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Standard deviation     </td><td>23.665571</td></tr>
+	<tr><td>Standard error of means</td><td> 2.366557</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see that the standard error of means from the calculation is close to the value we obtained through repeated sampling</p>
+<p>Note that the standard deviation and standard error have different meanings</p>
+<ul class="simple">
+<li><p>The standard deviation describes the variation of values around the mean in <strong>1 sample</strong></p></li>
+<li><p>The SEM shows the variation of means estimated from <strong>multiple samples</strong> (i.e. how closely the sample mean represents the population mean)</p></li>
+</ul>
+<p>Here is a great explanation: <a class="reference external" href="https://youtu.be/A82brFpdr9g">https://youtu.be/A82brFpdr9g</a></p>
+</section>
+</section>
+<section id="does-the-population-distribution-matter-when-estimating-the-mean-from-a-sample">
+<h2>Does the population distribution matter when estimating the mean from a sample?<a class="headerlink" href="#does-the-population-distribution-matter-when-estimating-the-mean-from-a-sample" title="Permalink to this heading">#</a></h2>
+<p>It would appear that the estimation of the population mean from samples is restricted to a normal distribution. Surprisingly, it does not</p>
+<p>We can simulate a non-normal distribution of heights and see if we can estimate the population mean</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate non-normal population</span>
+<span class="n">population_not_normal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbeta</span><span class="p">(</span><span class="m">1000000</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="m">50</span><span class="p">)</span><span class="o">*</span><span class="m">400+130</span><span class="w"> </span><span class="c1"># beta distribution</span>
+
+<span class="n">population_not_normal_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">population_not_normal</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">population_not_normal</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">tibble</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># convert to tibble for ggplot</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">.</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population_not_normal_mean</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<img alt="../_images/d99c55f6cbeef6274bdcd140e9e1fad2009e3b151b10307dd6d46f0740b84478.png" src="../_images/d99c55f6cbeef6274bdcd140e9e1fad2009e3b151b10307dd6d46f0740b84478.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">tibble</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Population mean&quot;</span><span class="p">),</span>
+<span class="w">       </span><span class="n">value</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">population_not_normal_mean</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 2</caption>
+<thead>
+	<tr><th scope=col>stat</th><th scope=col>value</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>Population mean</td><td>137.8368</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As before, we will generate 1000 replicates of samples for each of the sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">sample_n_10</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">10</span><span class="p">,</span><span class="n">population_not_normal</span><span class="p">)</span>
+<span class="n">sample_n_100</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">100</span><span class="p">,</span><span class="n">population_not_normal</span><span class="p">)</span>
+<span class="n">sample_n_1000</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample_multiple</span><span class="p">(</span><span class="m">1000</span><span class="p">,</span><span class="m">1000</span><span class="p">,</span><span class="n">population_not_normal</span><span class="p">)</span>
+
+<span class="n">compare_sample_n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">sample_n_10</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                              </span><span class="n">sample_n_100</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                              </span><span class="n">sample_n_1000</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">10</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">100</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>146.3613</td><td>1</td><td>10</td></tr>
+	<tr><td>145.2027</td><td>1</td><td>10</td></tr>
+	<tr><td>134.2406</td><td>1</td><td>10</td></tr>
+	<tr><td>132.0991</td><td>1</td><td>10</td></tr>
+	<tr><td>136.9949</td><td>1</td><td>10</td></tr>
+	<tr><td>135.4612</td><td>1</td><td>10</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>145.8748</td><td>1</td><td>100</td></tr>
+	<tr><td>136.1459</td><td>1</td><td>100</td></tr>
+	<tr><td>133.3942</td><td>1</td><td>100</td></tr>
+	<tr><td>139.3956</td><td>1</td><td>100</td></tr>
+	<tr><td>134.1010</td><td>1</td><td>100</td></tr>
+	<tr><td>148.7314</td><td>1</td><td>100</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>value</th><th scope=col>replicate</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>130.9633</td><td>1</td><td>1000</td></tr>
+	<tr><td>130.6383</td><td>1</td><td>1000</td></tr>
+	<tr><td>141.6055</td><td>1</td><td>1000</td></tr>
+	<tr><td>133.4666</td><td>1</td><td>1000</td></tr>
+	<tr><td>143.8055</td><td>1</td><td>1000</td></tr>
+	<tr><td>136.6778</td><td>1</td><td>1000</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We calculate the sample mean for each replicate with the different sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">compare_sample_n</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                         </span><span class="nf">group_by</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                         </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">10</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">100</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="m">1000</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`summarise()` has grouped output by &#39;n&#39;. You can override using the `.groups`
+argument.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>10</td><td>1</td><td>139.3060</td></tr>
+	<tr><td>10</td><td>2</td><td>139.0266</td></tr>
+	<tr><td>10</td><td>3</td><td>135.6733</td></tr>
+	<tr><td>10</td><td>4</td><td>137.7051</td></tr>
+	<tr><td>10</td><td>5</td><td>135.5555</td></tr>
+	<tr><td>10</td><td>6</td><td>135.8469</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>100</td><td>1</td><td>138.9436</td></tr>
+	<tr><td>100</td><td>2</td><td>138.4223</td></tr>
+	<tr><td>100</td><td>3</td><td>137.8537</td></tr>
+	<tr><td>100</td><td>4</td><td>138.8154</td></tr>
+	<tr><td>100</td><td>5</td><td>138.7840</td></tr>
+	<tr><td>100</td><td>6</td><td>137.5769</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>replicate</th><th scope=col>mean</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1000</td><td>1</td><td>138.2920</td></tr>
+	<tr><td>1000</td><td>2</td><td>137.8108</td></tr>
+	<tr><td>1000</td><td>3</td><td>137.8769</td></tr>
+	<tr><td>1000</td><td>4</td><td>138.0471</td></tr>
+	<tr><td>1000</td><td>5</td><td>137.9884</td></tr>
+	<tr><td>1000</td><td>6</td><td>137.5843</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can plot the distribution of the sample means (1000 replicates) for the different sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">15</span><span class="p">)</span>
+
+<span class="c1"># split plots</span>
+
+<span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_grid</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="o">=</span><span class="s">&quot;free_y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/6f331d9cc81d8b434c6d657f8e4f6f904fff045301154c7702ffb96fbef19156.png" src="../_images/6f331d9cc81d8b434c6d657f8e4f6f904fff045301154c7702ffb96fbef19156.png" />
+</div>
+</div>
+<p>From the distribution of mean estimates, we can look at the mean and standard deviation of the sample means for each of the sample sizes (10, 100, 1000)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">compare_sample_n_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                          </span><span class="nf">summarise</span><span class="p">(</span><span class="n">mean_of_means</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">mean</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                                    </span><span class="n">sd_means</span><span class="o">=</span><span class="nf">sd</span><span class="p">(</span><span class="n">mean</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 3 × 3</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>mean_of_means</th><th scope=col>sd_means</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>10  </td><td>137.9444</td><td>2.5244495</td></tr>
+	<tr><td>100 </td><td>137.8418</td><td>0.7950570</td></tr>
+	<tr><td>1000</td><td>137.8504</td><td>0.2470804</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As the sample size (n) increases, the spread of the mean estimates decreases as previously demonstrated.</p>
+<p>Interestingly, the distribution of the sample <strong>means</strong> approaches a normal distribution as the sample size increases</p>
+<ul class="simple">
+<li><p>This is known as the Central Limit Theorem (CLT)</p></li>
+<li><p>The implication is that if the sample size is large enough, inferences about the <strong>mean</strong> can use theoretical normal distribution, regardless of the original distribution</p></li>
+</ul>
+<p>We can explore this through this interactive site:
+<a class="reference external" href="https://seeing-theory.brown.edu/probability-distributions/index.html#section3">https://seeing-theory.brown.edu/probability-distributions/index.html#section3</a></p>
+</section>
+<section id="the-ns-justify-the-means">
+<h2>The ‘n’s justify the means<a class="headerlink" href="#the-ns-justify-the-means" title="Permalink to this heading">#</a></h2>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-inferential.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Inferential Statistics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-2-estimation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estimating Uncertainty</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-the-estimates-of-mean-and-variance-in-one-sample">What are the estimates of mean and variance in one sample?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-are-the-sample-estimates-over-a-long-run">How are the sample estimates over a long run?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-n-1-used-as-a-correction-in-the-sample-variance-estimation">Why is n-1 used as a correction in the sample variance estimation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-unbiased-sample-estimators-important">Why are unbiased sample estimators important?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-the-sample-size-n-matter">Does the sample size (n) matter?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-error-of-means-sem">Standard error of means (SEM)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#does-the-population-distribution-matter-when-estimating-the-mean-from-a-sample">Does the population distribution matter when estimating the mean from a sample?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ns-justify-the-means">The ‘n’s justify the means</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

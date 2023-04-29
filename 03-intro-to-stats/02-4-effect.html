@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Effect size &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/02-4-effect';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistical Tests" href="../00-md/overview-tests.html" />
+    <link rel="prev" title="Hypothesis testing" href="02-3-hypothesis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/02-4-effect.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Effect size</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-effect-size">1. Raw effect size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardized-effect-size">2. Standardized effect size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-the-signal-and-noise-affect-the-effect-size">How does the signal and noise affect the effect size?</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="effect-size">
+<h1>Effect size<a class="headerlink" href="#effect-size" title="Permalink to this heading">#</a></h1>
+<p>The significance test will give you an idea of whether the observed data is likely to have come from a distribution where there is no difference.</p>
+<div class="math notranslate nohighlight">
+\[P(\text{Data}|\text{Null distribution})\]</div>
+<ul class="simple">
+<li><p>A low p-value suggests that the observed data is less likely to come from a null distribution and the differences we observe may not be due to random chance</p></li>
+<li><p>However, a low p-value does <em>not</em> tell us the magnitude of the difference observed (effect size) e.g whether a decrease in cholesterol is small or large</p></li>
+</ul>
+<p>To get an idea of how big of an change is observed, we can look at the
+<strong>effect size</strong>, which can be expressed as a raw  or standardized statistic</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">raw</span></code>: absolute difference between groups (e.g. difference of means)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">standardized</span></code>: ratio of the difference between groups and the noise/variation</p></li>
+</ul>
+<p>The standardized effect size can be thought of as a a ratio of the signal (e.g. real differences) to noise (e.g. unaccounted variation)</p>
+<div class="math notranslate nohighlight">
+\[ \text{Standardized effect size} = \frac{\mathit{signal}}{\mathit{noise}}\]</div>
+<p>There are different measures of effect sizes, depending on what is being compared.</p>
+<ul class="simple">
+<li><p>Shown below are some examples of <code class="docutils literal notranslate"><span class="pre">raw</span></code> and <code class="docutils literal notranslate"><span class="pre">standardized</span></code> effect sizes.</p></li>
+<li><p>We will explore these different standardized effect sizes for the different hypothesis tests</p></li>
+</ul>
+<p><img alt="effect_size.png" src="../_images/effect_size.png" /></p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>To get an intuition of effect sizes, we will use the  diet/cholesterol dataset to demonstrate the concept of effect sizes for <strong>continuous</strong> variables in a simple case comparing continuous values (cholesterol levels) in 2 different diet groups (cornflakes and oatbran)</p>
+<p><a class="reference external" href="https://myweb.uiowa.edu/pbreheny/data/oatbran.html">https://myweb.uiowa.edu/pbreheny/data/oatbran.html</a></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/oatbran.tsv&quot;</span><span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">                </span><span class="nf">gather</span><span class="p">(</span><span class="n">CornFlakes</span><span class="p">,</span><span class="w"> </span><span class="n">OatBran</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="s">&quot;treatment&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="o">=</span><span class="s">&quot;effect&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                </span><span class="nf">mutate</span><span class="p">(</span><span class="n">treatment</span><span class="o">=</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">treatment</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_grouped</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">data_grouped</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">14</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">2</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;\t&quot;
+<span class=" -Color -Color-Green">dbl</span> (2): CornFlakes, OatBran
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>treatment</th><th scope=col>effect</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>CornFlakes</td><td>4.61</td></tr>
+	<tr><td>CornFlakes</td><td>6.42</td></tr>
+	<tr><td>CornFlakes</td><td>5.40</td></tr>
+	<tr><td>CornFlakes</td><td>4.54</td></tr>
+	<tr><td>CornFlakes</td><td>3.98</td></tr>
+	<tr><td>CornFlakes</td><td>3.82</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>treatment</th><th scope=col>effect</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>OatBran</td><td>3.49</td></tr>
+	<tr><td>OatBran</td><td>3.84</td></tr>
+	<tr><td>OatBran</td><td>5.26</td></tr>
+	<tr><td>OatBran</td><td>3.73</td></tr>
+	<tr><td>OatBran</td><td>1.84</td></tr>
+	<tr><td>OatBran</td><td>4.14</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will plot the values to see how they differ between the 2 dietary groups</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">effect</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_boxplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/6002e8d52b6c0d25ef017fe5ab3f93ef6acaaa3e6eb3f83c960ccbb372350655.png" src="../_images/6002e8d52b6c0d25ef017fe5ab3f93ef6acaaa3e6eb3f83c960ccbb372350655.png" />
+</div>
+</div>
+<section id="raw-effect-size">
+<h3>1. Raw effect size<a class="headerlink" href="#raw-effect-size" title="Permalink to this heading">#</a></h3>
+<p>The simplest way is to find the difference of means between the 2 groups. In this case, we calculate the means of each group then we find the difference of the means</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">difference</span> <span class="n">of</span> <span class="n">means</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mean</span> <span class="n">group</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">mean</span> <span class="n">group</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">treatment</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">effect</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">raw_effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="nf">diff</span><span class="p">(</span><span class="n">mean</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 1</caption>
+<thead>
+	<tr><th scope=col>raw_effect</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0.3628571</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can also obtain the 95% confidence interval for this difference of means using a function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">rstatix</span><span class="o">::</span><span class="nf">t_test</span><span class="p">(</span><span class="n">effect</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="n">detailed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">select</span><span class="p">(</span><span class="n">conf.low</span><span class="p">,</span><span class="w"> </span><span class="n">conf.high</span><span class="p">)</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A rstatix_test: 1 × 2</caption>
+<thead>
+	<tr><th scope=col>conf.low</th><th scope=col>conf.high</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>-0.4251218</td><td>1.150836</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="standardized-effect-size">
+<h3>2. Standardized effect size<a class="headerlink" href="#standardized-effect-size" title="Permalink to this heading">#</a></h3>
+<p>To standardize the effect size for the 2 groups, we can estimate the signal to noise ratio, which is the difference of means divided by the combined variation in both groups. This known as <em>Cohen’s d</em> statistic</p>
+<p>For independent samples:</p>
+<div class="math notranslate nohighlight">
+\[ \text{Standardized effect size} = \frac{\mathit{signal}}{\mathit{noise}} = \frac{\mu_1 - \mu_2}{\sqrt{\frac{sd
+_1 + sd_2}{2}}}\]</div>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">cohens_d</span></code> function from the <code class="docutils literal notranslate"><span class="pre">effectsize</span></code> library to calculate the  <em>Cohen’s d</em> statistic for the effect size of means between 2 groups and the uncertainty in the estimate (95% CI)</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">effectsize</span><span class="o">::</span><span class="nf">cohens_d</span><span class="p">(</span><span class="n">effect</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_grouped</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A effectsize_difference: 1 × 4</caption>
+<thead>
+	<tr><th scope=col>Cohens_d</th><th scope=col>CI</th><th scope=col>CI_low</th><th scope=col>CI_high</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0.3578947</td><td>0.95</td><td>-0.3925678</td><td>1.101621</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>To get sense of the magnitude of the effect size, we can pass the <code class="docutils literal notranslate"><span class="pre">Cohens_d</span></code> value to the <code class="docutils literal notranslate"><span class="pre">interpret_d</span></code> function</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">effectsize</span><span class="o">::</span><span class="nf">cohens_d</span><span class="p">(</span><span class="n">effect</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">treatment</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_grouped</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">Cohens_d</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">effectsize</span><span class="o">::</span><span class="nf">interpret_cohens_d</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">'small'</div></div>
+</div>
+</section>
+<section id="how-does-the-signal-and-noise-affect-the-effect-size">
+<h3>How does the signal and noise affect the effect size?<a class="headerlink" href="#how-does-the-signal-and-noise-affect-the-effect-size" title="Permalink to this heading">#</a></h3>
+<p>To see how the size of the signal (difference of means) and the noise (variation in the values) affects the standardized effect size, we will simulate normally distributed values of 2 groups with a range of differences and variations in the values</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">effect_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">simulation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">normal</span><span class="o">=</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">mean_1</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="p">),</span><span class="w"> </span><span class="n">diet</span><span class="o">=</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">mean_2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;normal&quot;</span><span class="p">,</span><span class="s">&quot;diet&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;group&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;glucose&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="nf">mutate</span><span class="p">(</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+<span class="w">        </span>
+<span class="w">    </span><span class="n">es</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">effectsize</span><span class="o">::</span><span class="nf">cohens_d</span><span class="p">(</span><span class="n">glucose</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">simulation</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">          </span><span class="nf">pull</span><span class="p">(</span><span class="n">Cohens_d</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="n">abs</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">interpretation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">effectsize</span><span class="o">::</span><span class="nf">interpret_cohens_d</span><span class="p">(</span><span class="n">es</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">text</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">glue</span><span class="o">::</span><span class="nf">glue</span><span class="p">(</span><span class="s">&quot;d: {es} size: {interpretation}&quot;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">simulation</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">glucose</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">geom_density</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">ggtitle</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+<span class="w">   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>We can plot the distributions and compare how the difference of means and the degree of variation affects the standardized effect sizes</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot a grid of different signal and noise combinations</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">gridExtra</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="c1"># plot a grid of distributions</span>
+<span class="c1"># the signal (difference of means) increases from left to right</span>
+<span class="c1"># the noise (standard deviation) decreases from top to bottom</span>
+
+<span class="nf">grid.arrange</span><span class="p">(</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">5</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">5</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">5</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">2</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">2</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">2</span><span class="p">),</span><span class="w">   </span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span>
+<span class="nf">effect_size</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="n">mean_1</span><span class="o">=</span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">mean_2</span><span class="o">=</span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">sd_1</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">sd_2</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span>
+<span class="n">ncol</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘gridExtra’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:dplyr’:
+
+    combine
+</pre></div>
+</div>
+<img alt="../_images/4796f2cd0474ce6d3a0368a32d4733b25440d9c33f642923abfc53a4d7eb8b32.png" src="../_images/4796f2cd0474ce6d3a0368a32d4733b25440d9c33f642923abfc53a4d7eb8b32.png" />
+</div>
+</div>
+<p>We can see that as the noise decreases, the standardized effect size increases</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-3-hypothesis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hypothesis testing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../00-md/overview-tests.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Statistical Tests</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-effect-size">1. Raw effect size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardized-effect-size">2. Standardized effect size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-the-signal-and-noise-affect-the-effect-size">How does the signal and noise affect the effect size?</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1262 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Reading and Inspecting Data &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02-intro-to-tidyverse/02-reading';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extracting and Arranging Data" href="03-extracting.html" />
+    <link rel="prev" title="Overview of Tidyverse" href="01-overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/02-intro-to-tidyverse/02-reading.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reading and Inspecting Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-storage-formats-in-files">Data storage formats in files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-read-data">Functions to read data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-as-a-dataframe-using-base-r">1. Importing data as a dataframe using base R</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-as-a-tibble">2. Importing data as a tibble</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-does-it-matter-if-its-a-dataframe-or-a-tibble">Why does it matter if it’s a dataframe or a tibble?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-reading-data">Exercise - Reading Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reading-and-inspecting-data">
+<h1>Reading and Inspecting Data<a class="headerlink" href="#reading-and-inspecting-data" title="Permalink to this heading">#</a></h1>
+<section id="data-storage-formats-in-files">
+<h2>Data storage formats in files<a class="headerlink" href="#data-storage-formats-in-files" title="Permalink to this heading">#</a></h2>
+<p>Tabular data is stored in files in different formats, for example</p>
+<ul class="simple">
+<li><p>Excel</p></li>
+<li><p>CSV (Comma-separated Values)</p></li>
+<li><p>TSV (Tab-separated Values)</p></li>
+</ul>
+<p>One of the most commonly used formats is <code class="docutils literal notranslate"><span class="pre">CSV</span></code>, which uses <code class="docutils literal notranslate"><span class="pre">commas</span></code> to separate different values for each row of data</p>
+<p><img alt="csv.png" src="../_images/csv.png" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TSV</span></code> format is the same except it uses <code class="docutils literal notranslate"><span class="pre">tabs</span></code> as the separator between values for each row</p>
+</section>
+<hr class="docutils" />
+<section id="functions-to-read-data">
+<h2>Functions to read data<a class="headerlink" href="#functions-to-read-data" title="Permalink to this heading">#</a></h2>
+<p>We can read data into R using the <code class="docutils literal notranslate"><span class="pre">read.csv</span></code> (base R) or <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> (tidyverse). Both are able to read data from a locally stored file, or from a URL</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>read_csv (&quot;myfile.csv&quot;)
+read_csv (&quot;https://some_website.edu/data/myfile.csv&quot;)
+</pre></div>
+</div>
+<section id="importing-data-as-a-dataframe-using-base-r">
+<h3>1. Importing data as a dataframe using base R<a class="headerlink" href="#importing-data-as-a-dataframe-using-base-r" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>We can import data from a csv file using <code class="docutils literal notranslate"><span class="pre">read.csv</span></code> which is a <code class="docutils literal notranslate"><span class="pre">base</span></code> R function</p></li>
+<li><p>Because this is a non-tidyverse function, it is imported as a <code class="docutils literal notranslate"><span class="pre">dataframe</span></code></p></li>
+</ul>
+<p>We will import a dataset from the Framingham study, which was a long term study of cardiovascular disease about subjects in Framingham, USA. In this dataset</p>
+<ul class="simple">
+<li><p>~4000 subjects followed up and clinical data and chronic heart disease outcomes were examined longitudinally over &gt; 10 years</p></li>
+</ul>
+<p>The variables include</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span></code> : 0 = female, 1 = male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : Age at the time of medical examination in years.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">education</span></code> : 1 = Some high school, 2 = high school/GED, 3 = some college/vocational school, 4 = college</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">currentSmoker</span></code>: Current cigarette smoking at the time of examinations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cigsPerDay</span></code>: Number of cigarettes smoked each day</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BPmeds</span></code>: Use of Anti-hypertensive medication at exam</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentStroke</span></code>: Prevalent Stroke</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prevalentHyp</span></code>: Prevalent Hypertensive</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diabetes</span></code>: Diabetic according to criteria of first exam treated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">totChol</span></code>: Total cholesterol (mg/dL)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysBP</span></code>: Systolic Blood Pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diaBP</span></code>: Diastolic blood pressure (mmHg)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BMI</span></code>: Body Mass Index, weight (kg)/height (m)^2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">heartRate</span></code>: Heart rate (beats/minute)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">glucose</span></code>: Blood glucose level (mg/dL)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># reading in data as a dataframe</span>
+
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">head</span></code> and <code class="docutils literal notranslate"><span class="pre">tail</span></code> functions to inspect the first and last few cases in a data frame</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># we can use head to see the first few rows</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># we can use tail to see the last few rows</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 6 × 16</caption>
+<thead>
+	<tr><th></th><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>1</th><td>1</td><td>39</td><td>4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>195</td><td>106.0</td><td> 70</td><td>26.97</td><td>80</td><td> 77</td><td>0</td></tr>
+	<tr><th scope=row>2</th><td>0</td><td>46</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>121.0</td><td> 81</td><td>28.73</td><td>95</td><td> 76</td><td>0</td></tr>
+	<tr><th scope=row>3</th><td>1</td><td>48</td><td>1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>127.5</td><td> 80</td><td>25.34</td><td>75</td><td> 70</td><td>0</td></tr>
+	<tr><th scope=row>4</th><td>0</td><td>61</td><td>3</td><td>1</td><td>30</td><td>0</td><td>0</td><td>1</td><td>0</td><td>225</td><td>150.0</td><td> 95</td><td>28.58</td><td>65</td><td>103</td><td>1</td></tr>
+	<tr><th scope=row>5</th><td>0</td><td>46</td><td>3</td><td>1</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td><td>285</td><td>130.0</td><td> 84</td><td>23.10</td><td>85</td><td> 85</td><td>0</td></tr>
+	<tr><th scope=row>6</th><td>0</td><td>43</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>228</td><td>180.0</td><td>110</td><td>30.30</td><td>77</td><td> 99</td><td>0</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 6 × 16</caption>
+<thead>
+	<tr><th></th><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th></th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>4235</th><td>1</td><td>51</td><td>3</td><td>1</td><td>43</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>207</td><td>126.5</td><td>80</td><td>19.71</td><td>65</td><td> 68</td><td>0</td></tr>
+	<tr><th scope=row>4236</th><td>0</td><td>48</td><td>2</td><td>1</td><td>20</td><td>NA</td><td>0</td><td>0</td><td>0</td><td>248</td><td>131.0</td><td>72</td><td>22.00</td><td>84</td><td> 86</td><td>0</td></tr>
+	<tr><th scope=row>4237</th><td>0</td><td>44</td><td>1</td><td>1</td><td>15</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>210</td><td>126.5</td><td>87</td><td>19.16</td><td>86</td><td> NA</td><td>0</td></tr>
+	<tr><th scope=row>4238</th><td>0</td><td>52</td><td>2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>269</td><td>133.5</td><td>83</td><td>21.47</td><td>80</td><td>107</td><td>0</td></tr>
+	<tr><th scope=row>4239</th><td>1</td><td>40</td><td>3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>185</td><td>141.0</td><td>98</td><td>25.60</td><td>67</td><td> 72</td><td>0</td></tr>
+	<tr><th scope=row>4240</th><td>0</td><td>39</td><td>3</td><td>1</td><td>30</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>196</td><td>133.0</td><td>86</td><td>20.91</td><td>85</td><td> 80</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Recall that we can select a column from a dataframe by <code class="docutils literal notranslate"><span class="pre">index</span></code> or by <code class="docutils literal notranslate"><span class="pre">column</span> <span class="pre">name</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by index of column</span>
+
+<span class="n">df</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>⋯</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by name of column using $ selector</span>
+
+<span class="n">df</span><span class="o">$</span><span class="n">male</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>⋯</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by name of column using [] selector</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">&quot;male&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 4240 × 1</caption>
+<thead>
+	<tr><th scope=col>male</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>⋮</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>When subsetting a <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">frame</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df[,1]</span></code> returns a <code class="docutils literal notranslate"><span class="pre">vector</span></code> of the 1st column (male)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df$male</span></code> returns a <code class="docutils literal notranslate"><span class="pre">vector</span></code> of the male column</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df[&quot;male&quot;]</span></code> returns a <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> of the male column</p></li>
+</ul>
+<p><img alt="subset_df.png" src="../_images/subset_df.png" /></p>
+</section>
+<section id="importing-data-as-a-tibble">
+<h3>2. Importing data as a tibble<a class="headerlink" href="#importing-data-as-a-tibble" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>We will import data from a csv file using <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>from <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></p></li>
+<li><p>The data will be imported as a <code class="docutils literal notranslate"><span class="pre">tibble</span></code>, which is an “enhanced” dataframe that provides more information and warnings to reduce errors</p></li>
+<li><p>The subsetting of a tibble is <strong>slightly different</strong> from the dataframe</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># reading in data as a tibble</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we inspect the data type, we note that it is a <code class="docutils literal notranslate"><span class="pre">tibble</span></code> (tbl) and not a standard dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">class</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'spec_tbl_df'</li><li>'tbl_df'</li><li>'tbl'</li><li>'data.frame'</li></ol>
+</div></div>
+</div>
+<p>We can take a look at the first and last few rows of the tibble</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># see first few rows</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># see last few rows</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 16</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>195</td><td>106.0</td><td> 70</td><td>26.97</td><td>80</td><td> 77</td><td>0</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>250</td><td>121.0</td><td> 81</td><td>28.73</td><td>95</td><td> 76</td><td>0</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>245</td><td>127.5</td><td> 80</td><td>25.34</td><td>75</td><td> 70</td><td>0</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>1</td><td>30</td><td>0</td><td>0</td><td>1</td><td>0</td><td>225</td><td>150.0</td><td> 95</td><td>28.58</td><td>65</td><td>103</td><td>1</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>1</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td><td>285</td><td>130.0</td><td> 84</td><td>23.10</td><td>85</td><td> 85</td><td>0</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>228</td><td>180.0</td><td>110</td><td>30.30</td><td>77</td><td> 99</td><td>0</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 16</caption>
+<thead>
+	<tr><th scope=col>male</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>51</td><td>3</td><td>1</td><td>43</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>207</td><td>126.5</td><td>80</td><td>19.71</td><td>65</td><td> 68</td><td>0</td></tr>
+	<tr><td>0</td><td>48</td><td>2</td><td>1</td><td>20</td><td>NA</td><td>0</td><td>0</td><td>0</td><td>248</td><td>131.0</td><td>72</td><td>22.00</td><td>84</td><td> 86</td><td>0</td></tr>
+	<tr><td>0</td><td>44</td><td>1</td><td>1</td><td>15</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>210</td><td>126.5</td><td>87</td><td>19.16</td><td>86</td><td> NA</td><td>0</td></tr>
+	<tr><td>0</td><td>52</td><td>2</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>269</td><td>133.5</td><td>83</td><td>21.47</td><td>80</td><td>107</td><td>0</td></tr>
+	<tr><td>1</td><td>40</td><td>3</td><td>0</td><td> 0</td><td> 0</td><td>0</td><td>1</td><td>0</td><td>185</td><td>141.0</td><td>98</td><td>25.60</td><td>67</td><td> 72</td><td>0</td></tr>
+	<tr><td>0</td><td>39</td><td>3</td><td>1</td><td>30</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>196</td><td>133.0</td><td>86</td><td>20.91</td><td>85</td><td> 80</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can select a column from the tibble by <code class="docutils literal notranslate"><span class="pre">index</span></code> or by <code class="docutils literal notranslate"><span class="pre">column</span> <span class="pre">name</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by index of column</span>
+
+<span class="n">data</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4240 × 1</caption>
+<thead>
+	<tr><th scope=col>male</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>⋮</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by name of column using $ selector</span>
+
+<span class="n">data</span><span class="o">$</span><span class="n">male</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>⋯</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>1</li><li>1</li><li>0</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>1</li><li>1</li><li>1</li><li>0</li><li>0</li><li>0</li><li>1</li><li>0</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by name of column using [] selector</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s">&quot;male&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 4240 × 1</caption>
+<thead>
+	<tr><th scope=col>male</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>⋮</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>0</td></tr>
+	<tr><td>1</td></tr>
+	<tr><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>When subsetting a tibble <code class="docutils literal notranslate"><span class="pre">data</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data[,1]</span></code> returns a <code class="docutils literal notranslate"><span class="pre">tibble</span></code> of the 1st column (male)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data$male</span></code> returns a <code class="docutils literal notranslate"><span class="pre">vector</span></code> of the male column</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data[&quot;male&quot;]</span></code> returns a <code class="docutils literal notranslate"><span class="pre">tibble</span></code> of the male column</p></li>
+</ul>
+<p>Note that the <strong>difference</strong> when subsetting a dataframe <code class="docutils literal notranslate"><span class="pre">df</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df[,1]</span></code> returns a vector of the 1st column</p></li>
+</ul>
+<p><img alt="subset_tibble.png" src="../_images/subset_tibble.png" /></p>
+</section>
+</section>
+<section id="why-does-it-matter-if-its-a-dataframe-or-a-tibble">
+<h2>Why does it matter if it’s a dataframe or a tibble?<a class="headerlink" href="#why-does-it-matter-if-its-a-dataframe-or-a-tibble" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Some non-tidyverse functions do not understand what a tibble is, and can only accept a vector</p></li>
+<li><p>Subsetting a tibble incorrectly may return a tibble that cannot be processed by a function that expects a vector</p></li>
+</ul>
+<p>Let us compare what happens when we subset a <code class="docutils literal notranslate"><span class="pre">dataframe</span></code> (df) or a <code class="docutils literal notranslate"><span class="pre">tibble</span></code>  (data) by index and pass it to the function <code class="docutils literal notranslate"><span class="pre">mean</span></code> that accepts a <code class="docutils literal notranslate"><span class="pre">vector</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># subsetting a dataframe by index</span>
+
+<span class="n">df</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">49.5801886792453</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># subsetting a tibble by index</span>
+
+<span class="n">data</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in mean.default(.):
+“argument is not numeric or logical: returning NA”
+</pre></div>
+</div>
+<div class="output text_html">&lt;NA&gt;</div></div>
+</div>
+<p>To avoid this confusion, subsetting by the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector would return a <strong>vector</strong> for <strong>both</strong> cases that can be processed by many non-tidyverse functions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># $ returns a vector from a dataframe</span>
+
+<span class="n">df</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">49.5801886792453</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># $ returns a vector from a tibble</span>
+
+<span class="n">data</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">49.5801886792453</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-reading-data">
+<h2>Exercise - Reading Data<a class="headerlink" href="#exercise-reading-data" title="Permalink to this heading">#</a></h2>
+<p>We will import a small dataset about smoking and BP as described here: <a class="reference external" href="https://vincentarelbundock.github.io/Rdatasets/doc/COUNT/smoking.html">https://vincentarelbundock.github.io/Rdatasets/doc/COUNT/smoking.html</a></p>
+<p>The variables include</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sbp</span></code>: systolic BP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span></code> : 0 = female, 1 = male</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : age of patient</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smoker</span></code> : 0 = no history of smoking, 1 = history of smoking</p></li>
+</ul>
+<p>The URL (weblink) for this dataset is <code class="docutils literal notranslate"><span class="pre">https://raw.githubusercontent.com/kennethban/dataset/main/smoking_sbp.csv</span></code></p>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Read the csv file using <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> and store it in a variable <code class="docutils literal notranslate"><span class="pre">smoking</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">smoking</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/smoking_sbp.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New names:
+<span class=" -Color -Color-Cyan">•</span> `` -&gt; `...1`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">6</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (5): ...1, sbp, male, smoker, age
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># inspect it</span>
+
+<span class="n">smoking</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A spec_tbl_df: 6 × 5</caption>
+<thead>
+	<tr><th scope=col>...1</th><th scope=col>sbp</th><th scope=col>male</th><th scope=col>smoker</th><th scope=col>age</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>131</td><td>1</td><td>1</td><td>34</td></tr>
+	<tr><td>2</td><td>132</td><td>1</td><td>1</td><td>36</td></tr>
+	<tr><td>3</td><td>122</td><td>1</td><td>0</td><td>30</td></tr>
+	<tr><td>4</td><td>119</td><td>0</td><td>0</td><td>32</td></tr>
+	<tr><td>5</td><td>123</td><td>0</td><td>1</td><td>26</td></tr>
+	<tr><td>6</td><td>115</td><td>0</td><td>0</td><td>23</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Find out the <code class="docutils literal notranslate"><span class="pre">mean</span></code> and <code class="docutils literal notranslate"><span class="pre">median</span></code> of the systolic blood pressure by subsetting the <code class="docutils literal notranslate"><span class="pre">smoking</span></code> tibble</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">smoking</span><span class="o">$</span><span class="n">sbp</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
+<span class="n">smoking</span><span class="o">$</span><span class="n">sbp</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">123.666666666667</div><div class="output text_html">122.5</div></div>
+</details>
+</div>
+</section>
+<section id="part-3">
+<h3>Part 3<a class="headerlink" href="#part-3" title="Permalink to this heading">#</a></h3>
+<p>Find out the number of smokers and non-smokers by subsetting the <code class="docutils literal notranslate"><span class="pre">smoking</span></code> tibble and using the <code class="docutils literal notranslate"><span class="pre">table</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="nf">table</span><span class="p">(</span><span class="n">smoking</span><span class="o">$</span><span class="n">smoker</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1 
+3 3 
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./02-intro-to-tidyverse"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Overview of Tidyverse</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-extracting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extracting and Arranging Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-storage-formats-in-files">Data storage formats in files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-to-read-data">Functions to read data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-as-a-dataframe-using-base-r">1. Importing data as a dataframe using base R</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-as-a-tibble">2. Importing data as a tibble</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-does-it-matter-if-its-a-dataframe-or-a-tibble">Why does it matter if it’s a dataframe or a tibble?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-reading-data">Exercise - Reading Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

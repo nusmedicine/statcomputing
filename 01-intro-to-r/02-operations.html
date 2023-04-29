@@ -1,0 +1,1383 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Operations &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/02-operations';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Decision making" href="03-decision.html" />
+    <link rel="prev" title="Variables, Data Types and Structures" href="01-variables-data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/02-operations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Operations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-single-values">Operations on single values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operators">1. Mathematical operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operators">2. Comparison operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-operators">3. Boolean operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-multiple-values-in-vectors">Operations on multiple values in vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-a-scalar-value">1. Mathematical operations with a scalar value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operations-with-a-scalar-value">2. Comparison operations with a scalar value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-another-vector">3. Mathematical operations with another vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operations-with-another-vector">4. Comparison operations with another vector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-comparison-operations-for-selecting-items">Using comparison operations for selecting items</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector">1. Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-frame">2. Data Frame</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-factors-for-ordered-categories">Operations on factors for ordered categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2. Data Frame</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-operations">Exercise - Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="operations">
+<h1>Operations<a class="headerlink" href="#operations" title="Permalink to this heading">#</a></h1>
+<p>Using the analogy of the recipe, we can see that the data in the variable [<code class="docutils literal notranslate"><span class="pre">n</span></code>] can be used and manipulated using different operations</p>
+<ul class="simple">
+<li><p>comparing whether [<code class="docutils literal notranslate"><span class="pre">n</span></code>] exceeds a certain value (capacity of bowl)</p></li>
+<li><p>reducing the number of [<code class="docutils literal notranslate"><span class="pre">n</span></code>]</p></li>
+</ul>
+<p><img alt="programming_3.png" src="../_images/programming_3.png" /></p>
+<p>In a program, we can perform operations on data in a few ways</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Mathemematical</span></code> calculations (e.g. +,-,/,*)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Comparison</span></code> operations (e.g. &lt;,==,&gt;)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Boolean</span></code> operations (e.g. AND, OR)</p></li>
+</ul>
+<p>Furthermore, these operations can be performed on <code class="docutils literal notranslate"><span class="pre">single</span></code> values or <code class="docutils literal notranslate"><span class="pre">multiple</span></code> values in a vector</p>
+<hr class="docutils" />
+<section id="operations-on-single-values">
+<h2>Operations on single values<a class="headerlink" href="#operations-on-single-values" title="Permalink to this heading">#</a></h2>
+<section id="mathematical-operators">
+<h3>1. Mathematical operators<a class="headerlink" href="#mathematical-operators" title="Permalink to this heading">#</a></h3>
+<p>Mathematical operations can be performed on <code class="docutils literal notranslate"><span class="pre">numeric/integer</span></code> data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># addition</span>
+<span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># subtraction</span>
+<span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># multiplication</span>
+<span class="n">a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># division</span>
+<span class="n">a</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># power</span>
+<span class="n">a</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c1"># modulo (remainder)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">3</div><div class="output text_html">-1</div><div class="output text_html">2</div><div class="output text_html">0.5</div><div class="output text_html">1</div><div class="output text_html">1</div></div>
+</div>
+</section>
+<section id="comparison-operators">
+<h3>2. Comparison operators<a class="headerlink" href="#comparison-operators" title="Permalink to this heading">#</a></h3>
+<p>Comparisons can be done between <code class="docutils literal notranslate"><span class="pre">numeric/integer</span></code> data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># equal to</span>
+<span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># not equal to</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="w">   </span><span class="c1"># greater than</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># greater than or equal to</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="w">   </span><span class="c1"># less than</span>
+<span class="n">a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c1"># less than or equal to</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">FALSE</div><div class="output text_html">TRUE</div><div class="output text_html">FALSE</div><div class="output text_html">FALSE</div><div class="output text_html">TRUE</div><div class="output text_html">TRUE</div></div>
+</div>
+<p>We can also use these operators to compare <code class="docutils literal notranslate"><span class="pre">strings/characters</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;patient_1&quot;</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;patient_2&quot;</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c1"># strings are the same</span>
+<span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c1"># strings are not the same</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">FALSE</div><div class="output text_html">TRUE</div></div>
+</div>
+</section>
+<section id="boolean-operators">
+<h3>3. Boolean operators<a class="headerlink" href="#boolean-operators" title="Permalink to this heading">#</a></h3>
+<p>We can apply Boolean operations on <code class="docutils literal notranslate"><span class="pre">logical</span></code> data types</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="n">b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">FALSE</span>
+
+<span class="n">a</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c1"># AND</span>
+<span class="n">a</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="c1"># OR</span>
+<span class="o">!</span><span class="n">a</span><span class="w">    </span><span class="c1"># NOT</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">FALSE</div><div class="output text_html">TRUE</div><div class="output text_html">FALSE</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="operations-on-multiple-values-in-vectors">
+<h2>Operations on multiple values in vectors<a class="headerlink" href="#operations-on-multiple-values-in-vectors" title="Permalink to this heading">#</a></h2>
+<section id="mathematical-operations-with-a-scalar-value">
+<h3>1. Mathematical operations with a scalar value<a class="headerlink" href="#mathematical-operations-with-a-scalar-value" title="Permalink to this heading">#</a></h3>
+<p><img alt="op_math_scalar.png" src="../_images/op_math_scalar.png" /></p>
+<p>We can perform apply a mathematical calculation on each element of a vector with a <code class="docutils literal notranslate"><span class="pre">single</span></code>(scalar) value</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">)</span>
+
+<span class="n">vector_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="m">2</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>12</li><li>22</li><li>32</li><li>42</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>8</li><li>18</li><li>28</li><li>38</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>20</li><li>40</li><li>60</li><li>80</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>5</li><li>10</li><li>15</li><li>20</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>100</li><li>400</li><li>900</li><li>1600</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>0</li><li>0</li><li>0</li><li>0</li></ol>
+</div></div>
+</div>
+</section>
+<section id="comparison-operations-with-a-scalar-value">
+<h3>2. Comparison operations with a scalar value<a class="headerlink" href="#comparison-operations-with-a-scalar-value" title="Permalink to this heading">#</a></h3>
+<p><img alt="op_comp_scalar.png" src="../_images/op_comp_scalar.png" /></p>
+<p>We can perform compare each element in a vector with a <code class="docutils literal notranslate"><span class="pre">single</span></code>(scalar) value</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">)</span>
+
+<span class="n">vector_a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">20</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">20</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">20</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">20</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">20</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">20</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>TRUE</li><li>FALSE</li><li>FALSE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>FALSE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>TRUE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>FALSE</li><li>FALSE</li><li>FALSE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>TRUE</li><li>FALSE</li><li>FALSE</li></ol>
+</div></div>
+</div>
+</section>
+<section id="mathematical-operations-with-another-vector">
+<h3>3. Mathematical operations with another vector<a class="headerlink" href="#mathematical-operations-with-another-vector" title="Permalink to this heading">#</a></h3>
+<p><img alt="op_math_vector.png" src="../_images/op_math_vector.png" /></p>
+<p>We can also perform mathematical calculations each element in one vector with the corresponding element in another vector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">)</span>
+<span class="n">vector_b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)</span>
+
+<span class="n">vector_a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="n">vector_b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>11</li><li>22</li><li>33</li><li>44</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>9</li><li>18</li><li>27</li><li>36</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>10</li><li>40</li><li>90</li><li>160</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>10</li><li>10</li><li>10</li><li>10</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>10</li><li>400</li><li>27000</li><li>2560000</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>0</li><li>0</li><li>0</li><li>0</li></ol>
+</div></div>
+</div>
+</section>
+<section id="comparison-operations-with-another-vector">
+<h3>4. Comparison operations with another vector<a class="headerlink" href="#comparison-operations-with-another-vector" title="Permalink to this heading">#</a></h3>
+<p><img alt="op_comp_vector.png" src="../_images/op_comp_vector.png" /></p>
+<p>We can also perform comparisons of each element in one vector with the corresponding element in another vector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">)</span>
+<span class="n">vector_b</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">4</span><span class="p">)</span>
+
+<span class="n">vector_a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">vector_b</span>
+<span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">vector_b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>FALSE</li><li>FALSE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>TRUE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>TRUE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>TRUE</li><li>TRUE</li><li>TRUE</li><li>TRUE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>FALSE</li><li>FALSE</li></ol>
+</div><div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>FALSE</li><li>FALSE</li></ol>
+</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="using-comparison-operations-for-selecting-items">
+<h2>Using comparison operations for selecting items<a class="headerlink" href="#using-comparison-operations-for-selecting-items" title="Permalink to this heading">#</a></h2>
+<p>Now that we can do comparisons, the boolean output <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> can be used to select elements from a data structure</p>
+<ul class="simple">
+<li><p>Instead of using the index or name within the <code class="docutils literal notranslate"><span class="pre">[</span></code> <code class="docutils literal notranslate"><span class="pre">]</span></code> selector, we can use the results of a comparison for selection based on comparisons</p></li>
+</ul>
+<section id="vector">
+<h3>1. Vector<a class="headerlink" href="#vector" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">)</span>
+
+<span class="n">vector_a</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w">            </span><span class="c1"># test if divisible by 4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>TRUE</li><li>FALSE</li><li>TRUE</li></ol>
+</div></div>
+</div>
+<p>If we want to get the values that test TRUE for the comparison, we pass the vector of results from the comparison to the <code class="docutils literal notranslate"><span class="pre">[]</span></code> selector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>20</li><li>40</li></ol>
+</div></div>
+</div>
+<p>Thus, to obtain the values of a comparison, we combine both the <code class="docutils literal notranslate"><span class="pre">comparison</span></code> operation and the <code class="docutils literal notranslate"><span class="pre">[]</span></code> selector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_a</span><span class="p">[</span><span class="n">vector_a</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">]</span><span class="w">  </span><span class="c1"># use the result to select elements that meet this criteria</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>20</li><li>40</li></ol>
+</div></div>
+</div>
+</section>
+<section id="data-frame">
+<h3>2. Data Frame<a class="headerlink" href="#data-frame" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="n">this_is_a_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can select the column containing the values of interest using the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector. This will return a vector that we can compare with a value</p>
+<ul class="simple">
+<li><p>For example, we wish to compare the values in the <code class="docutils literal notranslate"><span class="pre">age</span></code> column to <code class="docutils literal notranslate"><span class="pre">45</span></code> as a cut-off</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">45</span><span class="w">                  </span><span class="c1"># check if age &gt; 45</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>FALSE</li><li>TRUE</li><li>TRUE</li></ol>
+</div></div>
+</div>
+<p>To obtain the rows in the data frame that return TRUE for the comparison, we combine the comparison operation with a row selector</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_frame[comparison_operation,</span> <span class="pre">]</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="p">[</span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">45</span><span class="p">,]</span><span class="w">   </span><span class="c1"># use the result to select rows that meet this criteria</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 2 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>4</th><td>20213</td><td>55</td><td>David</td><td>high</td></tr>
+	<tr><th scope=row>5</th><td>20216</td><td>65</td><td>Eliza</td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="operations-on-factors-for-ordered-categories">
+<h2>Operations on factors for ordered categories<a class="headerlink" href="#operations-on-factors-for-ordered-categories" title="Permalink to this heading">#</a></h2>
+<p>Factors can be used for comparison of different categories that have an order (e.g. low, med, high risks)</p>
+<p>To do this, 2 parameters need to be specified in the <code class="docutils literal notranslate"><span class="pre">factor</span></code> function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">levels</span></code> option with a vector of the categories in order desired (left to right)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ordered</span></code> option set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code></p></li>
+</ul>
+<section id="id1">
+<h3>1. Vector<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># vector of strings</span>
+<span class="n">vector_c</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'low'</li><li>'med'</li><li>'high'</li><li>'high'</li></ol>
+</div></div>
+</div>
+<p>We can try applying a comparison operator to this vector of characters representing the different categories</p>
+<ul class="simple">
+<li><p>For example, we will try to find elements that have a risk greater than medium</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="w"> </span><span class="c1"># no meaningful comparison</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>FALSE</li><li>FALSE</li></ol>
+</div></div>
+</div>
+<p>In this case, we have not converted the vector to <code class="docutils literal notranslate"><span class="pre">ordered</span> <span class="pre">factors</span></code> to represent the categories in the proper order (low, med, high)</p>
+<p>We can do this by applying the <code class="docutils literal notranslate"><span class="pre">factor</span></code> function to the vector and include 2 parameters</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">levels</span></code> option to specify the order of the categories</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ordered</span></code> option to TRUE</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert to ordered factors for categories</span>
+<span class="n">vector_c</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">vector_c</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                   </span><span class="n">ordered</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">vector_c</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>low</li><li>med</li><li>high</li><li>high</li></ol>
+
+<details>
+	<summary style=display:list-item;cursor:pointer>
+		<strong>Levels</strong>:
+	</summary>
+	<style>
+	.list-inline {list-style: none; margin:0; padding: 0}
+	.list-inline>li {display: inline-block}
+	.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+	</style>
+	<ol class=list-inline><li>'low'</li><li>'med'</li><li>'high'</li></ol>
+</details></div></div>
+</div>
+<p>Now that we have <code class="docutils literal notranslate"><span class="pre">ordered</span> <span class="pre">factors</span></code>, we can apply the same comparison operation to identify elements in the vector that are greater than medium risk</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;med&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>TRUE</li><li>TRUE</li></ol>
+</div></div>
+</div>
+<p>Combining the comparison operation with the <code class="docutils literal notranslate"><span class="pre">[]</span></code> selector with give us the values</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">vector_c</span><span class="p">[</span><span class="n">vector_c</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>high</li><li>high</li></ol>
+
+<details>
+	<summary style=display:list-item;cursor:pointer>
+		<strong>Levels</strong>:
+	</summary>
+	<style>
+	.list-inline {list-style: none; margin:0; padding: 0}
+	.list-inline>li {display: inline-block}
+	.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+	</style>
+	<ol class=list-inline><li>'low'</li><li>'med'</li><li>'high'</li></ol>
+</details></div></div>
+</div>
+</section>
+<section id="id2">
+<h3>2. Data Frame<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>We can use the same concept to select rows in a data frame based on comparisons of a categorical data in a column</p>
+<p>For example, we would like to select the patients who have <code class="docutils literal notranslate"><span class="pre">risk</span></code> greater than <code class="docutils literal notranslate"><span class="pre">med</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="n">this_is_a_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">risk</span></code> column is of <code class="docutils literal notranslate"><span class="pre">character</span></code> data type and needs to be converted to an <code class="docutils literal notranslate"><span class="pre">ordered</span> <span class="pre">factor</span></code> type so that comparisons can be made</p>
+<ul class="simple">
+<li><p>To do this, we use the <code class="docutils literal notranslate"><span class="pre">factor</span></code> function on the <code class="docutils literal notranslate"><span class="pre">risk</span></code> column with <code class="docutils literal notranslate"><span class="pre">levels</span></code> (low, med, high) and <code class="docutils literal notranslate"><span class="pre">ordered=TRUE</span></code> parameters.</p></li>
+<li><p>By assigning the results to the <code class="docutils literal notranslate"><span class="pre">risk</span></code> column, we convert this column from a <code class="docutils literal notranslate"><span class="pre">character</span></code> data type into <code class="docutils literal notranslate"><span class="pre">ordered</span> <span class="pre">factors</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">risk</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">risk</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">ordered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we print the data frame, we can see this conversion reflected in the column as <code class="docutils literal notranslate"><span class="pre">&lt;ord&gt;</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can perform the comparison on the <code class="docutils literal notranslate"><span class="pre">risk</span></code> column to identify <code class="docutils literal notranslate"><span class="pre">rows</span></code> that have risk greater than medium</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">risk</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;med&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>FALSE</li><li>FALSE</li><li>TRUE</li><li>TRUE</li><li>FALSE</li></ol>
+</div></div>
+</div>
+<p>To obtain the rows in the data frame that return TRUE for the comparison, we combine the comparison operation with a row selector</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_frame[comparison_operation,</span> <span class="pre">]</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="p">[</span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">risk</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,]</span><span class="w"> </span><span class="c1"># select rows that meet the risk critera &gt; &quot;med&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 2 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>3</th><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><th scope=row>4</th><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Operations can be performed on data in several ways</p>
+<ul>
+<li><p>Mathematical (<code class="docutils literal notranslate"><span class="pre">+,-,/,*,^,%%</span></code>)</p></li>
+<li><p>Comparison (<code class="docutils literal notranslate"><span class="pre">&lt;,&lt;=,==.!=,&gt;=,&gt;</span></code>)</p></li>
+<li><p>Boolean (<code class="docutils literal notranslate"><span class="pre">&amp;,|,!</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Operations can be done on single values or multiple values in a vector</p></li>
+<li><p>Comparison operations can be combined with selectors <code class="docutils literal notranslate"><span class="pre">[]</span></code> to select elements from data structure depending on the condition</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">vector[conditional</span> <span class="pre">statement]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataframe[conditional</span> <span class="pre">statement,]</span></code> for selecting rows</p></li>
+</ul>
+</li>
+<li><p>Comparison operations can be used to select a range of categories</p>
+<ul>
+<li><p>They need to converted to an ordered factor before comparison operations can be done</p></li>
+<li><p>For example: <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">&lt;-</span> <span class="pre">factor(data,</span> <span class="pre">levels=vector</span> <span class="pre">of</span> <span class="pre">categories,</span> <span class="pre">ordered=TRUE)</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exercise-operations">
+<h2>Exercise - Operations<a class="headerlink" href="#exercise-operations" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">this_is_a_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+<span class="n">this_is_a_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Select patients with high risk, then return a vector of their ages</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">this_is_a_df</span><span class="p">[</span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">,]</span><span class="o">$</span><span class="n">age</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>23</li><li>55</li></ol>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Select patients with ages greater than or equal to 55, return the risk as a vector and tabulate their counts</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="nf">table</span><span class="p">(</span><span class="n">this_is_a_df</span><span class="p">[</span><span class="n">this_is_a_df</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">55</span><span class="p">,]</span><span class="o">$</span><span class="n">risk</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>high  med 
+   1    1 
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-variables-data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Variables, Data Types and Structures</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-decision.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Decision making</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-single-values">Operations on single values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operators">1. Mathematical operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operators">2. Comparison operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-operators">3. Boolean operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-multiple-values-in-vectors">Operations on multiple values in vectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-a-scalar-value">1. Mathematical operations with a scalar value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operations-with-a-scalar-value">2. Comparison operations with a scalar value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-operations-with-another-vector">3. Mathematical operations with another vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-operations-with-another-vector">4. Comparison operations with another vector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-comparison-operations-for-selecting-items">Using comparison operations for selecting items</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vector">1. Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-frame">2. Data Frame</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-on-factors-for-ordered-categories">Operations on factors for ordered categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. Vector</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2. Data Frame</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-operations">Exercise - Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

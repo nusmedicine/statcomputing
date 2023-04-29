@@ -1,0 +1,2027 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Correlating 2 measures &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/06-correlation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistical Modeling" href="../00-md/overview-modeling.html" />
+    <link rel="prev" title="Comparing counts between &gt;2x2 categories (unrelated subjects)" href="05-2-chisq.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/06-correlation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Correlating 2 measures</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Correlating 2 measures</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-quantify-correlation">How can we quantify correlation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-approach">1. Resampling approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-test-statistic">1.1. Calculate the test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-by-resampling">1.2. Generate a null distribution by resampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-to-calculate-the-p-value">1.3. Use the null distribution to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analytical-approach">2. Analytical approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.1. Calculate the test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-theoretical-null-distribution-to-calculate-the-p-value">2.2. Use the theoretical null distribution to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-approach">3. Rank-based approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-test-statistic">3.1. Calculate test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-of-ranks-to-find-the-p-value">3.2. Use the null distribution of ranks to find the p-value</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-resampling-approach">Using a resampling approach</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-theoretical-null-distribution">Using a theoretical null distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-digression">A digression</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#application-statistical-plotting">Application: Statistical plotting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-plot-pearsons-correlation">1. Parametric plot (Pearson’s Correlation)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-plot-spearmans-rank-correlation">2. Non-parametric plot (Spearman’s Rank Correlation)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-correlating-2-measures">Exercise - Correlating 2 measures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="correlating-2-measures">
+<h1>Correlating 2 measures<a class="headerlink" href="#correlating-2-measures" title="Permalink to this heading">#</a></h1>
+<p>We will explore how we can determine if 2 measures are correlated</p>
+<p><img alt="test_correlation.png" src="../_images/test_correlation.png" /></p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will use a dataset from <a class="github reference external" href="https://github.com/kkholst/mets">kkholst/mets</a> based on a study of 7245 same-sexed Finnish MZ and DZ twin pairs aged 18-54 years from the nationwide Finnish Twin Cohort</p>
+<p>A subset of the dataset includes</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gender</span></code>: male/female</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zyg</span></code>: whether monozygotic (MZ) or dizygotic (DZ) twins</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bmi</span></code>: body mass index</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># Twin data from https://github.com/kkholst/mets</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/twinbmi.csv&quot;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">zyg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">zyg</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">id_cols</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;tvparnr&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;num&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;bmi&quot;</span><span class="p">,</span><span class="s">&quot;gender&quot;</span><span class="p">,</span><span class="s">&quot;zyg&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">twinid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tvparnr</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">zyg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zyg_1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">zyg_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">drop_na</span><span class="p">()</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">11188</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">7</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): gender, zyg
+<span class=" -Color -Color-Green">dbl</span> (5): tvparnr, bmi, age, id, num
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 10 × 6</caption>
+<thead>
+	<tr><th scope=col>twinid</th><th scope=col>bmi_1</th><th scope=col>bmi_2</th><th scope=col>gender_1</th><th scope=col>gender_2</th><th scope=col>zyg</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1241</td><td>25.33500</td><td>25.69707</td><td>male  </td><td>male  </td><td>DZ</td></tr>
+	<tr><td> 556</td><td>32.59637</td><td>30.73061</td><td>male  </td><td>male  </td><td>DZ</td></tr>
+	<tr><td>6875</td><td>21.15529</td><td>20.06920</td><td>female</td><td>female</td><td>DZ</td></tr>
+	<tr><td>2477</td><td>26.30902</td><td>23.99121</td><td>male  </td><td>male  </td><td>MZ</td></tr>
+	<tr><td>1933</td><td>21.30395</td><td>23.18367</td><td>male  </td><td>male  </td><td>DZ</td></tr>
+	<tr><td>6313</td><td>24.67550</td><td>22.32143</td><td>female</td><td>female</td><td>DZ</td></tr>
+	<tr><td>5223</td><td>17.44493</td><td>22.77319</td><td>female</td><td>female</td><td>DZ</td></tr>
+	<tr><td>5160</td><td>21.38394</td><td>19.03114</td><td>female</td><td>female</td><td>DZ</td></tr>
+	<tr><td>6942</td><td>19.37716</td><td>21.67126</td><td>female</td><td>female</td><td>DZ</td></tr>
+	<tr><td> 325</td><td>24.77210</td><td>24.67550</td><td>male  </td><td>male  </td><td>MZ</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>To illustrate how we can test for correlation, we will focus on the monozygotic twins to reduce the number of samples</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">filter</span><span class="p">(</span><span class="n">zyg</span><span class="o">==</span><span class="s">&quot;MZ&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_mz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 6</caption>
+<thead>
+	<tr><th scope=col>twinid</th><th scope=col>bmi_1</th><th scope=col>bmi_2</th><th scope=col>gender_1</th><th scope=col>gender_2</th><th scope=col>zyg</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>13</td><td>30.36735</td><td>31.63740</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>16</td><td>22.72044</td><td>22.12974</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>28</td><td>22.32143</td><td>24.09297</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>29</td><td>23.58833</td><td>23.50780</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>31</td><td>23.29123</td><td>24.22023</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>35</td><td>22.83737</td><td>24.91349</td><td>male</td><td>male</td><td>MZ</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can show a scatterplot of the 2 measures</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" src="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" />
+</div>
+</div>
+<p>By visual inspection, there appears to be a correlation between BMI values from one twin and the other twin. However, we may not be sure if this correlation could have occurred by random chance</p>
+</section>
+<hr class="docutils" />
+<section id="how-can-we-quantify-correlation">
+<h2>How can we quantify correlation?<a class="headerlink" href="#how-can-we-quantify-correlation" title="Permalink to this heading">#</a></h2>
+<p>We can consider how 2 values (X and Y) are correlated by looking at the ratio of how much X and Y vary together to the how much they vary independently.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+r_{X Y} &amp;=\frac{\text { Degree to which } X \text { and } Y \text { vary together }}{\text { Degree to which } X \text { and } Y \text { vary separately }} \\
+&amp;=\frac{\operatorname{Cov}(X, Y)}{\sqrt{\operatorname{Var}(X)} \sqrt{\operatorname{Var}(Y)}} \\
+&amp;=\frac{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)/n-1}{\sqrt{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}/n-1} \sqrt{\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}/n-1}} \\
+&amp;=\frac{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2} \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}}}
+\end{aligned}\end{split}\]</div>
+<p>The correlation coefficient <span class="math notranslate nohighlight">\(r\)</span>  can vary from -1 to 1 depending on the direction of correlation</p>
+<p><img alt="test_correlation_r.png" src="../_images/test_correlation_r.png" /></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
+<span class="w">          </span><span class="n">mean_bmi_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">),</span>
+<span class="w">          </span><span class="n">mean_bmi_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">bmi_2</span><span class="p">),</span>
+<span class="w">          </span><span class="n">covariance_xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">((</span><span class="n">bmi_1</span><span class="o">-</span><span class="n">mean_bmi_1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bmi_2</span><span class="o">-</span><span class="n">mean_bmi_2</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="m">-1</span><span class="p">),</span>
+<span class="w">          </span><span class="n">variance_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">sum</span><span class="p">((</span><span class="n">bmi_1</span><span class="o">-</span><span class="n">mean_bmi_1</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="m">-1</span><span class="p">)),</span>
+<span class="w">          </span><span class="n">variance_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">sum</span><span class="p">((</span><span class="n">bmi_2</span><span class="o">-</span><span class="n">mean_bmi_2</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="m">-1</span><span class="p">)),</span>
+<span class="w">          </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">covariance_xy</span><span class="o">/</span><span class="p">(</span><span class="n">variance_x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">variance_y</span><span class="p">)</span>
+<span class="w">         </span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 7</caption>
+<thead>
+	<tr><th scope=col>n</th><th scope=col>mean_bmi_1</th><th scope=col>mean_bmi_2</th><th scope=col>covariance_xy</th><th scope=col>variance_x</th><th scope=col>variance_y</th><th scope=col>r</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1483</td><td>24.2098</td><td>24.16305</td><td>8.581417</td><td>3.591942</td><td>3.492014</td><td>0.6841538</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Using a function</strong></p>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">cor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><strong>cor:</strong> 0.68</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="resampling-approach">
+<h2>1. Resampling approach<a class="headerlink" href="#resampling-approach" title="Permalink to this heading">#</a></h2>
+<p>To get an intuition of the null hypothesis test, we can use the resampling approach</p>
+<ul class="simple">
+<li><p>To do this, we randomly mix the values between the 2 groups and do this multiple times to generate a <em>dataset that represents the null hypothesis</em></p></li>
+<li><p>We then calculate the correlation coefficient for each permutation generated by random mixing to generate the null distribution of values</p></li>
+<li><p>Finally, we calculate the <em>p-value</em>, which is the probability we  find a correlation coefficient in the null distribution that is equal/greater than the correlation coefficient observed in the data</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[P(\text{Data}|\text{Null distribution})\]</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" src="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" />
+</div>
+</div>
+<section id="calculate-the-test-statistic">
+<h3>1.1. Calculate the test statistic<a class="headerlink" href="#calculate-the-test-statistic" title="Permalink to this heading">#</a></h3>
+<p>We calculate the r statistic using the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">obs_stat_r</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="nf">pull</span><span class="p">(</span><span class="n">cor</span><span class="p">)</span>
+<span class="n">obs_stat_r</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><strong>cor:</strong> 0.68</div></div>
+</div>
+</section>
+<section id="generate-a-null-distribution-by-resampling">
+<h3>1.2. Generate a null distribution by resampling<a class="headerlink" href="#generate-a-null-distribution-by-resampling" title="Permalink to this heading">#</a></h3>
+<p>First, we will generate 1000 samples from the data by randomly permuting the <code class="docutils literal notranslate"><span class="pre">bmi_1</span></code> and <code class="docutils literal notranslate"><span class="pre">bmi_2</span></code> values independently using the <code class="docutils literal notranslate"><span class="pre">infer</span></code> library</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">infer</span><span class="p">)</span>
+
+<span class="n">num_resamples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span>
+
+<span class="n">permute</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">specify</span><span class="p">(</span><span class="n">bmi_2</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">bmi_1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">hypothesize</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="s">&quot;independence&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">generate</span><span class="p">(</span><span class="n">reps</span><span class="o">=</span><span class="n">num_resamples</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;permute&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">permute</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">permute</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>bmi_2</th><th scope=col>bmi_1</th><th scope=col>replicate</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>26.54321</td><td>26.33289</td><td>1</td></tr>
+	<tr><td>17.57707</td><td>27.25089</td><td>1</td></tr>
+	<tr><td>25.39063</td><td>28.04282</td><td>1</td></tr>
+	<tr><td>21.60410</td><td>28.06642</td><td>1</td></tr>
+	<tr><td>21.79931</td><td>30.47797</td><td>1</td></tr>
+	<tr><td>23.32342</td><td>27.39818</td><td>1</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>bmi_2</th><th scope=col>bmi_1</th><th scope=col>replicate</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>24.61810</td><td>26.34649</td><td>1000</td></tr>
+	<tr><td>18.82711</td><td>31.77393</td><td>1000</td></tr>
+	<tr><td>21.10727</td><td>21.35991</td><td>1000</td></tr>
+	<tr><td>21.62965</td><td>24.74745</td><td>1000</td></tr>
+	<tr><td>26.03749</td><td>19.37716</td><td>1000</td></tr>
+	<tr><td>21.87755</td><td>20.06096</td><td>1000</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can plot a sample of the randomly permuted dataset</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">12</span><span class="p">)</span>
+
+<span class="n">permute</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;salmon&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/f7f379d467b3dda7373964a59eb07f3c660821dd1500927ebdbdee879f04cc80.png" src="../_images/f7f379d467b3dda7373964a59eb07f3c660821dd1500927ebdbdee879f04cc80.png" />
+</div>
+</div>
+<p>We calculate the r statistic for each replicate by using the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate correlation coefficient for each replicate</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">permute</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">group_by</span><span class="p">(</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">group_modify</span><span class="p">(</span><span class="o">~</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                           </span><span class="nf">select</span><span class="p">(</span><span class="n">cor</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                           </span><span class="nf">rename</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cor</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">ungroup</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+<span class="nf">tail</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>replicate</th><th scope=col>stat</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td> 0.0018</td></tr>
+	<tr><td>2</td><td> 0.0140</td></tr>
+	<tr><td>3</td><td>-0.0190</td></tr>
+	<tr><td>4</td><td> 0.0027</td></tr>
+	<tr><td>5</td><td>-0.0190</td></tr>
+	<tr><td>6</td><td>-0.0140</td></tr>
+</tbody>
+</table>
+</div><div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>replicate</th><th scope=col>stat</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td> 995</td><td> 0.01600</td></tr>
+	<tr><td> 996</td><td> 0.00860</td></tr>
+	<tr><td> 997</td><td> 0.02500</td></tr>
+	<tr><td> 998</td><td> 0.00500</td></tr>
+	<tr><td> 999</td><td> 0.00032</td></tr>
+	<tr><td>1000</td><td>-0.01000</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We now have a distribution of r statistic under the assumption that there is no correlation between the BMI measurements of the twins</p>
+</section>
+<section id="use-the-null-distribution-to-calculate-the-p-value">
+<h3>1.3. Use the null distribution to calculate the p-value<a class="headerlink" href="#use-the-null-distribution-to-calculate-the-p-value" title="Permalink to this heading">#</a></h3>
+<p>Now that we have the r null distribution, we can check if any of these values exceed the r statistic in the data <code class="docutils literal notranslate"><span class="pre">obs_stat_r</span></code></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">exceed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nf">abs</span><span class="p">(</span><span class="n">obs_stat_r</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">                            </span><span class="nf">factor</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">)))</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 10 × 3</caption>
+<thead>
+	<tr><th scope=col>replicate</th><th scope=col>stat</th><th scope=col>exceed</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>987</td><td> 0.0069</td><td>N</td></tr>
+	<tr><td>281</td><td> 0.0150</td><td>N</td></tr>
+	<tr><td>190</td><td> 0.0250</td><td>N</td></tr>
+	<tr><td>744</td><td> 0.0140</td><td>N</td></tr>
+	<tr><td>257</td><td>-0.0140</td><td>N</td></tr>
+	<tr><td> 96</td><td> 0.0260</td><td>N</td></tr>
+	<tr><td>210</td><td> 0.0150</td><td>N</td></tr>
+	<tr><td>196</td><td>-0.0150</td><td>N</td></tr>
+	<tr><td>555</td><td>-0.0180</td><td>N</td></tr>
+	<tr><td>469</td><td> 0.0230</td><td>N</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can visualize the distribution of r statistic values and indicate those values that are equal or exceed the the observed r statistic in the data</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">exceed</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="m">0.005</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_stat_r</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">obs_stat_r</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;salmon&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grey50&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                                 </span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/a114c10a86c1dde5c9f79d9d4aaaa4b6ff17d8e83d7545f0951176c6ca34b758.png" src="../_images/a114c10a86c1dde5c9f79d9d4aaaa4b6ff17d8e83d7545f0951176c6ca34b758.png" />
+</div>
+</div>
+<p>Finally, we can get the <em>p-value</em> by calculating how many times the r statistic in the null distribution is equal/exceeds the observed r statistic</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">summarize</span><span class="p">(</span><span class="n">num_resample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
+<span class="w">                       </span><span class="n">num_exceed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="n">exceed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">p_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_exceed</span><span class="o">/</span><span class="n">num_resample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>num_resample</th><th scope=col>num_exceed</th><th scope=col>p_value</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1000</td><td>0</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As the p-value is small, the observed correlation coefficient is unlikely to be consistent with the null hypothesis. Thus, the correlation between the BMI values of the twins is unlikely to be due to random chance</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="analytical-approach">
+<h2>2. Analytical approach<a class="headerlink" href="#analytical-approach" title="Permalink to this heading">#</a></h2>
+<p>In the analytical approach, the null distribution is not derived from resampling, but it is calculated from a theoretical formula that generalizes the distribution</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" src="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" />
+</div>
+</div>
+<section id="id1">
+<h3>2.1. Calculate the test statistic<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>We can calculate the t-statistic by dividing the r coefficient by its standard error (SE)</p>
+<div class="math notranslate nohighlight">
+\[t=\frac{r}{S E(r)}\]</div>
+<p>The standard error (SE) of r is defined by</p>
+<div class="math notranslate nohighlight">
+\[S E(r)=\sqrt{\frac{1-r^{2}}{\mathit{df}}}, \text{where } \mathit{df} = \text{number of points - 2}\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight">
+\[t=\frac{r}{S E(r)}=\frac{r}{\sqrt{\frac{1-r^{2}}{\mathit{df}}}}=\frac{r \sqrt{\mathit{df}}}{\sqrt{1-r^{2}}}=r \sqrt{\frac{\mathit{df}}{1-r^2}}\]</div>
+<p>See: <a class="reference external" href="https://stats.stackexchange.com/questions/400146/how-to-derive-the-formula-of-the-t-test-of-the-correlation-coefficient">https://stats.stackexchange.com/questions/400146/how-to-derive-the-formula-of-the-t-test-of-the-correlation-coefficient</a></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">num_pairs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data_mz</span><span class="p">)</span>
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">num_pairs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span>
+
+<span class="n">obs_stat_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">obs_stat_r</span><span class="o">*</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">df</span><span class="o">/</span><span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="n">obs_stat_r</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+
+<span class="nf">abs</span><span class="p">(</span><span class="n">obs_stat_t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><strong>cor:</strong> 35.6908434969504</div></div>
+</div>
+</section>
+<section id="use-the-theoretical-null-distribution-to-calculate-the-p-value">
+<h3>2.2. Use the theoretical null distribution to calculate the p-value<a class="headerlink" href="#use-the-theoretical-null-distribution-to-calculate-the-p-value" title="Permalink to this heading">#</a></h3>
+<p>The null t distribution is parameterized by the degrees of freedom <code class="docutils literal notranslate"><span class="pre">df</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code> = number of pairs - 2</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+T \sim \frac{Z}{\sqrt{W /\mathit{df}}} \text{ where } Z \sim N(0,1) \text{, } W \sim \chi^{2}(\mathit{df})
+\]</div>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">vdist_t_prob</span></code> function from <code class="docutils literal notranslate"><span class="pre">vistributions</span></code> library to plot the t-distribution and calculate the p-value</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">vistributions</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">vdist_t_prob</span><span class="p">(</span><span class="n">perc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_stat_t</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;both&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/e7f37136f31f48726f67ba7890a0d895517147aee0098a0510c4714641f80d28.png" src="../_images/e7f37136f31f48726f67ba7890a0d895517147aee0098a0510c4714641f80d28.png" />
+</div>
+</div>
+<p>We see that the p-value ~ 0, which is the value we obtained through resampling</p>
+<p><strong>Using a function</strong></p>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A cor_test: 1 × 8</caption>
+<thead>
+	<tr><th scope=col>var1</th><th scope=col>var2</th><th scope=col>cor</th><th scope=col>statistic</th><th scope=col>p</th><th scope=col>conf.low</th><th scope=col>conf.high</th><th scope=col>method</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>bmi_1</td><td>bmi_2</td><td>0.68</td><td>36.09961</td><td>3.01e-205</td><td>0.6560999</td><td>0.7103194</td><td>Pearson</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="rank-based-approach">
+<h2>3. Rank-based approach<a class="headerlink" href="#rank-based-approach" title="Permalink to this heading">#</a></h2>
+<p>The analytic approach based on theoretical distributions assumes a normal distribution of the data. This parametric approach may not work well under certain situations</p>
+<ul class="simple">
+<li><p>Small and/or skewed data that are not normally distributed</p></li>
+<li><p>Data that are ordinal in nature (e.g. pain score 1, ranking of food preferences)</p></li>
+</ul>
+<p>We will use the same dataset to illustrate the <strong>Spearman correlation test</strong></p>
+<ul class="simple">
+<li><p>Convert values to ranks</p></li>
+<li><p>Calculate the rank-based test statistic</p></li>
+<li><p>Calculate the p-value based on the null distribution</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" src="../_images/2a31f34d18783256c8ea695de32aab51fe8a6efb9b8c942ca6fcba4c89c12dc1.png" />
+</div>
+</div>
+<p>We can look at the QQ plots of both BMI variables</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+
+<span class="c1"># QQ plot for bmi_1</span>
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">       </span><span class="nf">geom_qq</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">       </span><span class="nf">geom_qq_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">       </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+
+<span class="c1"># QQ plot for bmi_2</span>
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">sample</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">       </span><span class="nf">geom_qq</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">       </span><span class="nf">geom_qq_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">       </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/88196f76ca8701645b716e0c7897267eb7b9b234da3780a7abdf86f89fe8599d.png" src="../_images/88196f76ca8701645b716e0c7897267eb7b9b234da3780a7abdf86f89fe8599d.png" />
+<img alt="../_images/c0a8019ebc5ed5bb6afb0605bcf172bdb691863efa6ff0049127f7c6f9ad143e.png" src="../_images/c0a8019ebc5ed5bb6afb0605bcf172bdb691863efa6ff0049127f7c6f9ad143e.png" />
+</div>
+</div>
+<p>As we see that some of the values deviate from the normal distribution, we can use the rank-based approach</p>
+<section id="calculate-test-statistic">
+<h3>3.1. Calculate test statistic<a class="headerlink" href="#calculate-test-statistic" title="Permalink to this heading">#</a></h3>
+<p>We will calculate the rho correlation statistic</p>
+<ul class="simple">
+<li><p>Convert the values to ranks</p></li>
+<li><p>Calculate the sum of squared differences of ranks between the 2 groups</p></li>
+<li><p>Calculate the rho correlation based on the sum squared differences of ranks</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_rank</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">mutate</span><span class="p">(</span><span class="n">bmi1_rank</span><span class="o">=</span><span class="nf">rank</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">bmi2_rank</span><span class="o">=</span><span class="nf">rank</span><span class="p">(</span><span class="n">bmi_2</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_rank</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 8</caption>
+<thead>
+	<tr><th scope=col>twinid</th><th scope=col>bmi_1</th><th scope=col>bmi_2</th><th scope=col>gender_1</th><th scope=col>gender_2</th><th scope=col>zyg</th><th scope=col>bmi1_rank</th><th scope=col>bmi2_rank</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>13</td><td>30.36735</td><td>31.63740</td><td>male</td><td>male</td><td>MZ</td><td>1397.5</td><td>1440.0</td></tr>
+	<tr><td>16</td><td>22.72044</td><td>22.12974</td><td>male</td><td>male</td><td>MZ</td><td> 566.5</td><td> 443.5</td></tr>
+	<tr><td>28</td><td>22.32143</td><td>24.09297</td><td>male</td><td>male</td><td>MZ</td><td> 491.0</td><td> 810.0</td></tr>
+	<tr><td>29</td><td>23.58833</td><td>23.50780</td><td>male</td><td>male</td><td>MZ</td><td> 723.5</td><td> 684.0</td></tr>
+	<tr><td>31</td><td>23.29123</td><td>24.22023</td><td>male</td><td>male</td><td>MZ</td><td> 661.5</td><td> 828.0</td></tr>
+	<tr><td>35</td><td>22.83737</td><td>24.91349</td><td>male</td><td>male</td><td>MZ</td><td> 580.5</td><td> 946.0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_rank</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi1_rank</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi2_rank</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/945fbe086754df3cf6b016bd6a3c2487b8d7b7ed18ceb1959d64bf055a759342.png" src="../_images/945fbe086754df3cf6b016bd6a3c2487b8d7b7ed18ceb1959d64bf055a759342.png" />
+</div>
+</div>
+<p>Next, we calculate the sum of squared differences between ranks of 2 groups</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">sum_d2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_rank</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">          </span><span class="nf">mutate</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bmi1_rank</span><span class="o">-</span><span class="n">bmi2_rank</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">summarize</span><span class="p">(</span><span class="n">sum_d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">d2</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">pull</span><span class="p">(</span><span class="n">sum_d2</span><span class="p">)</span>
+
+<span class="n">sum_d2</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">165456953</div></div>
+</div>
+<p>Recall that the correlation measure is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+r_{X Y} &amp;=\frac{\text { Degree to which } X \text { and } Y \text { vary together }}{\text { Degree to which } X \text { and } Y \text { vary separately }} \\
+&amp;=\frac{\operatorname{Cov}(X, Y)}{\sqrt{\operatorname{Var}(X)} \sqrt{\operatorname{Var}(Y)}}
+\end{aligned}\end{split}\]</div>
+<p>For ranks, the correlation measure (rho) is equivalent to</p>
+<div class="math notranslate nohighlight">
+\[\rho=1-\frac{6 \sum d_{i}^{2}}{n\left(n^{2}-1\right)}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{where } d &amp;= \text{difference in ranks between 2 groups} \\
+n &amp;= \text{number of paired samples}
+\end{align}
+\end{split}\]</div>
+<p>For details, see: <a class="reference external" href="https://stats.stackexchange.com/questions/89121/prove-the-equivalence-of-the-following-two-formulas-for-spearman-correlation">https://stats.stackexchange.com/questions/89121/prove-the-equivalence-of-the-following-two-formulas-for-spearman-correlation</a></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data_rank</span><span class="p">)</span>
+
+<span class="n">obs_stat_rho</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">6</span><span class="o">*</span><span class="n">sum_d2</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">^</span><span class="m">2-1</span><span class="p">))</span>
+
+<span class="n">obs_stat_rho</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">0.695622169639684</div></div>
+</div>
+<p><strong>Using a function</strong></p>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library by specifying the <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">=</span> <span class="pre">&quot;spearman&quot;</span></code> option</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="n">bmi_2</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">method</span><span class="o">=</span><span class="s">&quot;spearman&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">pull</span><span class="p">(</span><span class="n">cor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><strong>rho:</strong> 0.7</div></div>
+</div>
+</section>
+<section id="use-the-null-distribution-of-ranks-to-find-the-p-value">
+<h3>3.2. Use the null distribution of ranks to find the p-value<a class="headerlink" href="#use-the-null-distribution-of-ranks-to-find-the-p-value" title="Permalink to this heading">#</a></h3>
+<p>Now that we have the test statistic, we will need to generate a null distribution to compare it to.</p>
+<section id="using-a-resampling-approach">
+<h4>Using a resampling approach<a class="headerlink" href="#using-a-resampling-approach" title="Permalink to this heading">#</a></h4>
+<p>To get an intuition of the null distribution of rho statistic, we can simulate the null distribution by permuting the different ranks in the groups and calculating the rho statistic for each replicate</p>
+<ul class="simple">
+<li><p>Note that we do not resample from the data but generate the distribution of ranks from a range consistent with the number of observations</p></li>
+</ul>
+<p>We calculate the rho statistic for each replicate to generate the null distribution and check which values in the null distribution equal or exceed the observed rho statistic in the data</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># calculate rho statistic for 1 sample of random pair of ranks</span>
+<span class="n">sample_once</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">rank1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">)</span>
+<span class="w">    </span><span class="n">rank2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">)</span>
+<span class="w">    </span><span class="n">d2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">rank1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rank2</span><span class="p">)</span><span class="o">^</span><span class="m">2</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">6</span><span class="o">*</span><span class="nf">sum</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">^</span><span class="m">2-1</span><span class="p">))</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span>
+
+<span class="c1"># resample to generate null distribution and check for extreme values</span>
+<span class="n">n_sample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">n_replicates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10000</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">rho</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="n">n_replicates</span><span class="p">,</span><span class="nf">sample_once</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)),</span><span class="w"> </span><span class="n">simplify</span><span class="o">=</span><span class="bp">F</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">exceed</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">rho</span><span class="o">&gt;=</span><span class="nf">abs</span><span class="p">(</span><span class="n">obs_stat_rho</span><span class="p">),</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">factor</span><span class="p">(</span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">)))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">resample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>rho</th><th scope=col>exceed</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>-0.003530687</td><td>N</td></tr>
+	<tr><td> 0.004147959</td><td>N</td></tr>
+	<tr><td> 0.018169880</td><td>N</td></tr>
+	<tr><td> 0.003397787</td><td>N</td></tr>
+	<tr><td> 0.026460818</td><td>N</td></tr>
+	<tr><td>-0.012115529</td><td>N</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can plot the null distribution and and see how often the rho statistic in the null distribution equals or exceeds what we observe in the data</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="n">exceed</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_stat_rho</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">obs_stat_rho</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;salmon&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;grey50&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="s">&quot;N&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">drop</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/076f7881668993699f7f93972a335d2a395005a46d1a2628cbc133b556b1af86.png" src="../_images/076f7881668993699f7f93972a335d2a395005a46d1a2628cbc133b556b1af86.png" />
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">resample</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">summarize</span><span class="p">(</span><span class="n">num_resample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
+<span class="w">                       </span><span class="n">num_exceed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="n">exceed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">sum</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">p_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">num_exceed</span><span class="o">/</span><span class="n">num_resample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 3</caption>
+<thead>
+	<tr><th scope=col>num_resample</th><th scope=col>num_exceed</th><th scope=col>p_value</th></tr>
+	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>10000</td><td>0</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As the p-value is small, the observed rho statistic is unlikely to be consistent with the null hypothesis. Thus, the rank correlation between the BMI values of the twins is unlikely to be due to random chance</p>
+</section>
+<section id="using-a-theoretical-null-distribution">
+<h4>Using a theoretical null distribution<a class="headerlink" href="#using-a-theoretical-null-distribution" title="Permalink to this heading">#</a></h4>
+<p>Analytically, we can use the null t-distribution that is parameterized by <code class="docutils literal notranslate"><span class="pre">df</span></code>, where</p>
+<ul class="simple">
+<li><p>df = number of pairs - 2</p></li>
+</ul>
+<p>We can calculate the t-statistic from the rho statistic</p>
+<div class="math notranslate nohighlight">
+\[t=\rho \sqrt{\frac{\mathit{df}}{1-\rho^{2}}}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{where }\mathit{df} &amp;=\text{number of pairs - 2} \\
+\rho &amp;= \text{Spearman rho correlation coefficient}
+\end{align}
+\end{split}\]</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">num_pairs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data_mz</span><span class="p">)</span>
+<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">num_pairs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span>
+
+<span class="n">obs_stat_t</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">obs_stat_rho</span><span class="o">*</span><span class="nf">sqrt</span><span class="p">((</span><span class="n">num_pairs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="m">1</span><span class="o">-</span><span class="n">obs_stat_rho</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+
+<span class="n">obs_stat_t</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">37.26317810508</div></div>
+</div>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">vdist_t_prob</span></code> function from <code class="docutils literal notranslate"><span class="pre">vistributions</span></code> library to plot the t-distribution and calculate the p-value</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">vistributions</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="nf">vdist_t_prob</span><span class="p">(</span><span class="n">perc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_stat_t</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;both&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/88fd9b46fd0f9d46562545f0706201b6da1f50e7e8ccdb0cd998d685838dc3b9.png" src="../_images/88fd9b46fd0f9d46562545f0706201b6da1f50e7e8ccdb0cd998d685838dc3b9.png" />
+</div>
+</div>
+<p>We see that the p-value ~ 0, which is the value we obtained through resampling</p>
+<p><strong>Using a function</strong></p>
+<p>We can also use the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function from the <code class="docutils literal notranslate"><span class="pre">rstatix</span></code> library by specifying the <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">=</span> <span class="pre">&quot;spearman&quot;</span></code> option</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">bmi_2</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                              </span><span class="n">method</span><span class="o">=</span><span class="s">&quot;spearman&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A cor_test: 1 × 6</caption>
+<thead>
+	<tr><th scope=col>var1</th><th scope=col>var2</th><th scope=col>cor</th><th scope=col>statistic</th><th scope=col>p</th><th scope=col>method</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>bmi_1</td><td>bmi_2</td><td>0.7</td><td>165457624</td><td>5.76e-215</td><td>Spearman</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="a-digression">
+<h2>A digression<a class="headerlink" href="#a-digression" title="Permalink to this heading">#</a></h2>
+<p>We can make use of the correlation coefficients in twins to make inferences about the heritability of a trait. In the dataset, there are</p>
+<ul class="simple">
+<li><p>Monozygotic (MZ) twins that share 100% of the genes</p></li>
+<li><p>Dizygotic (DZ) twins that share 50% of the genes</p></li>
+</ul>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">7</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">bmi_2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">zyg</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">zyg</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/50a92c4785d98714db7f98cac382e9992abc2d6cc4e2dbb7d7e6c5541c475a27.png" src="../_images/50a92c4785d98714db7f98cac382e9992abc2d6cc4e2dbb7d7e6c5541c475a27.png" />
+</div>
+</div>
+<p>We can see that the correlation for MZ twins appears to be higher than DZ twins and we can calculate the r statistic using the <code class="docutils literal notranslate"><span class="pre">cor_test</span></code> function</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">cor_twins</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">group_by</span><span class="p">(</span><span class="n">zyg</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">cor_test</span><span class="p">(</span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">               </span><span class="n">as_tibble</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="n">ungroup</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">select</span><span class="p">(</span><span class="n">zyg</span><span class="p">,</span><span class="w"> </span><span class="n">cor</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;zyg&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cor&quot;</span><span class="p">)</span>
+
+<span class="n">cor_twins</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 2</caption>
+<thead>
+	<tr><th scope=col>DZ</th><th scope=col>MZ</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0.37</td><td>0.68</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can make use of the fact that DZ twins have share half the genetic identity compared to MZ twins to calculate the heritability index <span class="math notranslate nohighlight">\(H_2\)</span></p>
+<p><img alt="test_correlation_h2.png" src="../_images/test_correlation_h2.png" /></p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">cor_twins</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">heritability_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">MZ</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">DZ</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 1 × 1</caption>
+<thead>
+	<tr><th scope=col>heritability_index</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>0.62</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see that BMI has a large heritable component based on the twin correlation study</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="application-statistical-plotting">
+<h1>Application: Statistical plotting<a class="headerlink" href="#application-statistical-plotting" title="Permalink to this heading">#</a></h1>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code> library. For details see: <a class="reference external" href="https://indrajeetpatil.github.io/ggstatsplot/">https://indrajeetpatil.github.io/ggstatsplot/</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You can cite this package as:
+     Patil, I. (2021). Visualizations with statistical details: The &#39;ggstatsplot&#39; approach.
+     Journal of Open Source Software, 6(61), 3167, doi:10.21105/joss.03167
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># Twin data from https://github.com/kkholst/mets</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/twinbmi.csv&quot;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">                  </span><span class="n">zyg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">zyg</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">id_cols</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;tvparnr&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;num&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;bmi&quot;</span><span class="p">,</span><span class="s">&quot;gender&quot;</span><span class="p">,</span><span class="s">&quot;zyg&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">rename</span><span class="p">(</span><span class="n">twinid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tvparnr</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">zyg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zyg_1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">zyg_2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">drop_na</span><span class="p">()</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">           </span><span class="nf">filter</span><span class="p">(</span><span class="n">zyg</span><span class="o">==</span><span class="s">&quot;MZ&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_mz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">11188</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">7</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (2): gender, zyg
+<span class=" -Color -Color-Green">dbl</span> (5): tvparnr, bmi, age, id, num
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 6</caption>
+<thead>
+	<tr><th scope=col>twinid</th><th scope=col>bmi_1</th><th scope=col>bmi_2</th><th scope=col>gender_1</th><th scope=col>gender_2</th><th scope=col>zyg</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>13</td><td>30.36735</td><td>31.63740</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>16</td><td>22.72044</td><td>22.12974</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>28</td><td>22.32143</td><td>24.09297</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>29</td><td>23.58833</td><td>23.50780</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>31</td><td>23.29123</td><td>24.22023</td><td>male</td><td>male</td><td>MZ</td></tr>
+	<tr><td>35</td><td>22.83737</td><td>24.91349</td><td>male</td><td>male</td><td>MZ</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="parametric-plot-pearsons-correlation">
+<h2>1. Parametric plot (Pearson’s Correlation)<a class="headerlink" href="#parametric-plot-pearsons-correlation" title="Permalink to this heading">#</a></h2>
+<p>We will make a scatterplot looking at the correlation between 2 groups with the parametric Pearson’s correlation index using the <code class="docutils literal notranslate"><span class="pre">ggscatterstats</span></code> function from <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: group 1 values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: group 2 values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: default is <code class="docutils literal notranslate"><span class="pre">parametric</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marginal</span></code>: set to FALSE to omit the marginal plots</p></li>
+</ul>
+<p>For details, see: <a class="reference external" href="https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html">https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">10</span><span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggscatterstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">,</span>
+<span class="w">               </span><span class="n">marginal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f02b24b15903f80a7e5800a7041813286b9634eea6b7e67518f9c19fd92daabc.png" src="../_images/f02b24b15903f80a7e5800a7041813286b9634eea6b7e67518f9c19fd92daabc.png" />
+</div>
+</div>
+</section>
+<section id="non-parametric-plot-spearmans-rank-correlation">
+<h2>2. Non-parametric plot (Spearman’s Rank Correlation)<a class="headerlink" href="#non-parametric-plot-spearmans-rank-correlation" title="Permalink to this heading">#</a></h2>
+<p>We will make a scatterplot looking at the correlation between 2 groups with the non-parametric Spearman’s rank correlation index using the <code class="docutils literal notranslate"><span class="pre">ggscatterstats</span></code> function from <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: group 1 values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code>: group 2 values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: set to <code class="docutils literal notranslate"><span class="pre">nonparametric</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">marginal</span></code>: set to FALSE to omit the marginal plots</p></li>
+</ul>
+<p>For details, see: <a class="reference external" href="https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html">https://indrajeetpatil.github.io/ggstatsplot/reference/ggscatterstats.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggscatterstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bmi_1</span><span class="p">,</span><span class="w"> </span>
+<span class="w">               </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bmi_2</span><span class="p">,</span>
+<span class="w">               </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;nonparametric&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">marginal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c8db57cb5e71d2fb3b373b46031cd0c555ec33f9ba9608e1a855453c0a0f46c8.png" src="../_images/c8db57cb5e71d2fb3b373b46031cd0c555ec33f9ba9608e1a855453c0a0f46c8.png" />
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-correlating-2-measures">
+<h2>Exercise - Correlating 2 measures<a class="headerlink" href="#exercise-correlating-2-measures" title="Permalink to this heading">#</a></h2>
+<p>For this exercise, we will use the Framingham heart dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># load data</span>
+<span class="n">data_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/framingham.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># recap of what was done</span>
+<span class="n">data_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_plot</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">rename</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">male</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">sex</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">age</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">education</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">currentSmoker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">currentSmoker</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">cigsPerDay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">cigsPerDay</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">BPMeds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">BPMeds</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">prevalentStroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentStroke</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">prevalentHyp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">prevalentHyp</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">diabetes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">diabetes</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">totChol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">totChol</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">heartRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">heartRate</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">TenYearCHD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">TenYearCHD</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+
+<span class="n">data_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_plot</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">mutate</span><span class="p">(</span><span class="n">glucose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">glucose</span><span class="o">/</span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># mg/dL to mmol/L</span>
+<span class="w">             </span><span class="nf">mutate</span><span class="p">(</span><span class="n">totChol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">totChol</span><span class="o">/</span><span class="m">39</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">1</span><span class="p">))</span><span class="w">     </span><span class="c1"># mg/dL to mmol/L</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_plot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">4240</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">16</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Green">dbl</span> (16): male, age, education, currentSmoker, cigsPerDay, BPMeds, prevalent...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 16</caption>
+<thead>
+	<tr><th scope=col>sex</th><th scope=col>age</th><th scope=col>education</th><th scope=col>currentSmoker</th><th scope=col>cigsPerDay</th><th scope=col>BPMeds</th><th scope=col>prevalentStroke</th><th scope=col>prevalentHyp</th><th scope=col>diabetes</th><th scope=col>totChol</th><th scope=col>sysBP</th><th scope=col>diaBP</th><th scope=col>BMI</th><th scope=col>heartRate</th><th scope=col>glucose</th><th scope=col>TenYearCHD</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>1</td><td>39</td><td>4</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>5.0</td><td>106.0</td><td> 70</td><td>26.97</td><td>80</td><td>4.3</td><td>0</td></tr>
+	<tr><td>0</td><td>46</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>6.4</td><td>121.0</td><td> 81</td><td>28.73</td><td>95</td><td>4.2</td><td>0</td></tr>
+	<tr><td>1</td><td>48</td><td>1</td><td>1</td><td>20</td><td>0</td><td>0</td><td>0</td><td>0</td><td>6.3</td><td>127.5</td><td> 80</td><td>25.34</td><td>75</td><td>3.9</td><td>0</td></tr>
+	<tr><td>0</td><td>61</td><td>3</td><td>1</td><td>30</td><td>0</td><td>0</td><td>1</td><td>0</td><td>5.8</td><td>150.0</td><td> 95</td><td>28.58</td><td>65</td><td>5.7</td><td>1</td></tr>
+	<tr><td>0</td><td>46</td><td>3</td><td>1</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td><td>7.3</td><td>130.0</td><td> 84</td><td>23.10</td><td>85</td><td>4.7</td><td>0</td></tr>
+	<tr><td>0</td><td>43</td><td>2</td><td>0</td><td> 0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>5.8</td><td>180.0</td><td>110</td><td>30.30</td><td>77</td><td>5.5</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Plot the distributions of <code class="docutils literal notranslate"><span class="pre">totChol</span></code> and <code class="docutils literal notranslate"><span class="pre">BMI</span></code> using <code class="docutils literal notranslate"><span class="pre">ggplot</span></code> from <code class="docutils literal notranslate"><span class="pre">tidyverse</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_plot</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">totChol</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+
+<span class="n">data_plot</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">BMI</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Removed 50 rows containing non-finite values (`stat_bin()`).”
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“Removed 19 rows containing non-finite values (`stat_bin()`).”
+</pre></div>
+</div>
+<img alt="../_images/721fead123f9330de7a14b889b7463dda02f9e79ff387aaccd2444dd095dc4c1.png" src="../_images/721fead123f9330de7a14b889b7463dda02f9e79ff387aaccd2444dd095dc4c1.png" />
+<img alt="../_images/a99d5f24d9e5bfcb19dff5c396f560ba4d399f17cb4ec2ed00749b31d2dada7c.png" src="../_images/a99d5f24d9e5bfcb19dff5c396f560ba4d399f17cb4ec2ed00749b31d2dada7c.png" />
+</div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Generate statistical plots showing the correlation between <code class="docutils literal notranslate"><span class="pre">totChol</span></code> and <code class="docutils literal notranslate"><span class="pre">BMI</span></code> using <code class="docutils literal notranslate"><span class="pre">ggscatterstats</span></code> from <code class="docutils literal notranslate"><span class="pre">ggstatsplot</span></code></p>
+<ul class="simple">
+<li><p>Explain your choice of test</p></li>
+<li><p>State the effect size, 95% CI and p-value</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">8</span><span class="p">)</span>
+
+<span class="n">data_plot</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">ggscatterstats</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">BMI</span><span class="p">,</span><span class="w"> </span>
+<span class="w">              </span><span class="n">y</span><span class="o">=</span><span class="n">totChol</span><span class="p">,</span>
+<span class="w">              </span><span class="n">marginal</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6bb190aea3db8039abdad9cd34cba6a36e22e03cc27e4a842a999199fd0970f9.png" src="../_images/6bb190aea3db8039abdad9cd34cba6a36e22e03cc27e4a842a999199fd0970f9.png" />
+</div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05-2-chisq.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Comparing counts between &gt;2x2 categories (unrelated subjects)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../00-md/overview-modeling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Statistical Modeling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Correlating 2 measures</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-quantify-correlation">How can we quantify correlation?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling-approach">1. Resampling approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-the-test-statistic">1.1. Calculate the test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-null-distribution-by-resampling">1.2. Generate a null distribution by resampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-to-calculate-the-p-value">1.3. Use the null distribution to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analytical-approach">2. Analytical approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.1. Calculate the test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-theoretical-null-distribution-to-calculate-the-p-value">2.2. Use the theoretical null distribution to calculate the p-value</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rank-based-approach">3. Rank-based approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-test-statistic">3.1. Calculate test statistic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-null-distribution-of-ranks-to-find-the-p-value">3.2. Use the null distribution of ranks to find the p-value</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-resampling-approach">Using a resampling approach</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-theoretical-null-distribution">Using a theoretical null distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-digression">A digression</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#application-statistical-plotting">Application: Statistical plotting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-plot-pearsons-correlation">1. Parametric plot (Pearson’s Correlation)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-plot-spearmans-rank-correlation">2. Non-parametric plot (Spearman’s Rank Correlation)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-correlating-2-measures">Exercise - Correlating 2 measures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

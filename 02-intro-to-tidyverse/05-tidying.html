@@ -1,0 +1,1647 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Tidying data &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02-intro-to-tidyverse/05-tidying';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Joining data" href="06-joining.html" />
+    <link rel="prev" title="Transforming Data" href="04-transforming.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/02-intro-to-tidyverse/05-tidying.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tidying data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-tidy-data">What is tidy data?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-untidy-data">Examples of untidy data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wide-format">Wide format</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-values-in-a-row">Multiple values in a row</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tidying-data-in-wide-format">Tidying data in wide format</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tidying-data-with-multiple-values-in-a-row">Tidying data with multiple values in a row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-tidying-data">Example of tidying data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-analysis">Example of analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-tidying-data">Exercise - Tidying Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tidying-data">
+<h1>Tidying data<a class="headerlink" href="#tidying-data" title="Permalink to this heading">#</a></h1>
+<p>Data needs to be structured and organized to facilitate analysis. The idea of tidy data is related to the concept of data normalization (e.g. Codd’s Normal Forms) in a relational database model. You may recall this in the earlier course on data modelling.</p>
+<p><img alt="data_normalization.png" src="../_images/data_normalization.png" /></p>
+<section id="what-is-tidy-data">
+<h2>What is tidy data?<a class="headerlink" href="#what-is-tidy-data" title="Permalink to this heading">#</a></h2>
+<p>In tidy data:</p>
+<ul class="simple">
+<li><p>Each variable has its own column</p></li>
+<li><p>Each observation has its own row</p></li>
+<li><p>Both variables (columns) and observations (rows) form a table</p></li>
+</ul>
+<p><img alt="untidy_tidy.png" src="../_images/untidy_tidy.png" /></p>
+</section>
+<section id="examples-of-untidy-data">
+<h2>Examples of untidy data<a class="headerlink" href="#examples-of-untidy-data" title="Permalink to this heading">#</a></h2>
+<section id="wide-format">
+<h3>Wide format<a class="headerlink" href="#wide-format" title="Permalink to this heading">#</a></h3>
+<p><img alt="untidy_wide.png" src="../_images/untidy_wide.png" /></p>
+</section>
+<section id="multiple-values-in-a-row">
+<h3>Multiple values in a row<a class="headerlink" href="#multiple-values-in-a-row" title="Permalink to this heading">#</a></h3>
+<p><img alt="untidy_multiple.png" src="../_images/untidy_multiple.png" /></p>
+</section>
+</section>
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>We will use a COVID-19 dataset from an Imperial College London study (<a class="reference external" href="https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-symptom-progression-11-03-2020.pdf">https://www.imperial.ac.uk/media/imperial-college/medicine/sph/ide/gida-fellowships/Imperial-College-COVID19-symptom-progression-11-03-2020.pdf</a>) to illustrate how we can tidy data for further analysis</p>
+<p>In this dataset, data was collected from various sources from Hong Kong, Japan, Singapore and South Korea to examine the occurrence of symptoms and the progression of symptoms through time.</p>
+<p>The variables include</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">new_id</span></code>: patient id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_report</span></code>: date of report</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">country</span></code>: country of origin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: age of patient</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_onset</span></code>: date of onset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">symptoms_at_onset</span></code>: symptoms at onset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_first_consultation</span></code>: date of first consultation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_symp_prog(1-4)</span></code>: date of symptoms at timepoints 1-4</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">symp_prog(1-4)</span></code>: symptoms at timepoints 1-4</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">any_symptom</span></code>: any reported symptom</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_hospitalised</span></code>: date hospitalized</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_death</span></code>: date of death</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_recovered</span></code>: date of recovery</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source_name</span></code>: name of source of data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">URL</span> <span class="pre">link</span> <span class="pre">(2/3)</span></code>: URL links for the data</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/subset_international_cases_2020_03_11.csv&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">448</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">23</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (23): new_id, date_report, country, age, date_onset, symptoms_at_onset, ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 23</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>date_report</th><th scope=col>country</th><th scope=col>age</th><th scope=col>date_onset</th><th scope=col>symptoms_at_onset</th><th scope=col>date_first_consultation</th><th scope=col>date_symp_prog1</th><th scope=col>symp_prog1</th><th scope=col>date_symp_prog2</th><th scope=col>⋯</th><th scope=col>date_symp_prog4</th><th scope=col>symp_prog4</th><th scope=col>any_symptom</th><th scope=col>date_hospitalised</th><th scope=col>date_death</th><th scope=col>date_recovered</th><th scope=col>source_name</th><th scope=col>URL link</th><th scope=col>URL link 2</th><th scope=col>URL link 3</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>⋯</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>fever                  </td><td>NA</td><td>NA        </td><td>pneumonia                  </td><td>22/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>Japanese MOH</td><td>https://www.mhlw.go.jp/stf/newpage_08906.html</td><td>https://www.mhlw.go.jp/stf/newpage_09120.html                                                                                                       </td><td>https://www.mhlw.go.jp/stf/newpage_09159.html</td></tr>
+	<tr><td>japan002</td><td>24/01/2020</td><td>Japan</td><td>40s</td><td>14/01/2020</td><td>fever                  </td><td>NA</td><td>22/01/2020</td><td>fever;sore throat;pneumonia</td><td>27/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA        </td><td>Japanese MOH</td><td>https://www.mhlw.go.jp/stf/newpage_09079.html</td><td>NA                                                                                                                                                  </td><td>NA                                           </td></tr>
+	<tr><td>japan003</td><td>25/01/2020</td><td>Japan</td><td>30s</td><td>21/01/2020</td><td><span style=white-space:pre-wrap>fever;cough            </span></td><td>NA</td><td><span style=white-space:pre-wrap>NA        </span></td><td><span style=white-space:pre-wrap>NA                         </span></td><td>27/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>23/01/2020</td><td>NA</td><td><span style=white-space:pre-wrap>NA        </span></td><td>Japanese MOH</td><td>https://www.mhlw.go.jp/stf/newpage_09099.html</td><td>https://www3.nhk.or.jp/news/html/20200125/k10012258831000.html?utm_int=word_contents_list-items_006&amp;word_result=%E6%96%B0%E5%9E%8B%E8%82%BA%E7%82%8E</td><td><span style=white-space:pre-wrap>NA                                           </span></td></tr>
+	<tr><td>japan004</td><td>26/01/2020</td><td>Japan</td><td>40s</td><td>23/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>fever;joint pain;pneumonia </td><td>26/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>24/01/2020</td><td>NA</td><td>NA        </td><td>Japanese MOH</td><td>https://www.mhlw.go.jp/stf/newpage_09100.html</td><td>NA                                                                                                                                                  </td><td>NA                                           </td></tr>
+	<tr><td>japan005</td><td>28/01/2020</td><td>Japan</td><td>40s</td><td>22/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>malaise                    </td><td>26/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>28/01/2020</td><td>NA</td><td>06/02/2020</td><td>Japan MOH   </td><td>https://www.mhlw.go.jp/stf/newpage_09154.html</td><td>https://www.mhlw.go.jp/stf/newpage_09360.html                                                                                                       </td><td>NA                                           </td></tr>
+	<tr><td>japan006</td><td>28/01/2020</td><td>Japan</td><td>60s</td><td>14/01/2020</td><td>chills;cough;joint pain</td><td>NA</td><td>22/01/2020</td><td><span style=white-space:pre-wrap>joint pain;severe cough    </span></td><td>25/01/2020</td><td>⋯</td><td>NA</td><td>NA</td><td>NA</td><td>25/01/2020</td><td>NA</td><td>08/02/2020</td><td><span style=white-space:pre-wrap>Japan MOH   </span></td><td>https://www.mhlw.go.jp/stf/newpage_09153.html</td><td>https://www3.nhk.or.jp/news/html/20200208/k10012278321000.html?utm_int=word_contents_list-items_002&amp;word_result=%E6%96%B0%E5%9E%8B%E8%82%BA%E7%82%8E</td><td><span style=white-space:pre-wrap>NA                                           </span></td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tidying-data-in-wide-format">
+<h2>Tidying data in wide format<a class="headerlink" href="#tidying-data-in-wide-format" title="Permalink to this heading">#</a></h2>
+<p>In a wide format, related <code class="docutils literal notranslate"><span class="pre">categorical</span></code> data with its values are spread out into different <code class="docutils literal notranslate"><span class="pre">columns</span></code>. This makes analysis difficult in many cases</p>
+<p><img alt="transform_pivot.png" src="../_images/transform_pivot.png" /></p>
+<p>To transform data in a wide format to a tidy format, we use the <code class="docutils literal notranslate"><span class="pre">pivot_longer</span></code> function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">related_columns</span><span class="p">,</span>
+             <span class="n">names_to</span> <span class="o">=</span> <span class="n">column</span> <span class="n">name</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">the</span> <span class="n">related</span> <span class="n">columns</span><span class="p">,</span>
+             <span class="n">values_to</span> <span class="o">=</span> <span class="n">column</span> <span class="n">name</span> <span class="k">for</span> <span class="n">the</span> <span class="n">values</span> <span class="k">for</span> <span class="n">related</span> <span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From the COVID-19 dataset, we will select several columns of interest <strong>related to dates of events</strong> to illustrate how we can transform data from the <code class="docutils literal notranslate"><span class="pre">wide</span></code> to <code class="docutils literal notranslate"><span class="pre">long</span></code> format</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">new_id</span></code>: patient id</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_report</span></code>: date infection reported</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_onset</span></code>: date of symptoms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_first_consultation</span></code>: date of 1st visit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_symp_prog(1-4)</span></code>: dates of symptom progression</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_hospitalized</span></code>: date of hospitalization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_death</span></code>: date of death</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">date_recovery</span></code>: date of recovery</p></li>
+</ul>
+<p>The columns with events related to dates have a prefix of <code class="docutils literal notranslate"><span class="pre">date_</span></code> and we can use the <code class="docutils literal notranslate"><span class="pre">starts_with</span></code> helper function to select them</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">select</span><span class="p">(</span><span class="n">new_id</span><span class="p">,</span><span class="w"> </span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;date_&quot;</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_long</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 11</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>date_report</th><th scope=col>date_onset</th><th scope=col>date_first_consultation</th><th scope=col>date_symp_prog1</th><th scope=col>date_symp_prog2</th><th scope=col>date_symp_prog3</th><th scope=col>date_symp_prog4</th><th scope=col>date_hospitalised</th><th scope=col>date_death</th><th scope=col>date_recovered</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>14/01/2020</td><td>03/01/2020</td><td>NA</td><td>NA        </td><td>22/01/2020</td><td>NA        </td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td></tr>
+	<tr><td>japan002</td><td>24/01/2020</td><td>14/01/2020</td><td>NA</td><td>22/01/2020</td><td>27/01/2020</td><td>NA        </td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan003</td><td>25/01/2020</td><td>21/01/2020</td><td>NA</td><td>NA        </td><td>27/01/2020</td><td>NA        </td><td>NA</td><td>23/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan004</td><td>26/01/2020</td><td>23/01/2020</td><td>NA</td><td>24/01/2020</td><td>26/01/2020</td><td>27/01/2020</td><td>NA</td><td>24/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan005</td><td>28/01/2020</td><td>22/01/2020</td><td>NA</td><td>24/01/2020</td><td>26/01/2020</td><td>28/01/2020</td><td>NA</td><td>28/01/2020</td><td>NA</td><td>06/02/2020</td></tr>
+	<tr><td>japan006</td><td>28/01/2020</td><td>14/01/2020</td><td>NA</td><td>22/01/2020</td><td>25/01/2020</td><td>NA        </td><td>NA</td><td>25/01/2020</td><td>NA</td><td>08/02/2020</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We can see that the columns with the <code class="docutils literal notranslate"><span class="pre">date_</span></code> prefix represent <strong>categories of events</strong> for each of the dates for each patient in <code class="docutils literal notranslate"><span class="pre">new_id</span></code></p>
+<ul class="simple">
+<li><p>We will pick the column names with the prefix <code class="docutils literal notranslate"><span class="pre">date_</span></code> using the <code class="docutils literal notranslate"><span class="pre">starts_with</span></code> helper function</p></li>
+<li><p>We will transform the <strong>selected columns</strong> as values into a new column <code class="docutils literal notranslate"><span class="pre">event</span></code> by specifying <code class="docutils literal notranslate"><span class="pre">names_to</span> <span class="pre">=</span> <span class="pre">&quot;event&quot;</span></code></p></li>
+<li><p>We will transform the <strong>date values</strong> from the selected columns into a new <code class="docutils literal notranslate"><span class="pre">date</span></code> column by specifying <code class="docutils literal notranslate"><span class="pre">values_to</span> <span class="pre">=</span> <span class="pre">&quot;date&quot;</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_long</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">             </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;date_&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1"># helper function to select columns</span>
+<span class="w">                          </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;event&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1"># selected columns to new event column</span>
+<span class="w">                          </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;date&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># date values to new date column</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_long</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>When pivoting to the long format, the column names are transferred to the new column specified by <code class="docutils literal notranslate"><span class="pre">names_to</span></code> and the values are transferred to the new column specified by <code class="docutils literal notranslate"><span class="pre">values_to</span></code></p>
+<p>Notice that the values all contain the prefix <code class="docutils literal notranslate"><span class="pre">date_</span></code> and we can remove them for clarity</p>
+<ul class="simple">
+<li><p>We can <code class="docutils literal notranslate"><span class="pre">mutate</span></code> the values in the new column to remove any repetitive prefixes/suffixes that were used using <code class="docutils literal notranslate"><span class="pre">str_replace</span></code> function</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">str_replace</span></code> function matches the text specified by <code class="docutils literal notranslate"><span class="pre">pattern</span></code> and replaces it with a text specified by <code class="docutils literal notranslate"><span class="pre">replacement</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">str_replace</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> 
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;pattern to match&quot;</span><span class="p">,</span> 
+            <span class="n">replacement</span> <span class="o">=</span> <span class="s2">&quot;replacement text&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># example of str_replace</span>
+
+<span class="nf">str_replace</span><span class="p">(</span><span class="s">&quot;this is not good&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;not&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">replacement</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;very&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">'this is very good'</div></div>
+</div>
+<p>Here, we want to delete the prefix <code class="docutils literal notranslate"><span class="pre">date_</span></code>, we set the following arguments for <code class="docutils literal notranslate"><span class="pre">str_replace</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern</span> <span class="pre">=</span> <span class="pre">&quot;date_&quot;</span></code> to fix text that matches <code class="docutils literal notranslate"><span class="pre">date_</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">replacement</span> <span class="pre">=</span> <span class="pre">&quot;&quot;</span></code> to replace it with empty text <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> i.e. deleting it</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># delete the date_ prefix using str_replace function with mutate verb</span>
+
+<span class="n">data_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_long</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">             </span><span class="nf">mutate</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">str_replace</span><span class="p">(</span><span class="n">event</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                        </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;date_&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                        </span><span class="n">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_long</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="tidying-data-with-multiple-values-in-a-row">
+<h2>Tidying data with multiple values in a row<a class="headerlink" href="#tidying-data-with-multiple-values-in-a-row" title="Permalink to this heading">#</a></h2>
+<p>Some datasets may contain multiple observations in a single row seperated by a delimiter (e.g. <code class="docutils literal notranslate"><span class="pre">,</span></code> <code class="docutils literal notranslate"><span class="pre">;</span></code>). This makes it hard to analyze the observations</p>
+<p><img alt="transform_separate.png" src="../_images/transform_separate.png" /></p>
+<p>To split the values into separate rows, we can use the <code class="docutils literal notranslate"><span class="pre">separate_rows</span></code> function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">separate_rows</span><span class="p">(</span><span class="n">column</span> <span class="n">containing</span> <span class="n">multiple</span> <span class="n">observations</span> <span class="n">per</span> <span class="n">row</span><span class="p">,</span> 
+              <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;delimiter e.g. , or ;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We will illustrate its use by looking at the <code class="docutils literal notranslate"><span class="pre">symptoms_at_onset</span></code> column from the COVID-19 dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_untidy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">  </span>
+<span class="w">               </span><span class="nf">select</span><span class="p">(</span><span class="n">new_id</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">symptoms_at_onset</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_untidy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 2</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>symptoms_at_onset</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>fever                  </td></tr>
+	<tr><td>japan002</td><td>fever                  </td></tr>
+	<tr><td>japan003</td><td>fever;cough            </td></tr>
+	<tr><td>japan004</td><td>fever                  </td></tr>
+	<tr><td>japan005</td><td>fever                  </td></tr>
+	<tr><td>japan006</td><td>chills;cough;joint pain</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The multiple observations in <code class="docutils literal notranslate"><span class="pre">symptoms_at_onset</span></code> are separated by the delimiter <code class="docutils literal notranslate"><span class="pre">;</span></code> and we can specify this as <code class="docutils literal notranslate"><span class="pre">sep</span> <span class="pre">=</span> <span class="pre">&quot;;&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">separate_rows</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data_untidy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data_untidy</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">               </span><span class="nf">separate_rows</span><span class="p">(</span><span class="n">symptoms_at_onset</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;;&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_untidy</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 10 × 2</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>symptoms_at_onset</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>fever     </td></tr>
+	<tr><td>japan002</td><td>fever     </td></tr>
+	<tr><td>japan003</td><td>fever     </td></tr>
+	<tr><td>japan003</td><td>cough     </td></tr>
+	<tr><td>japan004</td><td>fever     </td></tr>
+	<tr><td>japan005</td><td>fever     </td></tr>
+	<tr><td>japan006</td><td>chills    </td></tr>
+	<tr><td>japan006</td><td>cough     </td></tr>
+	<tr><td>japan006</td><td>joint pain</td></tr>
+	<tr><td>japan007</td><td>fever     </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="example-of-tidying-data">
+<h2>Example of tidying data<a class="headerlink" href="#example-of-tidying-data" title="Permalink to this heading">#</a></h2>
+<p>We will tidy the data by combining the concepts we learnt</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">select</span></code>: choose only relevant variables for analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pivot_longer</span></code>: change wide to long formats</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">separate_rows</span></code>: separate values into different rows</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mutate</span></code>: change data types (e.g. factor for categorical)</p></li>
+</ul>
+<p>We will import that COVID-19 dataset and remove the <code class="docutils literal notranslate"><span class="pre">URL</span></code> and <code class="docutils literal notranslate"><span class="pre">source_name</span></code> columns as we will not be using them</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/subset_international_cases_2020_03_11.csv&quot;</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;URL&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">source_name</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">448</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">23</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (23): new_id, date_report, country, age, date_onset, symptoms_at_onset, ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 19</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>date_report</th><th scope=col>country</th><th scope=col>age</th><th scope=col>date_onset</th><th scope=col>symptoms_at_onset</th><th scope=col>date_first_consultation</th><th scope=col>date_symp_prog1</th><th scope=col>symp_prog1</th><th scope=col>date_symp_prog2</th><th scope=col>symp_prog2</th><th scope=col>date_symp_prog3</th><th scope=col>symp_prog3</th><th scope=col>date_symp_prog4</th><th scope=col>symp_prog4</th><th scope=col>any_symptom</th><th scope=col>date_hospitalised</th><th scope=col>date_death</th><th scope=col>date_recovered</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>fever                  </td><td>NA</td><td>NA        </td><td>pneumonia                  </td><td>22/01/2020</td><td>mild               </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td></tr>
+	<tr><td>japan002</td><td>24/01/2020</td><td>Japan</td><td>40s</td><td>14/01/2020</td><td>fever                  </td><td>NA</td><td>22/01/2020</td><td>fever;sore throat;pneumonia</td><td>27/01/2020</td><td>mild               </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan003</td><td>25/01/2020</td><td>Japan</td><td>30s</td><td>21/01/2020</td><td>fever;cough            </td><td>NA</td><td>NA        </td><td>NA                         </td><td>27/01/2020</td><td>no symptoms        </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>23/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan004</td><td>26/01/2020</td><td>Japan</td><td>40s</td><td>23/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>fever;joint pain;pneumonia </td><td>26/01/2020</td><td>fever              </td><td>27/01/2020</td><td>no symptoms</td><td>NA</td><td>NA</td><td>NA</td><td>24/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan005</td><td>28/01/2020</td><td>Japan</td><td>40s</td><td>22/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>malaise                    </td><td>26/01/2020</td><td>fever;pneumonia    </td><td>28/01/2020</td><td>no symptoms</td><td>NA</td><td>NA</td><td>NA</td><td>28/01/2020</td><td>NA</td><td>06/02/2020</td></tr>
+	<tr><td>japan006</td><td>28/01/2020</td><td>Japan</td><td>60s</td><td>14/01/2020</td><td>chills;cough;joint pain</td><td>NA</td><td>22/01/2020</td><td>joint pain;severe cough    </td><td>25/01/2020</td><td>positive lung image</td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>25/01/2020</td><td>NA</td><td>08/02/2020</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We start by transforming the <strong>columns reporting symptoms</strong> from the <code class="docutils literal notranslate"><span class="pre">wide</span></code> to <code class="docutils literal notranslate"><span class="pre">long</span></code> format using <code class="docutils literal notranslate"><span class="pre">pivot_longer</span></code></p>
+<ul class="simple">
+<li><p>The column names are passed as a vector as there was no simple matching criteria that could be used with a helper function</p></li>
+<li><p>The column names are transformed to a new <code class="docutils literal notranslate"><span class="pre">symptom_order</span></code> column</p></li>
+<li><p>The values containing <code class="docutils literal notranslate"><span class="pre">symptoms</span></code> are transformed to a new <code class="docutils literal notranslate"><span class="pre">symptom</span></code> column</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;symp_prog1&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;symp_prog2&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;symp_prog3&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;symp_prog4&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;any_symptom&quot;</span><span class="p">),</span>
+<span class="w">                      </span><span class="n">names_to</span><span class="o">=</span><span class="s">&quot;symptom_order&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="n">values_to</span><span class="o">=</span><span class="s">&quot;symptom&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 15</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>date_report</th><th scope=col>country</th><th scope=col>age</th><th scope=col>date_onset</th><th scope=col>date_first_consultation</th><th scope=col>date_symp_prog1</th><th scope=col>date_symp_prog2</th><th scope=col>date_symp_prog3</th><th scope=col>date_symp_prog4</th><th scope=col>date_hospitalised</th><th scope=col>date_death</th><th scope=col>date_recovered</th><th scope=col>symptom_order</th><th scope=col>symptom</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>symptoms_at_onset</td><td>fever    </td></tr>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>symp_prog1       </td><td>pneumonia</td></tr>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>symp_prog2       </td><td>mild     </td></tr>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>symp_prog3       </td><td>NA       </td></tr>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>symp_prog4       </td><td>NA       </td></tr>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td><td>any_symptom      </td><td>NA       </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Next, we will transform the <strong>columns related to dates</strong> from the <code class="docutils literal notranslate"><span class="pre">wide</span></code> to <code class="docutils literal notranslate"><span class="pre">long</span></code> format using <code class="docutils literal notranslate"><span class="pre">pivot_longer</span></code> as shown previously</p>
+<ul class="simple">
+<li><p>The column names are selected using the <code class="docutils literal notranslate"><span class="pre">starts_with</span></code> helper function</p></li>
+<li><p>The column names are transformed to a new <code class="docutils literal notranslate"><span class="pre">event</span></code> column</p></li>
+<li><p>The values containing <code class="docutils literal notranslate"><span class="pre">dates</span></code> are transformed to a new <code class="docutils literal notranslate"><span class="pre">date</span></code> column</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;date_&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;event&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;date&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We next look at the <code class="docutils literal notranslate"><span class="pre">symptom</span></code> column to look at the unique/distinct values using the <code class="docutils literal notranslate"><span class="pre">distinct</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">distinct</span><span class="p">(</span><span class="n">symptom</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 154 × 1</caption>
+<thead>
+	<tr><th scope=col>symptom</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>fever                                               </td></tr>
+	<tr><td>pneumonia                                           </td></tr>
+	<tr><td>mild                                                </td></tr>
+	<tr><td>NA                                                  </td></tr>
+	<tr><td>fever;sore throat;pneumonia                         </td></tr>
+	<tr><td>fever;cough                                         </td></tr>
+	<tr><td>no symptoms                                         </td></tr>
+	<tr><td>fever;joint pain;pneumonia                          </td></tr>
+	<tr><td>malaise                                             </td></tr>
+	<tr><td>fever;pneumonia                                     </td></tr>
+	<tr><td>chills;cough;joint pain                             </td></tr>
+	<tr><td>joint pain;severe cough                             </td></tr>
+	<tr><td>positive lung image                                 </td></tr>
+	<tr><td>fever;pneumonia;respiratory symptoms                </td></tr>
+	<tr><td>mild;cough                                          </td></tr>
+	<tr><td>fever;runny nose;sore throat                        </td></tr>
+	<tr><td>fever;sore throar                                   </td></tr>
+	<tr><td>high fever                                          </td></tr>
+	<tr><td>fever;mild;pneumonia;recovering                     </td></tr>
+	<tr><td>cough                                               </td></tr>
+	<tr><td>cough;fever                                         </td></tr>
+	<tr><td>cough;runny nose                                    </td></tr>
+	<tr><td>runny nose;pneumonia                                </td></tr>
+	<tr><td>pneumonia;breathing difficulties                    </td></tr>
+	<tr><td>fever;mild pneumonia                                </td></tr>
+	<tr><td>fatigue                                             </td></tr>
+	<tr><td>worsening fatigue;worsening lack of appetite        </td></tr>
+	<tr><td>worsening fatigue;pneumonia                         </td></tr>
+	<tr><td>breathing difficulties;positive pressure ventilation</td></tr>
+	<tr><td>severe breathing difficulties                       </td></tr>
+	<tr><td>⋮</td></tr>
+	<tr><td>fever;chill                      </td></tr>
+	<tr><td>cold symptoms                    </td></tr>
+	<tr><td>fever;muscle pain                </td></tr>
+	<tr><td>severe                           </td></tr>
+	<tr><td>mild cough                       </td></tr>
+	<tr><td>fever;cough;sputum               </td></tr>
+	<tr><td>muscle pain                      </td></tr>
+	<tr><td>symptoms persisted               </td></tr>
+	<tr><td>pneumonia;worsening prognosis    </td></tr>
+	<tr><td>fever;sore throat;cough          </td></tr>
+	<tr><td>chest pain;pneumonia             </td></tr>
+	<tr><td>fever;nasal congestion           </td></tr>
+	<tr><td>cough;shortness of breath        </td></tr>
+	<tr><td>myalgia                          </td></tr>
+	<tr><td>fever;cough;sputum;sore throat   </td></tr>
+	<tr><td>fever;diarrhea                   </td></tr>
+	<tr><td>cough;malaise                    </td></tr>
+	<tr><td>cough;chill;shortness of breath  </td></tr>
+	<tr><td>diarrhea                         </td></tr>
+	<tr><td>shortness of breath              </td></tr>
+	<tr><td>fever;cough;shortness of breath  </td></tr>
+	<tr><td>cough;fever;shortness of breath  </td></tr>
+	<tr><td>chill;cough                      </td></tr>
+	<tr><td>diarrhea;vomiting                </td></tr>
+	<tr><td>malaise;shortness of breath;cough</td></tr>
+	<tr><td>cough;epigastric pain            </td></tr>
+	<tr><td>fever;shortness of breath        </td></tr>
+	<tr><td>runny nose                       </td></tr>
+	<tr><td>cough;dyspnea                    </td></tr>
+	<tr><td>muscle pain;fever                </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>As there are multiple observations of symptoms per row, we separate them using the <code class="docutils literal notranslate"><span class="pre">separate_rows</span></code> function and specifying the <code class="docutils literal notranslate"><span class="pre">;</span></code> delimiter</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">separate_rows</span><span class="p">(</span><span class="n">symptom</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;;&quot;</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Finally, we need to convert the columns containing <code class="docutils literal notranslate"><span class="pre">categorical</span></code> data to <code class="docutils literal notranslate"><span class="pre">factors</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">new_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">new_id</span><span class="p">),</span>
+<span class="w">               </span><span class="n">symptom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">symptom</span><span class="p">),</span>
+<span class="w">               </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="example-of-analysis">
+<h2>Example of analysis<a class="headerlink" href="#example-of-analysis" title="Permalink to this heading">#</a></h2>
+<p>Now that we have tidy data, we can do a preliminary analysis by considering symptoms at the onset of COVID-19, then count the number of unique patients (<code class="docutils literal notranslate"><span class="pre">new_id</span></code>) to see what are the most frequent symptoms reported</p>
+<p>We will first filter <code class="docutils literal notranslate"><span class="pre">symptom_order</span></code> for the category <code class="docutils literal notranslate"><span class="pre">symptoms_at_onset</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">symptom_order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Next, we want to count the number of symptoms and let us try to do this by using</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">group_by</span></code> to group by symptoms</p></li>
+<li><p>count the number of symptoms using <code class="docutils literal notranslate"><span class="pre">summarize</span></code> with <code class="docutils literal notranslate"><span class="pre">n()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">arrange</span></code> the results in descending order</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">symptom_order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">  </span><span class="c1"># filter only symptoms at onset</span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">symptom</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                             </span><span class="c1"># group by the different symptoms</span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                            </span><span class="c1"># count number of rows</span>
+<span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 36 × 2</caption>
+<thead>
+	<tr><th scope=col>symptom</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>fever                 </td><td>1740</td></tr>
+	<tr><td>NA                    </td><td>1690</td></tr>
+	<tr><td>cough                 </td><td>1150</td></tr>
+	<tr><td>sore throat           </td><td> 360</td></tr>
+	<tr><td>fatigue               </td><td> 300</td></tr>
+	<tr><td>headache              </td><td> 100</td></tr>
+	<tr><td>runny nose            </td><td> 100</td></tr>
+	<tr><td>chills                </td><td>  90</td></tr>
+	<tr><td>joint pain            </td><td>  80</td></tr>
+	<tr><td>vomitting             </td><td>  60</td></tr>
+	<tr><td>muscle pain           </td><td>  50</td></tr>
+	<tr><td>shortness of breath   </td><td>  50</td></tr>
+	<tr><td>sputum                </td><td>  50</td></tr>
+	<tr><td>pneumonia             </td><td>  40</td></tr>
+	<tr><td>breathing difficulties</td><td>  30</td></tr>
+	<tr><td>loss of appetite      </td><td>  30</td></tr>
+	<tr><td>chill                 </td><td>  20</td></tr>
+	<tr><td>cold-like symptoms    </td><td>  20</td></tr>
+	<tr><td>diarrhoea             </td><td>  20</td></tr>
+	<tr><td>malaise               </td><td>  20</td></tr>
+	<tr><td>already in hospital   </td><td>  10</td></tr>
+	<tr><td>chest pains           </td><td>  10</td></tr>
+	<tr><td>cold sweats           </td><td>  10</td></tr>
+	<tr><td>cold symptoms         </td><td>  10</td></tr>
+	<tr><td>coughing blood        </td><td>  10</td></tr>
+	<tr><td>difficulty walking    </td><td>  10</td></tr>
+	<tr><td>dyspnea               </td><td>  10</td></tr>
+	<tr><td>epigastric pain       </td><td>  10</td></tr>
+	<tr><td>ili                   </td><td>  10</td></tr>
+	<tr><td>mechanical ventilator </td><td>  10</td></tr>
+	<tr><td>mild cough            </td><td>  10</td></tr>
+	<tr><td>mild pneumonia        </td><td>  10</td></tr>
+	<tr><td>myalgia               </td><td>  10</td></tr>
+	<tr><td>nasal congestion      </td><td>  10</td></tr>
+	<tr><td>nausea                </td><td>  10</td></tr>
+	<tr><td>sneezing              </td><td>  10</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We note that the numbers do not look right and this is because we are counting the number of rows for each of the symptom groups, instead of the number of distinct patients</p>
+<p>If we look at the filtered data, we can see that the symptom <code class="docutils literal notranslate"><span class="pre">fever</span></code> appears in multiple rows for the same patient <code class="docutils literal notranslate"><span class="pre">japan001</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">symptom_order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>To count the number of distinct values for the patient in the <code class="docutils literal notranslate"><span class="pre">new_id</span></code> column, we can use the <code class="docutils literal notranslate"><span class="pre">n_distinct</span></code> function, which counts the number of distinct values in the specified column</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_distinct(column_name)</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">symptom_order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">  </span><span class="c1"># filter only symptoms at onset</span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">symptom</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                             </span><span class="c1"># group by the different symptoms</span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">new_id</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">             </span><span class="c1"># count unique patients (new_id)</span>
+<span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 36 × 2</caption>
+<thead>
+	<tr><th scope=col>symptom</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>fever                 </td><td>174</td></tr>
+	<tr><td>NA                    </td><td>169</td></tr>
+	<tr><td>cough                 </td><td>115</td></tr>
+	<tr><td>sore throat           </td><td> 36</td></tr>
+	<tr><td>fatigue               </td><td> 30</td></tr>
+	<tr><td>headache              </td><td> 10</td></tr>
+	<tr><td>runny nose            </td><td> 10</td></tr>
+	<tr><td>chills                </td><td>  9</td></tr>
+	<tr><td>joint pain            </td><td>  8</td></tr>
+	<tr><td>vomitting             </td><td>  6</td></tr>
+	<tr><td>muscle pain           </td><td>  5</td></tr>
+	<tr><td>shortness of breath   </td><td>  5</td></tr>
+	<tr><td>sputum                </td><td>  5</td></tr>
+	<tr><td>pneumonia             </td><td>  4</td></tr>
+	<tr><td>breathing difficulties</td><td>  3</td></tr>
+	<tr><td>loss of appetite      </td><td>  3</td></tr>
+	<tr><td>chill                 </td><td>  2</td></tr>
+	<tr><td>cold-like symptoms    </td><td>  2</td></tr>
+	<tr><td>diarrhoea             </td><td>  2</td></tr>
+	<tr><td>malaise               </td><td>  2</td></tr>
+	<tr><td>already in hospital   </td><td>  1</td></tr>
+	<tr><td>chest pains           </td><td>  1</td></tr>
+	<tr><td>cold sweats           </td><td>  1</td></tr>
+	<tr><td>cold symptoms         </td><td>  1</td></tr>
+	<tr><td>coughing blood        </td><td>  1</td></tr>
+	<tr><td>difficulty walking    </td><td>  1</td></tr>
+	<tr><td>dyspnea               </td><td>  1</td></tr>
+	<tr><td>epigastric pain       </td><td>  1</td></tr>
+	<tr><td>ili                   </td><td>  1</td></tr>
+	<tr><td>mechanical ventilator </td><td>  1</td></tr>
+	<tr><td>mild cough            </td><td>  1</td></tr>
+	<tr><td>mild pneumonia        </td><td>  1</td></tr>
+	<tr><td>myalgia               </td><td>  1</td></tr>
+	<tr><td>nasal congestion      </td><td>  1</td></tr>
+	<tr><td>nausea                </td><td>  1</td></tr>
+	<tr><td>sneezing              </td><td>  1</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="exercise-tidying-data">
+<h2>Exercise - Tidying Data<a class="headerlink" href="#exercise-tidying-data" title="Permalink to this heading">#</a></h2>
+<p>We will use the COVID-19 dataset from Imperial College, UK</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># import data</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/subset_international_cases_2020_03_11.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># exclude columns</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;URL&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">source_name</span><span class="p">)</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">448</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">23</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;,&quot;
+<span class=" -Color -Color-Red">chr</span> (23): new_id, date_report, country, age, date_onset, symptoms_at_onset, ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 19</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>date_report</th><th scope=col>country</th><th scope=col>age</th><th scope=col>date_onset</th><th scope=col>symptoms_at_onset</th><th scope=col>date_first_consultation</th><th scope=col>date_symp_prog1</th><th scope=col>symp_prog1</th><th scope=col>date_symp_prog2</th><th scope=col>symp_prog2</th><th scope=col>date_symp_prog3</th><th scope=col>symp_prog3</th><th scope=col>date_symp_prog4</th><th scope=col>symp_prog4</th><th scope=col>any_symptom</th><th scope=col>date_hospitalised</th><th scope=col>date_death</th><th scope=col>date_recovered</th></tr>
+	<tr><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>14/01/2020</td><td>Japan</td><td>30s</td><td>03/01/2020</td><td>fever                  </td><td>NA</td><td>NA        </td><td>pneumonia                  </td><td>22/01/2020</td><td>mild               </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>10/01/2020</td><td>NA</td><td>15/01/2020</td></tr>
+	<tr><td>japan002</td><td>24/01/2020</td><td>Japan</td><td>40s</td><td>14/01/2020</td><td>fever                  </td><td>NA</td><td>22/01/2020</td><td>fever;sore throat;pneumonia</td><td>27/01/2020</td><td>mild               </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>22/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan003</td><td>25/01/2020</td><td>Japan</td><td>30s</td><td>21/01/2020</td><td>fever;cough            </td><td>NA</td><td>NA        </td><td>NA                         </td><td>27/01/2020</td><td>no symptoms        </td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>23/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan004</td><td>26/01/2020</td><td>Japan</td><td>40s</td><td>23/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>fever;joint pain;pneumonia </td><td>26/01/2020</td><td>fever              </td><td>27/01/2020</td><td>no symptoms</td><td>NA</td><td>NA</td><td>NA</td><td>24/01/2020</td><td>NA</td><td>NA        </td></tr>
+	<tr><td>japan005</td><td>28/01/2020</td><td>Japan</td><td>40s</td><td>22/01/2020</td><td>fever                  </td><td>NA</td><td>24/01/2020</td><td>malaise                    </td><td>26/01/2020</td><td>fever;pneumonia    </td><td>28/01/2020</td><td>no symptoms</td><td>NA</td><td>NA</td><td>NA</td><td>28/01/2020</td><td>NA</td><td>06/02/2020</td></tr>
+	<tr><td>japan006</td><td>28/01/2020</td><td>Japan</td><td>60s</td><td>14/01/2020</td><td>chills;cough;joint pain</td><td>NA</td><td>22/01/2020</td><td>joint pain;severe cough    </td><td>25/01/2020</td><td>positive lung image</td><td>NA        </td><td>NA         </td><td>NA</td><td>NA</td><td>NA</td><td>25/01/2020</td><td>NA</td><td>08/02/2020</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># recap of what was done</span>
+
+<span class="n">data2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">         </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># wide -&gt; long for symptoms</span>
+<span class="w">                        </span><span class="s">&quot;symp_prog1&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;symp_prog2&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;symp_prog3&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;symp_prog4&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="s">&quot;any_symptom&quot;</span><span class="p">),</span>
+<span class="w">                       </span><span class="n">names_to</span><span class="o">=</span><span class="s">&quot;symptom_order&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">values_to</span><span class="o">=</span><span class="s">&quot;symptom&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1"># wide -&gt; long for date of symptom</span>
+<span class="w">                      </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;event&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                      </span><span class="n">values_to</span><span class="o">=</span><span class="s">&quot;date&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">separate_rows</span><span class="p">(</span><span class="n">symptom</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># split multiple symptoms to separate rows</span>
+<span class="w">         </span><span class="nf">mutate</span><span class="p">(</span><span class="n">new_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">new_id</span><span class="p">),</span><span class="w">  </span><span class="c1"># change data type</span>
+<span class="w">                </span><span class="n">symptom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">symptom</span><span class="p">),</span>
+<span class="w">                </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 7</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We want to find out the <strong>frequency of symptoms by age group (e.g. &lt;10, 10s, 20s …)</strong></p>
+<p>To do this, we will break the problem into several steps</p>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Using <code class="docutils literal notranslate"><span class="pre">data2</span></code>, determine the unique values of the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable to see which values are likely to be numerical or categorical (hint: you may use the <code class="docutils literal notranslate"><span class="pre">unique()</span></code> function that takes a vector of values)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">pull</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'30s'</li><li>'40s'</li><li>'60s'</li><li>'50s'</li><li>'20s'</li><li>'80s'</li><li>'70s'</li><li>'10s'</li><li>NA</li><li>'&lt;10'</li><li>'elderly'</li><li>'90s'</li><li>'66'</li><li>'53'</li><li>'37'</li><li>'36'</li><li>'56'</li><li>'35'</li><li>'31'</li><li>'73'</li><li>'47'</li><li>'38'</li><li>'28'</li><li>'48'</li><li>'44'</li><li>'41'</li><li>'17'</li><li>'32'</li><li>'40'</li><li>'42'</li><li>'0.5'</li><li>'27'</li><li>'39'</li><li>'64'</li><li>'52'</li><li>'51'</li><li>'71'</li><li>'54'</li><li>'2'</li><li>'34'</li><li>'46'</li><li>'62'</li><li>'30'</li><li>'26'</li><li>'55'</li><li>'59'</li><li>'57'</li><li>'50'</li><li>'61'</li><li>'79'</li><li>'25'</li><li>'43'</li><li>'29'</li><li>'1'</li><li>'33'</li><li>'49'</li><li>'21'</li><li>'58'</li><li>'74'</li><li>'81'</li><li>'63'</li><li>'68'</li><li>'72'</li><li>'75'</li><li>'80'</li><li>'60'</li><li>'65'</li><li>'24'</li><li>'70'</li><li>'91'</li><li>'22'</li><li>'23'</li><li>'69'</li><li>'86'</li><li>'67'</li><li>'45'</li><li>'83'</li><li>'96'</li><li>'76'</li><li>'16'</li><li>'89'</li></ol>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Create another column <code class="docutils literal notranslate"><span class="pre">ageCat</span></code> and convert the mixed values in the <code class="docutils literal notranslate"><span class="pre">age</span></code> variable to a categorical variable <code class="docutils literal notranslate"><span class="pre">ageCat</span></code> using <code class="docutils literal notranslate"><span class="pre">case_when</span></code></p>
+<p><strong>Hint:</strong> you may need to break this problem into smaller steps as the values in <code class="docutils literal notranslate"><span class="pre">age</span></code> are stored as <code class="docutils literal notranslate"><span class="pre">characters</span></code></p>
+<ul class="simple">
+<li><p>For the categories in <code class="docutils literal notranslate"><span class="pre">age</span></code> (10s, 20s,…) transfer each one to <code class="docutils literal notranslate"><span class="pre">ageCat</span></code> by matching them. For example, we transfer the 10s category</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span> <span class="pre">==</span> <span class="pre">&quot;&lt;10&quot;</span> <span class="pre">~</span> <span class="pre">&quot;&lt;10&quot;</span></code></p></li>
+</ul>
+</li>
+<li><p>For the number values in <code class="docutils literal notranslate"><span class="pre">age</span></code> (21,33,49,…), you need to convert them to numeric form using <code class="docutils literal notranslate"><span class="pre">as.numeric</span></code> and compare them to ranges to assign them to the categories you previously identified (10s, 20s,…). For example, we convert a range of values to 10s:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">as.numeric(age)</span> <span class="pre">&gt;=</span> <span class="pre">10</span> <span class="pre">&amp;</span> <span class="pre">as.numeric(age)</span> <span class="pre">&lt;</span> <span class="pre">20</span> <span class="pre">~</span> <span class="pre">&quot;10s&quot;</span></code></p></li>
+</ul>
+</li>
+<li><p>You may receive warning messages but we can ignore them for now</p></li>
+</ul>
+<p>Store the results in <code class="docutils literal notranslate"><span class="pre">data3</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">data3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">mutate</span><span class="p">(</span><span class="n">ageCat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+
+<span class="w">                  </span><span class="c1"># transfer categorical labels</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;elderly&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;elderly&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&lt;10&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;&lt;10&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;10s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;10s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;20s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;20s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;30s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;30s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;40s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;40s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;50s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;50s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;60s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;60s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;70s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;70s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;80s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;80s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;90s&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;90s&quot;</span><span class="p">,</span>
+<span class="w">                </span>
+<span class="w">                  </span><span class="c1"># compare numeric values</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">10</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">20</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;10s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">20</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">30</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;20s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">30</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">40</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;30s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">40</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">50</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;40s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">50</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">60</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;50s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">60</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">70</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;60s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">70</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">80</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;70s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">80</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">90</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;80s&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="m">90</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="m">100</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;90s&quot;</span>
+<span class="w">                        </span>
+<span class="w">                </span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">mutate</span><span class="p">(</span><span class="n">ageCat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">ageCat</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+“There were 18 warnings in `mutate()`.
+The first warning was:
+<span class=" -Color -Color-Cyan">ℹ</span> In argument: `ageCat = case_when(...)`.
+Caused by warning:
+<span class=" -Color -Color-Yellow">!</span> NAs introduced by coercion
+<span class=" -Color -Color-Cyan">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 17 remaining warnings.”
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 8</caption>
+<thead>
+	<tr><th scope=col>new_id</th><th scope=col>country</th><th scope=col>age</th><th scope=col>symptom_order</th><th scope=col>symptom</th><th scope=col>event</th><th scope=col>date</th><th scope=col>ageCat</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_report            </td><td>14/01/2020</td><td>30s</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_onset             </td><td>03/01/2020</td><td>30s</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_first_consultation</td><td>NA        </td><td>30s</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog1        </td><td>NA        </td><td>30s</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog2        </td><td>22/01/2020</td><td>30s</td></tr>
+	<tr><td>japan001</td><td>Japan</td><td>30s</td><td>symptoms_at_onset</td><td>fever</td><td>date_symp_prog3        </td><td>NA        </td><td>30s</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-3">
+<h3>Part 3<a class="headerlink" href="#part-3" title="Permalink to this heading">#</a></h3>
+<p>Using <code class="docutils literal notranslate"><span class="pre">data3</span></code>, list the frequency of symptoms at onset by different age groups</p>
+<ul class="simple">
+<li><p>Select patients with <code class="docutils literal notranslate"><span class="pre">symptoms</span> <span class="pre">at</span> <span class="pre">onset</span></code></p></li>
+<li><p>Group them by <code class="docutils literal notranslate"><span class="pre">ageCat</span></code> and <code class="docutils literal notranslate"><span class="pre">symptom</span></code></p></li>
+<li><p>Summarize <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">distinct</span> <span class="pre">patients</span></code> using <code class="docutils literal notranslate"><span class="pre">new_id</span></code></p></li>
+<li><p>Arrange the results by <code class="docutils literal notranslate"><span class="pre">ageCat</span></code> in ascending order and <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">distinct</span> <span class="pre">patients</span></code> in descending order</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">data3</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">symptom_order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;symptoms_at_onset&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="nf">group_by</span><span class="p">(</span><span class="n">ageCat</span><span class="p">,</span><span class="w"> </span><span class="n">symptom</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                         </span>
+<span class="nf">summarize</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">new_id</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">            </span>
+<span class="nf">arrange</span><span class="p">(</span><span class="n">ageCat</span><span class="p">,</span><span class="w"> </span><span class="nf">desc</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>`summarise()` has grouped output by &#39;ageCat&#39;. You can override using the `.groups`
+argument.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A grouped_df: 108 × 3</caption>
+<thead>
+	<tr><th scope=col>ageCat</th><th scope=col>symptom</th><th scope=col>n</th></tr>
+	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;int&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>&lt;10</td><td><span style=white-space:pre-wrap>fever                 </span></td><td> 4</td></tr>
+	<tr><td>&lt;10</td><td><span style=white-space:pre-wrap>cough                 </span></td><td> 2</td></tr>
+	<tr><td>&lt;10</td><td><span style=white-space:pre-wrap>NA                    </span></td><td> 2</td></tr>
+	<tr><td>10s</td><td>fever                 </td><td> 2</td></tr>
+	<tr><td>10s</td><td>NA                    </td><td> 2</td></tr>
+	<tr><td>10s</td><td>runny nose            </td><td> 1</td></tr>
+	<tr><td>20s</td><td>NA                    </td><td>19</td></tr>
+	<tr><td>20s</td><td>fever                 </td><td>13</td></tr>
+	<tr><td>20s</td><td>cough                 </td><td> 9</td></tr>
+	<tr><td>20s</td><td>sore throat           </td><td> 4</td></tr>
+	<tr><td>20s</td><td>breathing difficulties</td><td> 1</td></tr>
+	<tr><td>20s</td><td>chills                </td><td> 1</td></tr>
+	<tr><td>20s</td><td>fatigue               </td><td> 1</td></tr>
+	<tr><td>20s</td><td>mild cough            </td><td> 1</td></tr>
+	<tr><td>20s</td><td>mild pneumonia        </td><td> 1</td></tr>
+	<tr><td>20s</td><td>runny nose            </td><td> 1</td></tr>
+	<tr><td>20s</td><td>sneezing              </td><td> 1</td></tr>
+	<tr><td>30s</td><td>NA                    </td><td>32</td></tr>
+	<tr><td>30s</td><td>fever                 </td><td>18</td></tr>
+	<tr><td>30s</td><td>cough                 </td><td>11</td></tr>
+	<tr><td>30s</td><td>fatigue               </td><td> 3</td></tr>
+	<tr><td>30s</td><td>headache              </td><td> 3</td></tr>
+	<tr><td>30s</td><td>sore throat           </td><td> 3</td></tr>
+	<tr><td>30s</td><td>joint pain            </td><td> 1</td></tr>
+	<tr><td>30s</td><td>myalgia               </td><td> 1</td></tr>
+	<tr><td>30s</td><td>nasal congestion      </td><td> 1</td></tr>
+	<tr><td>40s</td><td>fever                 </td><td>26</td></tr>
+	<tr><td>40s</td><td>NA                    </td><td>21</td></tr>
+	<tr><td>40s</td><td>cough                 </td><td>14</td></tr>
+	<tr><td>40s</td><td>sore throat           </td><td> 6</td></tr>
+	<tr><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+	<tr><td>70s    </td><td>shortness of breath   </td><td>4</td></tr>
+	<tr><td>70s    </td><td>sore throat           </td><td>4</td></tr>
+	<tr><td>70s    </td><td>pneumonia             </td><td>2</td></tr>
+	<tr><td>70s    </td><td>vomitting             </td><td>2</td></tr>
+	<tr><td>70s    </td><td>already in hospital   </td><td>1</td></tr>
+	<tr><td>70s    </td><td>chill                 </td><td>1</td></tr>
+	<tr><td>70s    </td><td>cold-like symptoms    </td><td>1</td></tr>
+	<tr><td>70s    </td><td>dyspnea               </td><td>1</td></tr>
+	<tr><td>70s    </td><td>malaise               </td><td>1</td></tr>
+	<tr><td>70s    </td><td>mechanical ventilator </td><td>1</td></tr>
+	<tr><td>70s    </td><td>muscle pain           </td><td>1</td></tr>
+	<tr><td>70s    </td><td>runny nose            </td><td>1</td></tr>
+	<tr><td>70s    </td><td>sputum                </td><td>1</td></tr>
+	<tr><td>80s    </td><td>cough                 </td><td>9</td></tr>
+	<tr><td>80s    </td><td>fever                 </td><td>7</td></tr>
+	<tr><td>80s    </td><td>NA                    </td><td>5</td></tr>
+	<tr><td>80s    </td><td>loss of appetite      </td><td>2</td></tr>
+	<tr><td>80s    </td><td>breathing difficulties</td><td>1</td></tr>
+	<tr><td>80s    </td><td>coughing blood        </td><td>1</td></tr>
+	<tr><td>80s    </td><td>difficulty walking    </td><td>1</td></tr>
+	<tr><td>80s    </td><td>fatigue               </td><td>1</td></tr>
+	<tr><td>80s    </td><td>runny nose            </td><td>1</td></tr>
+	<tr><td>80s    </td><td>sore throat           </td><td>1</td></tr>
+	<tr><td>80s    </td><td>sputum                </td><td>1</td></tr>
+	<tr><td>90s    </td><td>cough                 </td><td>2</td></tr>
+	<tr><td>90s    </td><td>fever                 </td><td>1</td></tr>
+	<tr><td>90s    </td><td>runny nose            </td><td>1</td></tr>
+	<tr><td>90s    </td><td>NA                    </td><td>1</td></tr>
+	<tr><td>elderly</td><td>cough                 </td><td>1</td></tr>
+	<tr><td>NA     </td><td>NA                    </td><td>7</td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./02-intro-to-tidyverse"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04-transforming.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Transforming Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06-joining.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Joining data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-tidy-data">What is tidy data?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-of-untidy-data">Examples of untidy data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wide-format">Wide format</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-values-in-a-row">Multiple values in a row</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tidying-data-in-wide-format">Tidying data in wide format</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tidying-data-with-multiple-values-in-a-row">Tidying data with multiple values in a row</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-tidying-data">Example of tidying data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-analysis">Example of analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-tidying-data">Exercise - Tidying Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

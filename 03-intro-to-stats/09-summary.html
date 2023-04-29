@@ -1,0 +1,1154 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>1. Descriptive tables &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/09-summary';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/09-summary.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. Descriptive tables</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Descriptive tables</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-table">1.1. Statistical table</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests-and-plotting">2. Statistical tests and plotting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-unrelated-subjects">2.1. Comparing 2 measures (unrelated subjects)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-unpaired-t-test">2.1.1 Parametric (unpaired t-test)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-mann-whitney-u">2.1.2. Non-parametric (Mann-Whitney U)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-related-subjects">2.2. Comparing 2 measures (related subjects)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-paired-t-test">2.2.1. Parametric (paired t-test)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-wilcoxon-signed-rank-test">2.2.2. Non-parametric (Wilcoxon signed rank test)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-unrelated">3.1. Comparing &gt; 2 measures (unrelated)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-1-way-anova">3.1.1. Parametric (1-way ANOVA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-kruskal-wallis">3.1.2. Non-parametric (Kruskal-Wallis)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-related">3.2. Comparing &gt; 2 measures (related)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-repeated-measures-anova">3.2.1. Parametric (Repeated measures ANOVA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-friedman-test">3.2.2. Non-parametric (Friedman test)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-counts-2x2">4.1. Comparing counts 2x2</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fishers-exact-test">4.1.1. Fisher’s Exact Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-test">Statistical test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-counts-rxc">4.2. Comparing counts RxC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi-squared-test">4.2.1. Chi-squared test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plotting">Statistical plotting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlating-2-measures">5.1. Correlating 2 measures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-pearsons-correlation">5.1.1. Parametric (Pearson’s correlation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-spearmans-correlation">5.1.2. Non-parametric (Spearman’s correlation)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-modeling">3. Statistical modeling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-model">3.1. Build model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-collinearity">3.2. Check collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.3. Statistical table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.4. Statistical plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostic-plots">3.5. Diagnostic plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-for-prediction">3.6. Modeling for prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-for-explanation">3.7. Modeling for explanation</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="descriptive-tables">
+<h1>1. Descriptive tables<a class="headerlink" href="#descriptive-tables" title="Permalink to this heading">#</a></h1>
+<section id="statistical-table">
+<h2>1.1. Statistical table<a class="headerlink" href="#statistical-table" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Convenience function <code class="docutils literal notranslate"><span class="pre">print_html</span></code></p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">print_html</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">capture.output</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Table (no grouping)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">gtsummary</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span>_____<span class="p">,</span>_____<span class="p">,</span>_____<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">tbl_summary</span><span class="p">(</span><span class="n">statistic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">all_continuous</span><span class="p">()</span><span class="w"> </span><span class="o">~</span><span class="s">&quot;{mean} ({sd})&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                                  </span><span class="n">print_html</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Table (split by group)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">gtsummary</span><span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span>_____<span class="p">,</span>_____<span class="p">,</span>_____<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">         </span><span class="nf">tbl_summary</span><span class="p">(</span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w"> </span><span class="c1"># grouping variable </span>
+<span class="w">                     </span><span class="n">statistic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">all_continuous</span><span class="p">()</span><span class="w"> </span><span class="o">~</span><span class="s">&quot;{mean} ({sd})&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">                                  </span><span class="n">print_html</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="statistical-tests-and-plotting">
+<h1>2. Statistical tests and plotting<a class="headerlink" href="#statistical-tests-and-plotting" title="Permalink to this heading">#</a></h1>
+<p><img alt="summary_table.png" src="../_images/summary_table.png" /></p>
+<hr class="docutils" />
+<section id="comparing-2-measures-unrelated-subjects">
+<h2>2.1. Comparing 2 measures (unrelated subjects)<a class="headerlink" href="#comparing-2-measures-unrelated-subjects" title="Permalink to this heading">#</a></h2>
+<section id="parametric-unpaired-t-test">
+<h3>2.1.1 Parametric (unpaired t-test)<a class="headerlink" href="#parametric-unpaired-t-test" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># adjust size of the image output e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggbetweenstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">     </span><span class="c1"># group</span>
+<span class="w">                                </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">   </span><span class="c1"># measurement</span>
+<span class="w">                 </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">   </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (Cohen’s d/Hedge’s g)</strong></p>
+<ul class="simple">
+<li><p>d&lt;0.2 - Verysmall</p></li>
+<li><p>0.2&lt;=d&lt;0.5 - Small</p></li>
+<li><p>0.5&lt;=d&lt;0.8 - Medium</p></li>
+<li><p>d&gt;=0.8 - Large</p></li>
+</ul>
+</section>
+<section id="non-parametric-mann-whitney-u">
+<h3>2.1.2. Non-parametric (Mann-Whitney U)<a class="headerlink" href="#non-parametric-mann-whitney-u" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggbetweenstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">               </span><span class="c1"># group</span>
+<span class="w">                                </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">               </span><span class="c1"># measurement</span>
+<span class="w">                                </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nonparametric&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># non-parametric</span>
+<span class="w">            </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">             </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (rank biserial)</strong></p>
+<ul class="simple">
+<li><p>r&lt;0.05 - Tiny</p></li>
+<li><p>0.05&lt;=r&lt;0.1 - Very small</p></li>
+<li><p>0.1&lt;=r&lt;0.2 - Small</p></li>
+<li><p>0.2&lt;=r&lt;0.3 - Medium</p></li>
+<li><p>0.3&lt;=r&lt;0.4 - Large</p></li>
+<li><p>r&gt;=0.4 - Very large</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="comparing-2-measures-related-subjects">
+<h2>2.2. Comparing 2 measures (related subjects)<a class="headerlink" href="#comparing-2-measures-related-subjects" title="Permalink to this heading">#</a></h2>
+<section id="parametric-paired-t-test">
+<h3>2.2.1. Parametric (paired t-test)<a class="headerlink" href="#parametric-paired-t-test" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggwithinstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">     </span><span class="c1"># group</span>
+<span class="w">                                </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">   </span><span class="c1"># measurement</span>
+<span class="w">                 </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">   </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (Cohen’s d/Hedge’s g)</strong></p>
+<ul class="simple">
+<li><p>d&lt;0.2 - Verysmall</p></li>
+<li><p>0.2&lt;=d&lt;0.5 - Small</p></li>
+<li><p>0.5&lt;=d&lt;0.8 - Medium</p></li>
+<li><p>d&gt;=0.8 - Large</p></li>
+</ul>
+</section>
+<section id="non-parametric-wilcoxon-signed-rank-test">
+<h3>2.2.2. Non-parametric (Wilcoxon signed rank test)<a class="headerlink" href="#non-parametric-wilcoxon-signed-rank-test" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data_grouped</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggwithinstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">               </span><span class="c1"># group</span>
+<span class="w">                               </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>_______<span class="p">,</span><span class="w">               </span><span class="c1"># measurement</span>
+<span class="w">                               </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nonparametric&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># non-parametric</span>
+<span class="w">                 </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">             </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (rank biserial)</strong></p>
+<ul class="simple">
+<li><p>r&lt;0.05 - Tiny</p></li>
+<li><p>0.05&lt;=r&lt;0.1 - Very small</p></li>
+<li><p>0.1&lt;=r&lt;0.2 - Small</p></li>
+<li><p>0.2&lt;=r&lt;0.3 - Medium</p></li>
+<li><p>0.3&lt;=r&lt;0.4 - Large</p></li>
+<li><p>r&gt;=0.4 - Very large</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="comparing-2-measures-unrelated">
+<h2>3.1. Comparing &gt; 2 measures (unrelated)<a class="headerlink" href="#comparing-2-measures-unrelated" title="Permalink to this heading">#</a></h2>
+<section id="parametric-1-way-anova">
+<h3>3.1.1. Parametric (1-way ANOVA)<a class="headerlink" href="#parametric-1-way-anova" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggbetweenstats</span><span class="p">(</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># group</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># measurement</span>
+<span class="w">            </span><span class="n">pairwise.comparisons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># show pairwise</span>
+<span class="w">         </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">     </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (omega squared)</strong></p>
+<ul class="simple">
+<li><p>ES&lt;0.01 - Very small</p></li>
+<li><p>0.01&lt;=ES&lt;0.06 - Small</p></li>
+<li><p>0.16&lt;=ES&lt;0.14 - Medium</p></li>
+<li><p>ES &gt;= 0.14 - Large</p></li>
+</ul>
+</section>
+<section id="non-parametric-kruskal-wallis">
+<h3>3.1.2. Non-parametric (Kruskal-Wallis)<a class="headerlink" href="#non-parametric-kruskal-wallis" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggbetweenstats</span><span class="p">(</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># group</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># measurement</span>
+<span class="w">            </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nonparametric&quot;</span><span class="p">,</span><span class="w">         </span><span class="c1"># non-parametric</span>
+<span class="w">            </span><span class="n">pairwise.comparisons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># show pairwise</span>
+<span class="w">         </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">     </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (eta squared)</strong></p>
+<ul class="simple">
+<li><p>ES&lt;0.01 - Very small</p></li>
+<li><p>0.01&lt;=ES&lt;0.06 - Small</p></li>
+<li><p>0.16&lt;=ES&lt;0.14 - Medium</p></li>
+<li><p>ES &gt;= 0.14 - Large</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="comparing-2-measures-related">
+<h2>3.2. Comparing &gt; 2 measures (related)<a class="headerlink" href="#comparing-2-measures-related" title="Permalink to this heading">#</a></h2>
+<section id="parametric-repeated-measures-anova">
+<h3>3.2.1. Parametric (Repeated measures ANOVA)<a class="headerlink" href="#parametric-repeated-measures-anova" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggwithinstats</span><span class="p">(</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># group</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># measurement</span>
+<span class="w">            </span><span class="n">pairwise.comparisons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># show pairwise</span>
+<span class="w">          </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">     </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (omega squared)</strong></p>
+<ul class="simple">
+<li><p>ES&lt;0.01 - Very small</p></li>
+<li><p>0.01&lt;=ES&lt;0.06 - Small</p></li>
+<li><p>0.16&lt;=ES&lt;0.14 - Medium</p></li>
+<li><p>ES &gt;= 0.14 - Large</p></li>
+</ul>
+</section>
+<section id="non-parametric-friedman-test">
+<h3>3.2.2. Non-parametric (Friedman test)<a class="headerlink" href="#non-parametric-friedman-test" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggwithinstats</span><span class="p">(</span>
+<span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># group</span>
+<span class="w">            </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>________<span class="p">,</span><span class="w">                   </span><span class="c1"># measurement</span>
+<span class="w">            </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nonparametric&quot;</span><span class="p">,</span><span class="w">         </span><span class="c1"># non-parametric</span>
+<span class="w">            </span><span class="n">pairwise.comparisons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># show pairwise</span>
+<span class="w">          </span><span class="nf">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="p">)</span><span class="w">     </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (Kendall’s W)</strong></p>
+<ul class="simple">
+<li><p>0.00 &lt;= w &lt; 0.20 - Slight agreement</p></li>
+<li><p>0.20 &lt;= w &lt; 0.40 - Fair agreement</p></li>
+<li><p>0.40 &lt;= w &lt; 0.60 - Moderate agreement</p></li>
+<li><p>0.60 &lt;= w &lt; 0.80 - Substantial agreement</p></li>
+<li><p>w &gt;= 0.80 - Almost perfect agreement</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="comparing-counts-2x2">
+<h2>4.1. Comparing counts 2x2<a class="headerlink" href="#comparing-counts-2x2" title="Permalink to this heading">#</a></h2>
+<section id="fishers-exact-test">
+<h3>4.1.1. Fisher’s Exact Test<a class="headerlink" href="#fishers-exact-test" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>small numbers</p></li>
+<li><p>2x2 table</p></li>
+</ul>
+</section>
+<section id="preparation">
+<h3>Preparation<a class="headerlink" href="#preparation" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Convenience <code class="docutils literal notranslate"><span class="pre">print_table</span></code> function</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">print_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">txtRound</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">addmargins</span><span class="p">(</span><span class="n">input</span><span class="p">)}</span>
+
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">htmlTable</span><span class="p">(</span><span class="n">css.rgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;font-weight: 900; text-align: left;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Format table</p></li>
+</ul>
+<p><img alt="test_count_fisher_table_small_label.png" src="../_images/test_count_fisher_table_small_label.png" /></p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">table_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">              </span><span class="nf">select</span><span class="p">(</span>__<span class="n">exposure__</span><span class="p">,</span><span class="w"> </span>__<span class="n">outcome__</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="nf">mutate</span><span class="p">(</span>__<span class="n">exposure__</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">fct_relevel</span><span class="p">(</span>__<span class="n">exposure__</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+&quot;</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">),</span>
+<span class="w">                     </span>__<span class="n">outcome__</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">fct_relevel</span><span class="p">(</span>__<span class="n">outcome__</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+&quot;</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="n">table</span>
+
+<span class="nf">print_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+<span class="w">                       </span>
+</pre></div>
+</div>
+</section>
+<section id="plotting">
+<h3>Plotting<a class="headerlink" href="#plotting" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span>__<span class="n">exposure__</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span>__<span class="n">outcome__</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s">&quot;fill&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>_____<span class="p">)</span><span class="w"> </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+</section>
+<section id="statistical-test">
+<h3>Statistical test<a class="headerlink" href="#statistical-test" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fisher’s exact test</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">table_name</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">rstatix</span><span class="o">::</span><span class="nf">fisher_test</span><span class="p">(</span><span class="n">detailed</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Effect size (odds ratio)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">epitools</span><span class="o">::</span><span class="nf">oddsratio</span><span class="p">(</span><span class="n">table_name</span><span class="p">,</span><span class="w"> </span><span class="n">rev</span><span class="o">=</span><span class="s">&quot;both&quot;</span><span class="p">)</span><span class="o">$</span><span class="n">measure</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+<section id="comparing-counts-rxc">
+<h2>4.2. Comparing counts RxC<a class="headerlink" href="#comparing-counts-rxc" title="Permalink to this heading">#</a></h2>
+<section id="chi-squared-test">
+<h3>4.2.1. Chi-squared test<a class="headerlink" href="#chi-squared-test" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>R X C</p></li>
+<li><p>large counts</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Preparation<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Convenience function <code class="docutils literal notranslate"><span class="pre">print_table</span></code></p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">print_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="o">=</span><span class="bp">F</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">txtRound</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">addmargins</span><span class="p">(</span><span class="n">input</span><span class="p">)}</span>
+
+<span class="w">    </span><span class="n">input</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="n">htmlTable</span><span class="o">::</span><span class="nf">htmlTable</span><span class="p">(</span><span class="n">css.rgroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;font-weight: 900; text-align: left;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Format table</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">table_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="nf">select</span><span class="p">(</span>__<span class="n">exposure__</span><span class="p">,</span><span class="w"> </span>__<span class="n">outcome__</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">              </span><span class="n">table</span>
+
+<span class="nf">print_table</span><span class="p">(</span><span class="n">table_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="statistical-plotting">
+<h3>Statistical plotting<a class="headerlink" href="#statistical-plotting" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">table_name</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggbarstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="n">exposure__</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                          </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__<span class="n">outcome__</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">               </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Effect size (Cramer’s V)</strong></p>
+<ul class="simple">
+<li><p>ES &lt;= 0.2 - weak</p></li>
+<li><p>0.2 &lt; ES &lt;=0.6 - moderate</p></li>
+<li><p>ES &gt; 0.6 - strong</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<section id="correlating-2-measures">
+<h2>5.1. Correlating 2 measures<a class="headerlink" href="#correlating-2-measures" title="Permalink to this heading">#</a></h2>
+<section id="parametric-pearsons-correlation">
+<h3>5.1.1. Parametric (Pearson’s correlation)<a class="headerlink" href="#parametric-pearsons-correlation" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplots</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggscatterstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>______<span class="p">,</span><span class="w">          </span><span class="c1"># measure 1</span>
+<span class="w">                        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>______<span class="p">,</span><span class="w">          </span><span class="c1"># measure 2</span>
+<span class="w">                        </span><span class="n">marginal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># suppress marginal plot </span>
+<span class="w">         </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>__<span class="p">)</span><span class="w"> </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size ®</strong></p>
+<ul class="simple">
+<li><p>r&lt;0.05 - Tiny</p></li>
+<li><p>0.05&lt;=r&lt;0.1 - Very small</p></li>
+<li><p>0.1&lt;=r&lt;0.2 - Small</p></li>
+<li><p>0.2&lt;=r&lt;0.3 - Medium</p></li>
+<li><p>0.3&lt;=r&lt;0.4 - Large</p></li>
+<li><p>r&gt;=0.4 - Very large</p></li>
+</ul>
+</section>
+<section id="non-parametric-spearmans-correlation">
+<h3>5.1.2. Non-parametric (Spearman’s correlation)<a class="headerlink" href="#non-parametric-spearmans-correlation" title="Permalink to this heading">#</a></h3>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplots</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">data_mz</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggscatterstats</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>______<span class="p">,</span><span class="w">            </span><span class="c1"># measure 1</span>
+<span class="w">                           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>______<span class="p">,</span><span class="w">            </span><span class="c1"># measure 2</span>
+<span class="w">                           </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nonparametric&quot;</span><span class="w"> </span><span class="c1"># non-parametric spearman&#39;s</span>
+<span class="w">                           </span><span class="n">marginal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">    </span><span class="c1"># suppress marginal plot </span>
+<span class="w">            </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>__<span class="p">)</span><span class="w"> </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+<p><strong>Effect size (rho)</strong></p>
+<ul class="simple">
+<li><p>r&lt;0.05 - Tiny</p></li>
+<li><p>0.05&lt;=r&lt;0.1 - Very small</p></li>
+<li><p>0.1&lt;=r&lt;0.2 - Small</p></li>
+<li><p>0.2&lt;=r&lt;0.3 - Medium</p></li>
+<li><p>0.3&lt;=r&lt;0.4 - Large</p></li>
+<li><p>r&gt;=0.4 - Very large</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="statistical-modeling">
+<h1>3. Statistical modeling<a class="headerlink" href="#statistical-modeling" title="Permalink to this heading">#</a></h1>
+<section id="build-model">
+<h2>3.1. Build model<a class="headerlink" href="#build-model" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Continuous outcome (e.g. BP, heart rate, glucose)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span>__<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span>__<span class="n">covariate1__</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>__<span class="n">covariate2__</span><span class="p">,</span><span class="w"> </span><span class="c1"># selected covariates</span>
+<span class="w">            </span><span class="n">data</span><span class="p">)</span><span class="w"> </span>
+<span class="w"> </span>
+<span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span>__<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="c1"># all covariates</span>
+<span class="w">            </span><span class="n">data</span><span class="p">)</span><span class="w"> </span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Binary outcome (e.g. disease/no disease, alive/dead)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span>__<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span>__<span class="n">covariate1__</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>__<span class="n">covariate2__</span><span class="p">,</span><span class="w"> </span><span class="c1"># selected covariates </span>
+<span class="w">             </span><span class="n">data</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">family</span><span class="o">=</span><span class="s">&quot;binomial&quot;</span><span class="p">)</span><span class="w"> </span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span>__<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="c1"># all covariates</span>
+<span class="w">             </span><span class="n">data</span><span class="p">,</span><span class="w"> </span>
+<span class="w">             </span><span class="n">family</span><span class="o">=</span><span class="s">&quot;binomial&quot;</span><span class="p">)</span><span class="w"> </span>
+</pre></div>
+</div>
+</section>
+<section id="check-collinearity">
+<h2>3.2. Check collinearity<a class="headerlink" href="#check-collinearity" title="Permalink to this heading">#</a></h2>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">car</span><span class="o">::</span><span class="nf">vif</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">          </span><span class="n">bind_rows</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">everything</span><span class="p">(),</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">names_to</span><span class="o">=</span><span class="s">&quot;covariate&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;VIF&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">          </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">covariate</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">VIF</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;identity&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">            </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">linetype</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                       </span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">            </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>__<span class="p">)</span><span class="w"> </span><span class="c1"># size of plot e.g. 16</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>3.3. Statistical table<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Convenience function <code class="docutils literal notranslate"><span class="pre">print_html</span></code></p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">print_html</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">capture.output</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stargazer</span></code> table</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">stargazer</span><span class="p">)</span>
+
+<span class="nf">stargazer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">ci</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">print_html</span><span class="w"> </span><span class="c1"># can take multiple models</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>3.4. Statistical plotting<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggstatsplot</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10,10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>__<span class="p">)</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">ggcoefstats</span><span class="p">(</span><span class="n">exclude.intercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">,</span><span class="w">  </span><span class="c1"># omit intercept</span>
+<span class="w">                      </span><span class="n">stats.label.args</span><span class="o">=</span><span class="nf">list</span><span class="p">(</span><span class="n">nudge_y</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                            </span><span class="n">size</span><span class="o">=</span><span class="m">5</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                            </span><span class="n">label.size</span><span class="o">=</span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">          </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>__<span class="p">)</span><span class="w"> </span><span class="c1"># size of plot eg. 16</span>
+</pre></div>
+</div>
+</section>
+<section id="diagnostic-plots">
+<h2>3.5. Diagnostic plots<a class="headerlink" href="#diagnostic-plots" title="Permalink to this heading">#</a></h2>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggfortify</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions e.g. 10, 10</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span>__<span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span>_<span class="p">)</span>
+
+<span class="n">model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">autoplot</span><span class="p">(</span><span class="n">which</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">  </span><span class="c1"># show only first 2 plots</span>
+<span class="w">          </span><span class="nf">theme_grey</span><span class="p">(</span><span class="n">base_size</span><span class="o">=</span>__<span class="p">)</span><span class="w"> </span><span class="c1"># set plot size e.g. 16</span>
+</pre></div>
+</div>
+</section>
+<section id="modeling-for-prediction">
+<h2>3.6. Modeling for prediction<a class="headerlink" href="#modeling-for-prediction" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Best subset selection for <strong>continuous outcome</strong> (e.g. BP)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">glmulti</span><span class="p">)</span>
+
+<span class="n">models</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glmulti</span><span class="p">(</span>___<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w">        </span><span class="c1"># . = consider all covariates</span>
+<span class="w">                  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">                </span><span class="c1"># consider only independent covariates</span>
+<span class="w">                  </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="w">             </span><span class="c1"># exhaustive search</span>
+<span class="w">                  </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">           </span><span class="c1"># suppress messages</span>
+<span class="w">                  </span><span class="n">plotty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">           </span><span class="c1"># suppress messages</span>
+
+<span class="nf">weightable</span><span class="p">(</span><span class="n">models</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="c1"># show top 10 models by AIC</span>
+
+<span class="n">top_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">models</span><span class="o">@</span><span class="n">objects</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="c1"># top model with lowest AIC</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Best subset selection for <strong>binary categorical outcome</strong> (e.g. death)</p></li>
+</ul>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">glmulti</span><span class="p">)</span>
+
+<span class="n">models</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glmulti</span><span class="p">(</span>___<span class="n">response__</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w">        </span><span class="c1"># . = consider all covariates</span>
+<span class="w">                  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">                </span><span class="c1"># consider only independent covariates</span>
+<span class="w">                  </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="w">             </span><span class="c1"># exhaustive search</span>
+<span class="w">                  </span><span class="n">fitfunction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;glm&quot;</span><span class="p">,</span><span class="w">      </span><span class="c1"># glm function</span>
+<span class="w">                  </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">,</span><span class="w">        </span><span class="c1"># logistic regression</span>
+<span class="w">                  </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">           </span><span class="c1"># suppress messages</span>
+<span class="w">                  </span><span class="n">plotty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">           </span><span class="c1"># suppress messages</span>
+
+<span class="nf">weightable</span><span class="p">(</span><span class="n">models</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="c1"># show top 10 models by AIC</span>
+
+<span class="n">top_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">models</span><span class="o">@</span><span class="n">objects</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="c1"># top model with lowest AIC</span>
+</pre></div>
+</div>
+</section>
+<section id="modeling-for-explanation">
+<h2>3.7. Modeling for explanation<a class="headerlink" href="#modeling-for-explanation" title="Permalink to this heading">#</a></h2>
+<p>Build a causal graph using <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a></p>
+<ul class="simple">
+<li><p>adjust for fork</p></li>
+<li><p>do not adjust for collider or pipe</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Descriptive tables</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-table">1.1. Statistical table</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-tests-and-plotting">2. Statistical tests and plotting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-unrelated-subjects">2.1. Comparing 2 measures (unrelated subjects)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-unpaired-t-test">2.1.1 Parametric (unpaired t-test)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-mann-whitney-u">2.1.2. Non-parametric (Mann-Whitney U)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-related-subjects">2.2. Comparing 2 measures (related subjects)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-paired-t-test">2.2.1. Parametric (paired t-test)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-wilcoxon-signed-rank-test">2.2.2. Non-parametric (Wilcoxon signed rank test)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-unrelated">3.1. Comparing &gt; 2 measures (unrelated)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-1-way-anova">3.1.1. Parametric (1-way ANOVA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-kruskal-wallis">3.1.2. Non-parametric (Kruskal-Wallis)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-2-measures-related">3.2. Comparing &gt; 2 measures (related)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-repeated-measures-anova">3.2.1. Parametric (Repeated measures ANOVA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-friedman-test">3.2.2. Non-parametric (Friedman test)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-counts-2x2">4.1. Comparing counts 2x2</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fishers-exact-test">4.1.1. Fisher’s Exact Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting">Plotting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-test">Statistical test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-counts-rxc">4.2. Comparing counts RxC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi-squared-test">4.2.1. Chi-squared test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-plotting">Statistical plotting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correlating-2-measures">5.1. Correlating 2 measures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametric-pearsons-correlation">5.1.1. Parametric (Pearson’s correlation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-parametric-spearmans-correlation">5.1.2. Non-parametric (Spearman’s correlation)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-modeling">3. Statistical modeling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-model">3.1. Build model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-collinearity">3.2. Check collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.3. Statistical table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.4. Statistical plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostic-plots">3.5. Diagnostic plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-for-prediction">3.6. Modeling for prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-for-explanation">3.7. Modeling for explanation</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

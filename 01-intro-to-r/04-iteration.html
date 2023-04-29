@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Iterating &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/04-iteration';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Functions" href="05-functions.html" />
+    <link rel="prev" title="Decision making" href="03-decision.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-decision.html">Decision making</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/04-iteration.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Iterating</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-looping-using-the-for-statement">Iterating/looping using the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-sequence">1. Using a sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-vector">2. Using a vector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-iteration">Exercise - Iteration</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="iterating">
+<h1>Iterating<a class="headerlink" href="#iterating" title="Permalink to this heading">#</a></h1>
+<p>Using the recipe as an analogy, we can see that there is a step that requires repeating the action of putting [<code class="docutils literal notranslate"><span class="pre">n</span></code>] number of ice-cream, whipped cream, cherry (<code class="docutils literal notranslate"><span class="pre">IWC</span></code>) portions onto the banana</p>
+<p><img alt="programming_5.png" src="../_images/programming_5.png" /></p>
+<p>Iteration or looping allows us to</p>
+<ul class="simple">
+<li><p>go through a data structure one element at a time (e.g. sequence/vector/list)</p></li>
+<li><p>repeat the execution of a piece of code until all the elements have been covered</p></li>
+</ul>
+<p>This allows us to simplify writing code that performs repeated operations</p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>To illustrate the use of iteration/looping, we will use an example data frame with patient data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Let us take patient from the data frame and use the conditional statement to determine whether the patient should be admitted or reviewed later</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># select by row index</span>
+
+<span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="m">3</span><span class="p">,]</span><span class="w"> </span><span class="c1"># David</span>
+
+<span class="n">person</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 1 × 4</caption>
+<thead>
+	<tr><th></th><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th></th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><th scope=row>3</th><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># combining comparisons into single if statement</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>What if we want to repeat the action for all the patients in the dataframe?</p>
+<ul class="simple">
+<li><p>We could do it manually by repeating the code and changing the <code class="docutils literal notranslate"><span class="pre">person</span></code> variable for each patient</p></li>
+<li><p>We could automate it using iteration/looping statements</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="iterating-looping-using-the-for-statement">
+<h2>Iterating/looping using the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement<a class="headerlink" href="#iterating-looping-using-the-for-statement" title="Permalink to this heading">#</a></h2>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement to iterate through a data structure containing multiple elements</p>
+<p><img alt="for.png" src="../_images/for.png" /></p>
+<p>For each iteration, the contents of the current element of the data structure are assigned to the <code class="docutils literal notranslate"><span class="pre">variable</span></code> in the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement</p>
+<ul class="simple">
+<li><p>The variable name can be chosen to represent a <em>unit from the data structure that is being iterated</em> upon e.g.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">index</span></code> (variable) <strong>in</strong> <code class="docutils literal notranslate"><span class="pre">sequence</span></code> (sequence)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">patient</span></code> (variable) <strong>in</strong> <code class="docutils literal notranslate"><span class="pre">patient_list</span></code> (list)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (variable) <strong>in</strong> <code class="docutils literal notranslate"><span class="pre">patient_names</span></code> (vector)</p></li>
+</ul>
+</li>
+<li><p>The contents of the variable stay <em>within</em> the <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">do</span> <span class="pre">something</span> <span class="pre">}</span></code> block and be used for operations</p></li>
+</ul>
+<p><img alt="for_variable.png" src="../_images/for_variable.png" /></p>
+<section id="using-a-sequence">
+<h3>1. Using a sequence<a class="headerlink" href="#using-a-sequence" title="Permalink to this heading">#</a></h3>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">start:end</span></code> syntax to generate a sequence of numbers that can be iterated</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">num_cases</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="c1"># count number of rows (1 row = 1 patient)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">num_cases</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1"># sequence of numbers from 1 to num_cases</span>
+
+<span class="w">    </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">index</span><span class="p">,]</span><span class="w">        </span><span class="c1"># select the patient by the index</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-a-vector">
+<h3>2. Using a vector<a class="headerlink" href="#using-a-vector" title="Permalink to this heading">#</a></h3>
+<p>We can iterate through the contents of a vector that contains row a identifier. This could be</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rownames</span></code> (by default, rows are in sequential order 1,2,3…)</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">column</span> <span class="pre">with</span> <span class="pre">unique</span> <span class="pre">row</span> <span class="pre">identifier</span></code> in the data frame</p></li>
+</ul>
+<p>The benefit of using the method is that we do not need to generate the sequence of indexes as R will iterate thru the vector</p>
+<p>First, let us look at using <strong>row names</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># using the rownames function to a return a vector of names</span>
+<span class="nf">rownames</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'1'</li><li>'2'</li><li>'3'</li><li>'4'</li><li>'5'</li></ol>
+</div></div>
+</div>
+<p>Now that we have a vector, we can iterate through it and use it to reference each row in the data frame e.g. <code class="docutils literal notranslate"><span class="pre">df[r,]</span></code> where <code class="docutils literal notranslate"><span class="pre">r</span> <span class="pre">=</span> <span class="pre">row</span> <span class="pre">index</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">row</span><span class="p">,]</span><span class="w"> </span><span class="c1"># using row names to index the person</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Instead of using <code class="docutils literal notranslate"><span class="pre">rownames</span></code> to populate the vector with all the row indexes in the data frame, we can specify selective row indexes in the vector</p>
+<ul class="simple">
+<li><p>For example we would like to select patients under our care (rows 1,2,5)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># manually specifying the rows in a vector</span>
+
+<span class="n">patients_in_my_care</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">5</span><span class="p">)</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">patient</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">patients_in_my_care</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">  </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">patient</span><span class="p">,]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also use a unique row identifier from the data frame. Here, we can use the <code class="docutils literal notranslate"><span class="pre">id</span></code> column containing unique identifiers for each patient</p>
+<ul class="simple">
+<li><p>To do this, we need to populate the vector with the identifiers from the data frame (<code class="docutils literal notranslate"><span class="pre">id</span></code>)</p></li>
+<li><p>In the loop, the each <code class="docutils literal notranslate"><span class="pre">id</span></code> value is used to select rows from the data frame</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># vector of patient identifiers</span>
+
+<span class="n">df</span><span class="o">$</span><span class="n">id</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>20201</li><li>20205</li><li>20212</li><li>20213</li><li>20216</li></ol>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># using a column containing unique identifiers</span>
+
+<span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">id</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">  </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,]</span><span class="w"> </span><span class="c1"># we will select rows where pt_id matches the id</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Repetitive steps can be done using a loop that iterates through a sequence/vector/list</p></li>
+<li><p>Iteration is defined as <code class="docutils literal notranslate"><span class="pre">for(element</span> <span class="pre">in</span> <span class="pre">sequence/vector/list)</span> <span class="pre">{</span> <span class="pre">code</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">}</span></code></p>
+<ul>
+<li><p>The first element in a sequence/vector/list is assigned to the variable <code class="docutils literal notranslate"><span class="pre">element</span></code> (you can choose any variable name that denotes a single element of interest)</p></li>
+<li><p>When the code block has finished executing, the next element is assigned to the same variable <code class="docutils literal notranslate"><span class="pre">element</span></code> and the code is executed again</p></li>
+<li><p>The process continues until it reaches the last element in the sequence/vector/list</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exercise-iteration">
+<h2>Exercise - Iteration<a class="headerlink" href="#exercise-iteration" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">screen_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">sysBP</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">130</span><span class="p">,</span><span class="m">65</span><span class="p">,</span><span class="m">155</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">contact</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">F</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">cluster</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="n">screen_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>Repeat the conditional checking for all the patients. Use the <code class="docutils literal notranslate"><span class="pre">id</span></code> column to iterate through the patients</p>
+<ul class="simple">
+<li><p>if systolic BP is less than 80, print “send to ED”</p></li>
+<li><p>otherwise if patient has contact or stays near a cluster, print “send for screening”</p></li>
+<li><p>otherwise if patient if older than 65, print “review in 3 days”</p></li>
+<li><p>if they do no meet any of these criteria, print “review in 1 week”</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">patient_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen_df</span><span class="o">$</span><span class="n">id</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">patient_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">patient_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">pt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen_df</span><span class="p">[</span><span class="n">screen_df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">patient_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="c1"># select pt from dataframe using the id</span>
+
+<span class="w">        </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">80</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send to ED&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">contact</span><span class="o">==</span><span class="bp">T</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">pt</span><span class="o">$</span><span class="n">cluster</span><span class="w"> </span><span class="o">==</span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send for screening&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 3 days&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 1 week&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send to ED&quot;
+[1] &quot;review in 1 week&quot;
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03-decision.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Decision making</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05-functions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-looping-using-the-for-statement">Iterating/looping using the <code class="docutils literal notranslate"><span class="pre">for</span></code> statement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-sequence">1. Using a sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-vector">2. Using a vector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-iteration">Exercise - Iteration</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

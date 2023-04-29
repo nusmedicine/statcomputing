@@ -1,0 +1,1130 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Modeling for Explanation &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03-intro-to-stats/08-2-explanation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Modeling for Prediction" href="08-1-prediction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/04-iteration.html">Iterating</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/05-functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-to-r/06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/03-intro-to-stats/08-2-explanation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modeling for Explanation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-graphs">Causal graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confounder-types">Confounder types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">1. Fork</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipe">2. Pipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collider">3. Collider</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-modeling-for-explanation">Exercise - Modeling for explanation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modeling-for-explanation">
+<h1>Modeling for Explanation<a class="headerlink" href="#modeling-for-explanation" title="Permalink to this heading">#</a></h1>
+<p>Previously, we saw how modeling for prediction involved the selection of covariates guided by metrics for out-of-sample prediction.</p>
+<p>In modeling for explanation, we seek to estimate the effects of covariates on an outcome of interest, while minimizing confounders and biases</p>
+<ul class="simple">
+<li><p>We need to consider biases like collinearity from correlated covariates as they impact the interpretation of the effect sizes</p></li>
+<li><p>We need to consider the causal relationships among the covariates so we can identify confounders and decide which covariates to include/exclude</p></li>
+</ul>
+<p>Here, we will look at how we can make use of causal graphs to identify biases</p>
+<p><img alt="modeling_explain.png" src="../_images/modeling_explain.png" /></p>
+<hr class="docutils" />
+<section id="causal-graphs">
+<h2>Causal graphs<a class="headerlink" href="#causal-graphs" title="Permalink to this heading">#</a></h2>
+<p>Causal models can be represented as directed graphs where</p>
+<ul class="simple">
+<li><p>The outcome and covariates are represented as <code class="docutils literal notranslate"><span class="pre">nodes</span></code></p></li>
+<li><p>The causal links are represented as directional <code class="docutils literal notranslate"><span class="pre">edges</span></code> (arrows)</p></li>
+</ul>
+<p><img alt="modeling_causal_graph.png" src="../_images/modeling_causal_graph.png" /></p>
+<p>In these models, the graphs are acyclic (known as <strong>directed acyclic graphs</strong> or <strong>DAGs</strong>) where the paths connecting the nodes do not form a cycle</p>
+<p><img alt="modeling_acyclic.png" src="../_images/modeling_acyclic.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="confounder-types">
+<h2>Confounder types<a class="headerlink" href="#confounder-types" title="Permalink to this heading">#</a></h2>
+<p>Let us consider a minimal causal DAG with the following variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code> is the exposure covariate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code> is the outcome of interest</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Z</span></code> is another covariate</p></li>
+</ul>
+<p>Using this minimal DAG, we can identify the following confounder types</p>
+<p><img alt="modeling_confounder.png" src="../_images/modeling_confounder.png" /></p>
+<p>We will explore these confounder types using simulated datasets</p>
+<ul class="simple">
+<li><p>Fork</p></li>
+<li><p>Pipe</p></li>
+<li><p>Collider</p></li>
+</ul>
+<p>We will see how we can model the causal graphs using the <code class="docutils literal notranslate"><span class="pre">ggdag</span></code> library as well as a web-based tool <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggdag</span><span class="p">)</span><span class="w"> </span><span class="c1"># for causal dags</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">lubridate</span> 1.9.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tidyr    </span> 1.3.0
+<span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
+<span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
+<span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Attaching package: ‘ggdag’
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The following object is masked from ‘package:stats’:
+
+    filter
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will define a convenience <code class="docutils literal notranslate"><span class="pre">table_lm</span></code> function to print the regression tables using <code class="docutils literal notranslate"><span class="pre">stargazer</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">table_lm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">   </span><span class="nf">capture.output</span><span class="p">(</span><span class="n">stargazer</span><span class="o">::</span><span class="nf">stargazer</span><span class="p">(</span><span class="kc">...</span><span class="p">,</span><span class="w"> </span><span class="n">ci</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">   </span><span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+<span class="w">   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fork">
+<h2>1. Fork<a class="headerlink" href="#fork" title="Permalink to this heading">#</a></h2>
+<p>In this example, we have a synthetic dataset with <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">smoking</span></code> and <code class="docutils literal notranslate"><span class="pre">COPD</span></code> variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> years</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smoking</span></code> amount (arbitrary units)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COPD</span></code> severity (arbitrary units)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1896</span><span class="p">)</span><span class="w"> </span><span class="c1"># Reproducibility </span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="c1"># Sample Size</span>
+
+<span class="c1"># synthetic model</span>
+<span class="n">age</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span><span class="w"> </span>
+<span class="n">smoking</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">COPD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">smoking</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">data_fork</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">smoking</span><span class="o">=</span><span class="n">smoking</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">COPD</span><span class="o">=</span><span class="n">COPD</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data_fork</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>age</th><th scope=col>smoking</th><th scope=col>COPD</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>50.50475</td><td>100.3208</td><td>33.91562</td></tr>
+	<tr><td>22.01991</td><td>127.1552</td><td>24.42866</td></tr>
+	<tr><td>28.96818</td><td>121.8219</td><td>27.22487</td></tr>
+	<tr><td>20.95888</td><td>128.7240</td><td>23.31160</td></tr>
+	<tr><td>23.25103</td><td>128.2533</td><td>23.47388</td></tr>
+	<tr><td>20.51135</td><td>129.7942</td><td>22.81942</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We are interested in finding out the effect of <code class="docutils literal notranslate"><span class="pre">smoking</span></code> on <code class="docutils literal notranslate"><span class="pre">COPD</span></code></p>
+<p>We can build an initial model looking at the effect of <code class="docutils literal notranslate"><span class="pre">smoking</span></code> on <code class="docutils literal notranslate"><span class="pre">COPD</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_fork</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">COPD</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">smoking</span><span class="p">,</span><span class="w"> </span><span class="n">data_fork</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_fork</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>COPD</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">smoking</td><td>-0.401<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(-0.405, -0.396)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>75.111<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(74.518, 75.704)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.968</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.968</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>1.080 (df = 998)</td></tr><tr><td style="text-align:left">F Statistic</td><td>30,248.220<sup>***</sup> (df = 1; 998)</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>Curiously, we see that the amount of <code class="docutils literal notranslate"><span class="pre">smoking</span></code> reduces <code class="docutils literal notranslate"><span class="pre">COPD</span></code>, contrary to what we expect based on our understanding of pathophysiology</p>
+<p>To understand this, we can build a DAG relating the 3 variables <code class="docutils literal notranslate"><span class="pre">smoke</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">COPD</span></code>, based on our background knowledge</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">smoke</span></code> (exposure) is linked to <code class="docutils literal notranslate"><span class="pre">COPD</span></code> (outcome)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> is linked to both <code class="docutils literal notranslate"><span class="pre">smoke</span></code> and <code class="docutils literal notranslate"><span class="pre">COPD</span></code></p></li>
+</ul>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">dagify</span></code> function to build the graph and the <code class="docutils literal notranslate"><span class="pre">ggdag</span></code> function to visualize it</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">dag_fork</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagify</span><span class="p">(</span><span class="n">smoke</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">COPD</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">COPD</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">smoke</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;smoke&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;COPD&quot;</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag</span><span class="p">(</span><span class="n">dag_fork</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">node_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">text_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e25922286bcdc9600b42d493e36010c02deeca2efd46865e73698628b1b3a95f.png" src="../_images/e25922286bcdc9600b42d493e36010c02deeca2efd46865e73698628b1b3a95f.png" />
+</div>
+</div>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">ggdag_adjustment_set</span></code> to indicate possible confounders that should be adjusted for by including them in the model</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag_adjustment_set</span><span class="p">(</span><span class="n">dag_fork</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_gray</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a6751038baf938cecdd777c452a0c15b9bc30aebf69d06f508bc807803663912.png" src="../_images/a6751038baf938cecdd777c452a0c15b9bc30aebf69d06f508bc807803663912.png" />
+</div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">age</span></code> is a possible confounder and we can include this covariate in our model to adjust for it</p>
+<p>Let us also model this in <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_fork_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">COPD</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">smoking</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">data_fork</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_fork</span><span class="p">,</span><span class="w"> </span><span class="n">model_fork_adjusted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2">COPD</td></tr><tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">smoking</td><td>-0.401<sup>***</sup></td><td>0.082<sup>**</sup></td></tr><tr><td style="text-align:left"></td><td>(-0.405, -0.396)</td><td>(0.020, 0.144)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">age</td><td></td><td>0.484<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td></td><td>(0.422, 0.546)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>75.111<sup>***</sup></td><td>2.694</td></tr><tr><td style="text-align:left"></td><td>(74.518, 75.704)</td><td>(-6.626, 12.015)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.968</td><td>0.974</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.968</td><td>0.974</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>1.080 (df = 998)</td><td>0.973 (df = 997)</td></tr><tr><td style="text-align:left">F Statistic</td><td>30,248.220<sup>***</sup> (df = 1; 998)</td><td>18,750.910<sup>***</sup> (df = 2; 997)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>We can see now that when age is adjusted for, the conclusion is different and shows that smoking does increase COPD</p>
+<p><img alt="modeling_fork.png" src="../_images/modeling_fork.png" /></p>
+</section>
+<section id="pipe">
+<h2>2. Pipe<a class="headerlink" href="#pipe" title="Permalink to this heading">#</a></h2>
+<p>In this example, we have a synthetic dataset with <code class="docutils literal notranslate"><span class="pre">exercise</span></code>, <code class="docutils literal notranslate"><span class="pre">HR</span></code> and <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">exercise</span></code> intensity (arbitrary units)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HR</span></code> beats/min</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sysBP</span></code> mmHg</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1896</span><span class="p">)</span><span class="w"> </span><span class="c1"># Reproducibility</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="c1"># Sample Size</span>
+
+<span class="c1"># synthetic model</span>
+<span class="n">exercise</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">HR</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">exercise</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">60</span>
+<span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">data_pipe</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">exercise</span><span class="o">=</span><span class="n">exercise</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="n">HR</span><span class="o">=</span><span class="n">HR</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="n">sysBP</span><span class="o">=</span><span class="n">sysBP</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data_pipe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>exercise</th><th scope=col>HR</th><th scope=col>sysBP</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>2.03365024</td><td>70.99385</td><td>140.6189</td></tr>
+	<tr><td>0.13466066</td><td>59.84845</td><td>120.4001</td></tr>
+	<tr><td>0.59787859</td><td>63.77945</td><td>128.1175</td></tr>
+	<tr><td>0.06392520</td><td>60.00253</td><td>119.9648</td></tr>
+	<tr><td>0.21673542</td><td>62.58798</td><td>124.1990</td></tr>
+	<tr><td>0.03408985</td><td>60.47600</td><td>120.5363</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We are interested to find out the effect of <code class="docutils literal notranslate"><span class="pre">exercise</span></code> on <code class="docutils literal notranslate"><span class="pre">sysBP</span></code></p>
+<p>In this case, let us suppose we build a model that includes all the covariates so that we can estimate the effect of <code class="docutils literal notranslate"><span class="pre">exercise</span></code> on <code class="docutils literal notranslate"><span class="pre">sysBP</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_pipe_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exercise</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">HR</span><span class="p">,</span><span class="w"> </span><span class="n">data_pipe</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_pipe_adjusted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>sysBP</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">exercise</td><td>0.122</td></tr><tr><td style="text-align:left"></td><td>(-0.197, 0.440)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">HR</td><td>1.982<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(1.920, 2.044)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>1.091</td></tr><tr><td style="text-align:left"></td><td>(-2.638, 4.820)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.991</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.991</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>0.973 (df = 997)</td></tr><tr><td style="text-align:left">F Statistic</td><td>54,402.820<sup>***</sup> (df = 2; 997)</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>Interestingly, now we see that <code class="docutils literal notranslate"><span class="pre">HR</span></code> has an effect on <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> as expected, but <code class="docutils literal notranslate"><span class="pre">exercise</span></code> does not have a significant effect, contrary to what we know about  physiological responses</p>
+<p>To understand this, let us build a DAG linking <code class="docutils literal notranslate"><span class="pre">exercise</span></code>, <code class="docutils literal notranslate"><span class="pre">HR</span></code> and <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> using the <code class="docutils literal notranslate"><span class="pre">dagify</span></code> function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">exercise</span></code> (exposure) is linked to <code class="docutils literal notranslate"><span class="pre">HR</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HR</span></code> is linked to <code class="docutils literal notranslate"><span class="pre">sysBP</span></code> (outcome)</p></li>
+</ul>
+<p>We can visualize the DAG using the <code class="docutils literal notranslate"><span class="pre">ggdag</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggdag</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="n">dag_pipe</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagify</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">HR</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">HR</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exercise</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exercise&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sysBP&quot;</span><span class="p">)</span>
+
+<span class="nf">ggdag</span><span class="p">(</span><span class="n">dag_pipe</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;auto&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">node_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">text_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ab2e2706bef0cf2377476f6b8f5a38a839381ef62502e2e134ecec1cfa455a0b.png" src="../_images/ab2e2706bef0cf2377476f6b8f5a38a839381ef62502e2e134ecec1cfa455a0b.png" />
+</div>
+</div>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">ggdag_adjustment_set</span></code> to visualize any covariates that should be adjusted for</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag_adjustment_set</span><span class="p">(</span><span class="n">dag_pipe</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8532e7b1921d506f84d7fda91acc2fe3ed6cd363b595a6fab1d2cdda140fd675.png" src="../_images/8532e7b1921d506f84d7fda91acc2fe3ed6cd363b595a6fab1d2cdda140fd675.png" />
+</div>
+</div>
+<p>We see that there are no covariates that have been recommended for adjustment</p>
+<p>Let us see what happens when we adjust for <code class="docutils literal notranslate"><span class="pre">HR</span></code> using the <code class="docutils literal notranslate"><span class="pre">ggdag_adjust</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag_adjust</span><span class="p">(</span><span class="n">dag_pipe</span><span class="p">,</span><span class="n">var</span><span class="o">=</span><span class="s">&quot;HR&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2ab156a4304692b585116a6db22f385b5d83321751d191e52574351d6f57a1aa.png" src="../_images/2ab156a4304692b585116a6db22f385b5d83321751d191e52574351d6f57a1aa.png" />
+</div>
+</div>
+<p>We see that adjusting for <code class="docutils literal notranslate"><span class="pre">HR</span></code> would actually block the path from <code class="docutils literal notranslate"><span class="pre">exercise</span></code> to <code class="docutils literal notranslate"><span class="pre">sysBP</span></code>, making it impossible to estimate the effect of <code class="docutils literal notranslate"><span class="pre">exercise</span></code> on <code class="docutils literal notranslate"><span class="pre">sysBP</span></code></p>
+<ul class="simple">
+<li><p>Let us also model this in <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a></p></li>
+</ul>
+<p>We can build another model where we exclude <code class="docutils literal notranslate"><span class="pre">HR</span></code> and compare it to our initial full model</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_pipe</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exercise</span><span class="p">,</span><span class="w"> </span><span class="n">data_pipe</span><span class="p">)</span>
+<span class="n">model_pipe_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">sysBP</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exercise</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">HR</span><span class="p">,</span><span class="w"> </span><span class="n">data_pipe</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_pipe_adjusted</span><span class="p">,</span><span class="w"> </span><span class="n">model_pipe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2">sysBP</td></tr><tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">exercise</td><td>0.122</td><td>10.090<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(-0.197, 0.440)</td><td>(9.955, 10.226)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">HR</td><td>1.982<sup>***</sup></td><td></td></tr><tr><td style="text-align:left"></td><td>(1.920, 2.044)</td><td></td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>1.091</td><td>119.984<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(-2.638, 4.820)</td><td>(119.850, 120.117)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.991</td><td>0.955</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.991</td><td>0.955</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>0.973 (df = 997)</td><td>2.156 (df = 998)</td></tr><tr><td style="text-align:left">F Statistic</td><td>54,402.820<sup>***</sup> (df = 2; 997)</td><td>21,355.460<sup>***</sup> (df = 1; 998)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>We can now see that <code class="docutils literal notranslate"><span class="pre">exercise</span></code> does increase increase <code class="docutils literal notranslate"><span class="pre">sysBP</span></code></p>
+<p><img alt="modeling_pipe.png" src="../_images/modeling_pipe.png" /></p>
+</section>
+<section id="collider">
+<h2>3. Collider<a class="headerlink" href="#collider" title="Permalink to this heading">#</a></h2>
+<p>In this example, we have a synthetic dataset with <code class="docutils literal notranslate"><span class="pre">DKA</span></code>, <code class="docutils literal notranslate"><span class="pre">AMI</span></code> and <code class="docutils literal notranslate"><span class="pre">ICU</span></code> variables</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DKA</span></code> risk score (arbitrary unit)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AMI</span></code> risk score (arbitrary unit)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ICU</span></code> admission (1=yes, 0=no)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1896</span><span class="p">)</span><span class="w"> </span><span class="c1"># Reproducibility</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="c1"># Sample Size </span>
+
+<span class="n">DKA</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span>
+<span class="n">AMI</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">^</span><span class="m">2</span>
+
+<span class="n">ICU</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">((</span><span class="n">DKA</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">AMI</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<span class="n">luck</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbinom</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span>
+<span class="n">ICU</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">luck</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">ICU</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">luck</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ICU</span><span class="p">)</span>
+
+<span class="n">data_collider</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">DKA</span><span class="o">=</span><span class="n">DKA</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">AMI</span><span class="o">=</span><span class="n">AMI</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">ICU</span><span class="o">=</span><span class="nf">factor</span><span class="p">(</span><span class="n">ICU</span><span class="p">))</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data_collider</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr><th scope=col>DKA</th><th scope=col>AMI</th><th scope=col>ICU</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>4.135733296</td><td>0.68160927</td><td>1</td></tr>
+	<tr><td>0.018133494</td><td>0.68037601</td><td>0</td></tr>
+	<tr><td>0.357458803</td><td>0.62418544</td><td>0</td></tr>
+	<tr><td>0.004086431</td><td>0.10054905</td><td>0</td></tr>
+	<tr><td>0.046974242</td><td>2.26293810</td><td>1</td></tr>
+	<tr><td>0.001162118</td><td>0.09336329</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We are interested to find out the effect of <code class="docutils literal notranslate"><span class="pre">DKA</span></code> on <code class="docutils literal notranslate"><span class="pre">AMI</span></code></p>
+<p>Let us build an initial model looking at the association between <code class="docutils literal notranslate"><span class="pre">DKA</span></code> and <code class="docutils literal notranslate"><span class="pre">AMI</span></code> by including the <code class="docutils literal notranslate"><span class="pre">ICU</span></code> covariate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_collider_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">AMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">DKA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ICU</span><span class="p">,</span><span class="w"> </span><span class="n">data_collider</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_collider_adjusted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>AMI</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">DKA</td><td>-0.181<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(-0.239, -0.124)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">ICU1</td><td>1.276<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(1.118, 1.435)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>0.442<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.337, 0.548)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.200</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.199</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>1.144 (df = 997)</td></tr><tr><td style="text-align:left">F Statistic</td><td>124.904<sup>***</sup> (df = 2; 997)</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>Interestingly, <code class="docutils literal notranslate"><span class="pre">DKA</span></code> decreases <code class="docutils literal notranslate"><span class="pre">AMI</span></code> risk in this model, contrary from what we may expect from pathophysiology</p>
+<p>To understand this, let us build a causal graph linking <code class="docutils literal notranslate"><span class="pre">AMI</span></code>, <code class="docutils literal notranslate"><span class="pre">DKA</span></code> and <code class="docutils literal notranslate"><span class="pre">ICU</span></code> using the <code class="docutils literal notranslate"><span class="pre">dagify</span></code> function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DKA</span></code> (exposure) is linked to <code class="docutils literal notranslate"><span class="pre">AMI</span></code> (outcome)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DKA</span></code> is linked to <code class="docutils literal notranslate"><span class="pre">ICU</span></code> admission</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AMI</span></code> is linked to <code class="docutils literal notranslate"><span class="pre">ICU</span></code> admission</p></li>
+</ul>
+<p>We can visualize the DAG using the <code class="docutils literal notranslate"><span class="pre">ggdag</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">dag_collider</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagify</span><span class="p">(</span><span class="n">ICU</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">DKA</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">ICU</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">AMI</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">AMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">DKA</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;DKA&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;AMI&quot;</span><span class="p">)</span>
+
+<span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag</span><span class="p">(</span><span class="n">dag_collider</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;circle&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">node_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e1a211e306f5f1f12e43c461d1b4f03bec8ca1fee753f7b6116cc8a3f62a4f33.png" src="../_images/e1a211e306f5f1f12e43c461d1b4f03bec8ca1fee753f7b6116cc8a3f62a4f33.png" />
+</div>
+</div>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">ggdag_adjustment_set</span></code> to visualize any covariates that should be adjusted for</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag_adjustment_set</span><span class="p">(</span><span class="n">dag_collider</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/29d92f47ca5e2ec43e70afaa9238f50fa0a32408750df833a9602e0922d9037f.png" src="../_images/29d92f47ca5e2ec43e70afaa9238f50fa0a32408750df833a9602e0922d9037f.png" />
+</div>
+</div>
+<p>We see that there are no covariates that have been recommended for adjustment</p>
+<p>Let us see what happens when we adjust for <code class="docutils literal notranslate"><span class="pre">ICU</span></code> using the <code class="docutils literal notranslate"><span class="pre">ggdag_adjust</span></code> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># set plot dimensions</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">ggdag_adjust</span><span class="p">(</span><span class="n">dag_collider</span><span class="p">,</span><span class="w"> </span><span class="n">var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ICU&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">theme_dag_grey</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bec0295067a6c7b698a850505a7631f9f36b3fa6cee98182a5105a3a15c31f7b.png" src="../_images/bec0295067a6c7b698a850505a7631f9f36b3fa6cee98182a5105a3a15c31f7b.png" />
+</div>
+</div>
+<p>We can see that the adjustment of <code class="docutils literal notranslate"><span class="pre">ICU</span></code> admissions will spuriously lead to an association between <code class="docutils literal notranslate"><span class="pre">DKA</span></code> and <code class="docutils literal notranslate"><span class="pre">AMI</span></code> even when there is no effect</p>
+<ul class="simple">
+<li><p>Let us also model this in <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a></p></li>
+</ul>
+<p>We can build a model where the <code class="docutils literal notranslate"><span class="pre">ICU</span></code> covariate is excluded and compare it to the adjusted model</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">model_collider</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">AMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">DKA</span><span class="p">,</span><span class="w"> </span><span class="n">data_collider</span><span class="p">)</span>
+<span class="n">model_collider_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">AMI</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">DKA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ICU</span><span class="p">,</span><span class="w"> </span><span class="n">data_collider</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">model_collider_adjusted</span><span class="p">,</span><span class="w"> </span><span class="n">model_collider</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2">AMI</td></tr><tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">DKA</td><td>-0.181<sup>***</sup></td><td>0.023</td></tr><tr><td style="text-align:left"></td><td>(-0.239, -0.124)</td><td>(-0.034, 0.081)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">ICU1</td><td>1.276<sup>***</sup></td><td></td></tr><tr><td style="text-align:left"></td><td>(1.118, 1.435)</td><td></td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>0.442<sup>***</sup></td><td>0.919<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.337, 0.548)</td><td>(0.822, 1.016)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>1,000</td><td>1,000</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.200</td><td>0.001</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.199</td><td>-0.0004</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>1.144 (df = 997)</td><td>1.278 (df = 998)</td></tr><tr><td style="text-align:left">F Statistic</td><td>124.904<sup>***</sup> (df = 2; 997)</td><td>0.640 (df = 1; 998)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</div>
+<p>We can see that when we do not adjust for <code class="docutils literal notranslate"><span class="pre">ICU</span></code> covariate, the association between <code class="docutils literal notranslate"><span class="pre">AMI</span></code> and <code class="docutils literal notranslate"><span class="pre">DKA</span></code> is no longer significant</p>
+<p><img alt="modeling_collider.png" src="../_images/modeling_collider.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="exercise-modeling-for-explanation">
+<h2>Exercise - Modeling for explanation<a class="headerlink" href="#exercise-modeling-for-explanation" title="Permalink to this heading">#</a></h2>
+<p>For this exercise, we will use a dataset investigating the effect of smoking on FEV lung function from a study in 1979 on 606 children (6-17 years old)</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: years</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fev</span></code>: forced expiratory volume (L)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">height</span></code>: inches</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gender</span></code>: m = male, f = female</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smoking</span></code>: 1 = smoker, 0 = non-smoker</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+
+<span class="n">data_fev</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/kennethban/dataset/main/fev.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">mutate</span><span class="p">(</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">gender</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">smoking</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">smoking</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">2.54</span><span class="p">)</span><span class="w"> </span><span class="c1"># convert to cm</span>
+
+<span class="nf">head</span><span class="p">(</span><span class="n">data_fev</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Rows: </span><span class=" -Color -Color-Blue">606</span> <span class=" -Color -Color-Bold">Columns: </span><span class=" -Color -Color-Blue">5</span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">──</span> <span class=" -Color -Color-Bold">Column specification</span> <span class=" -Color -Color-Cyan">─────────────────────────────────────────────────────────────</span>
+<span class=" -Color -Color-Bold">Delimiter:</span> &quot;\t&quot;
+<span class=" -Color -Color-Red">chr</span> (1): gender
+<span class=" -Color -Color-Green">dbl</span> (4): age, fev, height, smoking
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ℹ</span> Use `spec()` to retrieve the full column specification for this data.
+<span class=" -Color -Color-Cyan">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</pre></div>
+</div>
+<div class="output text_html"><table class="dataframe">
+<caption>A tibble: 6 × 5</caption>
+<thead>
+	<tr><th scope=col>age</th><th scope=col>fev</th><th scope=col>height</th><th scope=col>gender</th><th scope=col>smoking</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>9</td><td>1.708</td><td>144.78</td><td>f</td><td>0</td></tr>
+	<tr><td>8</td><td>1.724</td><td>171.45</td><td>f</td><td>0</td></tr>
+	<tr><td>7</td><td>1.720</td><td>138.43</td><td>f</td><td>0</td></tr>
+	<tr><td>9</td><td>1.558</td><td>134.62</td><td>m</td><td>0</td></tr>
+	<tr><td>9</td><td>1.895</td><td>144.78</td><td>m</td><td>0</td></tr>
+	<tr><td>8</td><td>2.336</td><td>154.94</td><td>f</td><td>0</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We will use the <code class="docutils literal notranslate"><span class="pre">table_lm</span></code> convenience function for displaying tables of linear models</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">table_lm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">   </span><span class="nf">capture.output</span><span class="p">(</span><span class="n">stargazer</span><span class="o">::</span><span class="nf">stargazer</span><span class="p">(</span><span class="kc">...</span><span class="p">,</span><span class="w"> </span><span class="n">ci</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">   </span><span class="nf">paste</span><span class="p">(</span><span class="n">collapse</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">IRdisplay</span><span class="o">::</span><span class="nf">display_html</span><span class="p">()</span>
+<span class="w">   </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Build a model using <code class="docutils literal notranslate"><span class="pre">lm</span></code> and store it as <code class="docutils literal notranslate"><span class="pre">my_fit</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fev</span></code>: response variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smoking</span></code>: covariate</p></li>
+</ul>
+<p>Print the table using <code class="docutils literal notranslate"><span class="pre">table_lm</span></code> convenience function</p>
+<ul class="simple">
+<li><p>Interpret the coefficient</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">my_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">fev</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">smoking</span><span class="p">,</span><span class="w"> </span><span class="n">data_fev</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">my_fit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td>fev</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">smoking1</td><td>0.605<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(0.391, 0.820)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>2.635<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(2.567, 2.703)</td></tr><tr><td style="text-align:left"></td><td></td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>606</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.048</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.047</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>0.810 (df = 604)</td></tr><tr><td style="text-align:left">F Statistic</td><td>30.654<sup>***</sup> (df = 1; 604)</td></tr><tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</details>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Use <a class="reference external" href="http://www.dagitty.net/dags.html">http://www.dagitty.net/dags.html</a> to build a plausible causal DAG</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">smoking</span></code>: exposure variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fev</span></code>: outcome variable</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">height</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gender</span></code></p></li>
+</ul>
+<p>After building the causal DAG</p>
+<ul class="simple">
+<li><p>Identify the minimal set of covariates to adjust for to control for confounders</p></li>
+<li><p>Fit the adjusted model using <code class="docutils literal notranslate"><span class="pre">lm</span></code> and store it as <code class="docutils literal notranslate"><span class="pre">my_fit_adjusted</span></code></p></li>
+</ul>
+<p>Print both <code class="docutils literal notranslate"><span class="pre">my_fit</span></code> and <code class="docutils literal notranslate"><span class="pre">my_fit_adjusted</span></code> using <code class="docutils literal notranslate"><span class="pre">table_lm</span></code> convenience function</p>
+<ul class="simple">
+<li><p>Interpret the coefficients</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">my_fit_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">fev</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">smoking</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">gender</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">data_fev</span><span class="p">)</span>
+
+<span class="nf">table_lm</span><span class="p">(</span><span class="n">my_fit</span><span class="p">,</span><span class="w"> </span><span class="n">my_fit_adjusted</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table style="text-align:center"><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2"><em>Dependent variable:</em></td></tr><tr><td></td><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="2">fev</td></tr><tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">smoking1</td><td>0.605<sup>***</sup></td><td>-0.129<sup>**</sup></td></tr><tr><td style="text-align:left"></td><td>(0.391, 0.820)</td><td>(-0.249, -0.009)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">age</td><td></td><td>0.075<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td></td><td>(0.055, 0.096)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">genderm</td><td></td><td>0.145<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td></td><td>(0.078, 0.213)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">height</td><td></td><td>0.043<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td></td><td>(0.039, 0.047)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td style="text-align:left">Constant</td><td>2.635<sup>***</sup></td><td>-4.817<sup>***</sup></td></tr><tr><td style="text-align:left"></td><td>(2.567, 2.703)</td><td>(-5.291, -4.343)</td></tr><tr><td style="text-align:left"></td><td></td><td></td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>606</td><td>606</td></tr><tr><td style="text-align:left">R<sup>2</sup></td><td>0.048</td><td>0.754</td></tr><tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.047</td><td>0.752</td></tr><tr><td style="text-align:left">Residual Std. Error</td><td>0.810 (df = 604)</td><td>0.413 (df = 601)</td></tr><tr><td style="text-align:left">F Statistic</td><td>30.654<sup>***</sup> (df = 1; 604)</td><td>460.162<sup>***</sup> (df = 4; 601)</td></tr><tr><td colspan="3" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="2" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr></table></div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./03-intro-to-stats"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="08-1-prediction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Modeling for Prediction</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#causal-graphs">Causal graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#confounder-types">Confounder types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">1. Fork</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pipe">2. Pipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collider">3. Collider</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-modeling-for-explanation">Exercise - Modeling for explanation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1655 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Functions &#8212; Statistical Computing for Health Informatics with R/Tidyverse</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-intro-to-r/05-functions';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extending R" href="06-extending.html" />
+    <link rel="prev" title="Iterating" href="04-iteration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../00-md/intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Statistical Computing for Health Informatics with R/Tidyverse</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../00-md/intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-intro.html">Computational Thinking for Problem Solving</a></li>
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to R</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-r.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-variables-data.html">Variables, Data Types and Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-operations.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-decision.html">Decision making</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-iteration.html">Iterating</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-extending.html">Extending R</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Tidyverse</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/01-overview.html">Overview of Tidyverse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/02-reading.html">Reading and Inspecting Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/03-extracting.html">Extracting and Arranging Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/04-transforming.html">Transforming Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/05-tidying.html">Tidying data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/06-joining.html">Joining data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-1-plotting.html">Visualizing Data - Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-2-plotting.html">Visualizing Data - Plots</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../02-intro-to-tidyverse/07-3-plotting.html">Visualizing Data - Extensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Statistical Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00-md/intro-to-stats.html">Introduction to Statistical Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-intro-to-stats/01-descriptive.html">Descriptive statistics</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-inferential.html">Inferential Statistics</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-inferential.html">Inferential Statistics</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-1-estimation.html">Estimating Mean/Variance of a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-2-estimation.html">Estimating Uncertainty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-3-hypothesis.html">Hypothesis testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/02-4-effect.html">Effect size</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-tests.html">Statistical Tests</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/03-1-ttest.html">Comparing measures from 2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/04-1-anova.html">Comparing measures from &gt;2 groups (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-1-fishers.html">Comparing counts between 2x2 categories (unrelated subjects)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/05-2-chisq.html">Comparing counts between &gt;2x2 categories (unrelated subjects)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/06-correlation.html">Correlating 2 measures</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../00-md/overview-modeling.html">Statistical Modeling</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-modeling.html">Linear Modeling - Simple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-1-modeling.html">Linear Modeling - Multiple</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-2-modeling.html">Linear Modeling - Categorical</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/07-3-modeling.html">Generalized Linear Model - Categorical outcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-1-prediction.html">Modeling for Prediction</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../03-intro-to-stats/08-2-explanation.html">Modeling for Explanation</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/01-intro-to-r/05-functions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Functions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-functions">Overview of functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-built-in-functions">Using built-in functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-arguments">Function arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-own-functions-to-abstract-away-details-of-code">Defining own functions to abstract away details of code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-in-functions">Scope of variables in functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-inside-the-function">1. Scope of variables inside the function</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-print-to-inspect-variables-inside-a-function">1.1. Using <code class="docutils literal notranslate"><span class="pre">print</span></code> to inspect variables inside a function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-return-to-export-results-from-function">1.2. Using <code class="docutils literal notranslate"><span class="pre">return</span></code> to export results from function</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-outside-the-function">2. Scope of variables outside the function</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations-for-variables-when-writing-functions">Recommendations for variables when writing functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-concepts-to-develop-a-function">Using concepts to develop a function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-functions">Exercise - Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4">Part 4</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="functions">
+<h1>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h1>
+<p>Using the recipe as an analogy, we can see that the main recipe contains a reference to <code class="docutils literal notranslate"><span class="pre">IWC</span></code>, which is a shorthand for  another recipe for making the ice-cream, whipped cream, cherry (IWC) portions</p>
+<p><img alt="programming_6.png" src="../_images/programming_6.png" /></p>
+<p>Functions are like recipes that are referred to by a label. They allow us to hide away details and focus on the main steps in a program.</p>
+<hr class="docutils" />
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<p>To illustrate the use of functions, we will use the example data frame with patient data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                 </span><span class="n">name</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Charlie&quot;</span><span class="p">,</span><span class="s">&quot;David&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Eliza&quot;</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">risk</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;med&quot;</span><span class="p">))</span>
+
+<span class="n">df</span><span class="o">$</span><span class="n">risk</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">risk</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;low&quot;</span><span class="p">,</span><span class="s">&quot;med&quot;</span><span class="p">,</span><span class="s">&quot;high&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ordered</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="overview-of-functions">
+<h2>Overview of functions<a class="headerlink" href="#overview-of-functions" title="Permalink to this heading">#</a></h2>
+<p>Functions are a method for abstracting a block of code by giving it a name and assigning it to a variable. We have used a number of them already and we will explore them in greater detail</p>
+<p>A function may take <code class="docutils literal notranslate"><span class="pre">inputs</span></code>(s) to be processed, <code class="docutils literal notranslate"><span class="pre">argument</span></code>(s) that can modify the behavior of the code within the function, and <code class="docutils literal notranslate"><span class="pre">return</span></code> output(s)</p>
+<p><img alt="function.png" src="../_images/function.png" /></p>
+</section>
+<section id="using-built-in-functions">
+<h2>Using built-in functions<a class="headerlink" href="#using-built-in-functions" title="Permalink to this heading">#</a></h2>
+<p>R has several built-in functions that are loaded in the environment. To see documentation for a function, we prepend <code class="docutils literal notranslate"><span class="pre">?</span></code> to a function name</p>
+<p>Let us look at the documentation for the <code class="docutils literal notranslate"><span class="pre">summary</span></code> function that provides summary statistics for input data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># built-in help</span>
+
+<span class="o">?</span><span class="n">summary</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="function-arguments">
+<h2>Function arguments<a class="headerlink" href="#function-arguments" title="Permalink to this heading">#</a></h2>
+<p>A function may take arguments that can include input data and modifiers. The arguments can be referred to using <code class="docutils literal notranslate"><span class="pre">positions</span></code> and <code class="docutils literal notranslate"><span class="pre">keywords</span></code></p>
+<p><img alt="function_args.png" src="../_images/function_args.png" /></p>
+<p>We can take a look at the built-in <code class="docutils literal notranslate"><span class="pre">summary</span></code> function to illustrate the use of <code class="docutils literal notranslate"><span class="pre">positional</span></code> and <code class="docutils literal notranslate"><span class="pre">keyword</span></code> arguments</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">summary</span></code>, the order of arguments from the documentation</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">object</span></code>: data input</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxsum</span></code>: maximum number of levels to show (default =7)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">digits</span></code>: number of digits to show (default=3)</p></li>
+</ol>
+<p>Let us use this function to summarize our data in <code class="docutils literal notranslate"><span class="pre">df</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 4</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">summary</span></code> function takes in the data as an <code class="docutils literal notranslate"><span class="pre">object</span></code> as its first argument. If we do not include any other additional arguments, the default values for <code class="docutils literal notranslate"><span class="pre">maxsum</span></code> and <code class="docutils literal notranslate"><span class="pre">digits</span></code> are used</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="c1"># uses default maxsum=7 and digits=3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       id             age           name             risk  
+ Min.   :20201   Min.   :19.0   Length:5           low :1  
+ 1st Qu.:20205   1st Qu.:23.0   Class :character   med :2  
+ Median :20212   Median :45.0   Mode  :character   high:2  
+ Mean   :20209   Mean   :41.4                              
+ 3rd Qu.:20213   3rd Qu.:55.0                              
+ Max.   :20216   Max.   :65.0                              
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we wish to override the default value, we can specify the value we want. Here, we want to reduce the output to 2 digits of precision and we include the <code class="docutils literal notranslate"><span class="pre">digits=2</span></code> keyword argument</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="c1"># override the default of 3 digits precision</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       id             age         name             risk  
+ Min.   :20201   Min.   :19   Length:5           low :1  
+ 1st Qu.:20205   1st Qu.:23   Class :character   med :2  
+ Median :20212   Median :45   Mode  :character   high:2  
+ Mean   :20209   Mean   :41                              
+ 3rd Qu.:20213   3rd Qu.:55                              
+ Max.   :20216   Max.   :65                              
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also omit the keyword, the function will use values in  arguments according to their position. Recall that <code class="docutils literal notranslate"><span class="pre">summary</span></code> takes in arguments in this order</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">object</span></code>: data input</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxsum</span></code>: maximum number of levels to show (default=7)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">digits</span></code>: number of digits to show (default=3)</p></li>
+</ul>
+<p>Previously, we used the keyword <code class="docutils literal notranslate"><span class="pre">digits=2</span></code> argument to reduce the precision of the output.</p>
+<ul class="simple">
+<li><p>If we omit the keyword and just put the value in the 2nd position, this will be interpreted as a positional argument (i.e. <code class="docutils literal notranslate"><span class="pre">maxsum</span></code> instead of the intended <code class="docutils literal notranslate"><span class="pre">digits</span></code> option)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="c1"># if no keyword specified, argument uses the position (2 = maxsum)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       id             age           name                risk  
+ Min.   :20201   Min.   :19.0   Length:5           med    :2  
+ 1st Qu.:20205   1st Qu.:23.0   Class :character   (Other):3  
+ Median :20212   Median :45.0   Mode  :character              
+ Mean   :20209   Mean   :41.4                                 
+ 3rd Qu.:20213   3rd Qu.:55.0                                 
+ Max.   :20216   Max.   :65.0                                 
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we want to specify arguments without keywords, we will need to include all the arguments in the proper order</p>
+<ul class="simple">
+<li><p>Here, if we want to specify the <code class="docutils literal notranslate"><span class="pre">digits</span></code> argument (3rd position), we will need to include arguments in position 1 and 2 in the proper order</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="c1"># if no keywords specified, argument uses the position (2 = maxsum, 3 = digits)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       id             age         name             risk  
+ Min.   :20201   Min.   :19   Length:5           low :1  
+ 1st Qu.:20205   1st Qu.:23   Class :character   med :2  
+ Median :20212   Median :45   Mode  :character   high:2  
+ Mean   :20209   Mean   :41                              
+ 3rd Qu.:20213   3rd Qu.:55                              
+ Max.   :20216   Max.   :65                              
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we specify the keywords for the arguments, they will override the positions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">maxsum</span><span class="o">=</span><span class="m">7</span><span class="p">)</span><span class="w"> </span><span class="c1"># when keywords are specified, the override the positions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>       id             age         name             risk  
+ Min.   :20201   Min.   :19   Length:5           low :1  
+ 1st Qu.:20205   1st Qu.:23   Class :character   med :2  
+ Median :20212   Median :45   Mode  :character   high:2  
+ Mean   :20209   Mean   :41                              
+ 3rd Qu.:20213   3rd Qu.:55                              
+ Max.   :20216   Max.   :65                              
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Recommendation</strong></p>
+<ul class="simple">
+<li><p>Prefer keyword arguments (unless only few arguments)</p></li>
+<li><p>Try not to mix keyword and positional arguments</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="defining-own-functions-to-abstract-away-details-of-code">
+<h2>Defining own functions to abstract away details of code<a class="headerlink" href="#defining-own-functions-to-abstract-away-details-of-code" title="Permalink to this heading">#</a></h2>
+<p>We can use functions to abstract away the details of our code and giving it a name. Because it abstracts away the implementation details, we are able to think about problem solving at a higher level</p>
+<p>For instance, the <code class="docutils literal notranslate"><span class="pre">mean</span></code> function hides away the details of the code that calculates the average values. We can treat it as a building block for thinking about how it can be used in the larger context of a problem</p>
+<p><img alt="function_abstract.png" src="../_images/function_abstract.png" /></p>
+<p>A function is defined using <code class="docutils literal notranslate"><span class="pre">function()</span></code> and assigning it to a variable</p>
+<ul class="simple">
+<li><p>Inputs/arguments are specified as parameters of <code class="docutils literal notranslate"><span class="pre">function()</span></code></p></li>
+<li><p>The inputs/arguments are used as variables in the function</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">{}</span></code> block defines the code that will be executed when the function is called</p></li>
+</ul>
+<p><img alt="function_definition.png" src="../_images/function_definition.png" /></p>
+<p>As an example, we will define our own function to calculate the mean of input data and assign it to the variable <code class="docutils literal notranslate"><span class="pre">my_mean</span></code></p>
+<ul class="simple">
+<li><p>The argument <code class="docutils literal notranslate"><span class="pre">input</span></code> is used as an variable to store the input</p></li>
+<li><p>The average value is computed and stored in the variable <code class="docutils literal notranslate"><span class="pre">mean</span></code></p></li>
+<li><p>the result in <code class="docutils literal notranslate"><span class="pre">mean</span></code> is returned using <code class="docutils literal notranslate"><span class="pre">return()</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># defining own function using other functions</span>
+
+<span class="n">my_mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1"># argument position=1 or keyword=data</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">/</span><span class="nf">length</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="c1"># variable is defined inside function</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can inspect the code we wrote for the function by looking at the variable <code class="docutils literal notranslate"><span class="pre">my_mean</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># inspecting the underlying code by omitting the ()</span>
+
+<span class="n">my_mean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre class=language-r><code>function (input) 
+{
+<span style=white-space:pre-wrap>    mean &lt;- sum(input)/length(input)</span>
+<span style=white-space:pre-wrap>    return(mean)</span>
+}</code></pre></div></div>
+</div>
+<p>We can use our new <code class="docutils literal notranslate"><span class="pre">my_mean</span></code> function to compute the mean of <code class="docutils literal notranslate"><span class="pre">age</span></code> column in our data frame <code class="docutils literal notranslate"><span class="pre">df</span></code>. Recall that we can extract the vector of data from the data frame using the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">$</span><span class="n">age</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>19</li><li>45</li><li>23</li><li>55</li><li>65</li></ol>
+</div></div>
+</div>
+<p>We can use this as input to our <code class="docutils literal notranslate"><span class="pre">my_mean</span></code> function to compute the mean. We can choose to refer to the argument by position or keyword</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">my_mean</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">age</span><span class="p">)</span><span class="w">         </span><span class="c1"># position 1</span>
+<span class="nf">my_mean</span><span class="p">(</span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="c1"># keyword</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">41.4</div><div class="output text_html">41.4</div></div>
+</div>
+<p>Note that when <code class="docutils literal notranslate"><span class="pre">df$age</span></code> is specified as the <code class="docutils literal notranslate"><span class="pre">input</span></code> argument in the function, the data is assigned to the argument variable <code class="docutils literal notranslate"><span class="pre">input</span></code>.</p>
+<ul class="simple">
+<li><p>Once the input is assigned to the internal variable <code class="docutils literal notranslate"><span class="pre">input</span></code>, it can be used and referenced within the function</p></li>
+</ul>
+<p><img alt="function_passing.png" src="../_images/function_passing.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="scope-of-variables-in-functions">
+<h2>Scope of variables in functions<a class="headerlink" href="#scope-of-variables-in-functions" title="Permalink to this heading">#</a></h2>
+<p>Functions hide away details of the implementation within the function blocks <code class="docutils literal notranslate"><span class="pre">{}</span></code>. These blocks affect the access (or scope) of the variables from inside and outside the function. Knowing this will help us avoid confusion about variables that may overlap</p>
+<section id="scope-of-variables-inside-the-function">
+<h3>1. Scope of variables inside the function<a class="headerlink" href="#scope-of-variables-inside-the-function" title="Permalink to this heading">#</a></h3>
+<p>When we write a function, let us consider what happens to variables <em>inside</em> the function block <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<ul class="simple">
+<li><p>Having the same variable names inside the function may inadvertently <strong>interfere</strong> with the same variables outside the function.</p></li>
+<li><p>For this reason, variables inside the function block <code class="docutils literal notranslate"><span class="pre">{}</span></code> are separate from variables outside the function.</p></li>
+</ul>
+<p><img alt="function_scope_local.png" src="../_images/function_scope_local.png" /></p>
+<p>Variables inside a function are <strong>local</strong> and are <strong>not</strong> visible outside the function block</p>
+<p>We can illustrate this using a simple function that defines a variable <code class="docutils literal notranslate"><span class="pre">variable_inside</span></code> within the function block <code class="docutils literal notranslate"><span class="pre">{}</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">variable_inside</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we run the function, we do not see any output as we did not return any value</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function_name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can try to inspect <code class="docutils literal notranslate"><span class="pre">variable_inside</span></code> that was defined inside the function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">variable_inside</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">):</span> <span class="nb">object</span> <span class="s1">&#39;variable_inside&#39;</span> <span class="ow">not</span> <span class="n">found</span>
+<span class="ne">Traceback</span>:
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that <code class="docutils literal notranslate"><span class="pre">variable_inside</span></code> that was defined inside the function block is <strong>not</strong> visible outside the function.</p>
+<p>We can obtain the values from inside the function by using</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">print</span></code> to inspect the values of variable inside the function</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">return</span></code> to return or export the values outside the function</p></li>
+</ul>
+<section id="using-print-to-inspect-variables-inside-a-function">
+<h4>1.1. Using <code class="docutils literal notranslate"><span class="pre">print</span></code> to inspect variables inside a function<a class="headerlink" href="#using-print-to-inspect-variables-inside-a-function" title="Permalink to this heading">#</a></h4>
+<p>The contents of a variable can be inspected by using the <code class="docutils literal notranslate"><span class="pre">print</span></code> function</p>
+<p><img alt="function_print.png" src="../_images/function_print.png" /></p>
+<p><code class="docutils literal notranslate"><span class="pre">print</span></code> transfers the contents of the variable to the <code class="docutils literal notranslate"><span class="pre">console</span></code> which is the output that we seen on the screen</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">variable_inside</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="n">variable_inside</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function_name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] 10
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-return-to-export-results-from-function">
+<h4>1.2. Using <code class="docutils literal notranslate"><span class="pre">return</span></code> to export results from function<a class="headerlink" href="#using-return-to-export-results-from-function" title="Permalink to this heading">#</a></h4>
+<p><img alt="function_return.png" src="../_images/function_return.png" /></p>
+<p>The result can be returned using the <code class="docutils literal notranslate"><span class="pre">return</span></code> function</p>
+<ul class="simple">
+<li><p>If it is <em>not</em> assigned to a variable, it will be printed out on the console</p></li>
+<li><p>If it is assigned to a variable, the result will be stored and not printed out</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">variable_inside</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">10</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">variable_inside</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function_name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">10</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">variable_inside</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="nb">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="p">):</span> <span class="nb">object</span> <span class="s1">&#39;variable_inside&#39;</span> <span class="ow">not</span> <span class="n">found</span>
+<span class="ne">Traceback</span>:
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">save_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function_name</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">save_result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">10</div></div>
+</div>
+</section>
+</section>
+<section id="scope-of-variables-outside-the-function">
+<h3>2. Scope of variables outside the function<a class="headerlink" href="#scope-of-variables-outside-the-function" title="Permalink to this heading">#</a></h3>
+<p>Variables <em>outside</em> the function can be accessed from inside of a function. These are known as <strong>global</strong> variables and they can be a source of errors when writing functions</p>
+<p>Within a function block <code class="docutils literal notranslate"><span class="pre">{}</span></code>, variables are accessed in the following order:</p>
+<ul class="simple">
+<li><p><strong>local</strong> variables (defined locally or specified in arguments)</p></li>
+<li><p><strong>global</strong> variables (defined outside the function)</p></li>
+</ul>
+<p>Let us consider a function which prints the variable <code class="docutils literal notranslate"><span class="pre">data</span></code></p>
+<ul class="simple">
+<li><p>As the the <code class="docutils literal notranslate"><span class="pre">variable</span></code> is not defined either as an input argument or a local variable, the function looks for the variable <strong>outside</strong> the function block <code class="docutils literal notranslate"><span class="pre">{}</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_global</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can define the vector <code class="docutils literal notranslate"><span class="pre">data</span></code> and run the function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">,</span><span class="m">50</span><span class="p">)</span>
+
+<span class="nf">function_global</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] 10 20 30 40 50
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the function prints out the contents of the variable <code class="docutils literal notranslate"><span class="pre">data</span></code> as it is a <strong>global</strong> variable outside the function and it is accessible within the function</p>
+<ul class="simple">
+<li><p>This can be source of errors if we inadvertently use a <strong>global</strong> variable <em>inside</em> the function</p></li>
+</ul>
+<p>Let us look at an example where referencing a <strong>global</strong> variable by mistake <em>inside</em> a function can lead to unintended results</p>
+<ul class="simple">
+<li><p>We define a function to calculate the mean of <code class="docutils literal notranslate"><span class="pre">input</span></code> as before.</p></li>
+<li><p>However, in this case, we mistakenly reference a <strong>global</strong> variable <code class="docutils literal notranslate"><span class="pre">data2</span></code> in the function</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">function_error</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">mean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">/</span><span class="nf">length</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span><span class="w"> </span><span class="c1"># data2 is not defined locally</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will create 2 different vectors of numbers <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">data2</span></code>. These variables are <strong>global</strong> as they exist <em>outside</em> of any functions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">,</span><span class="m">50</span><span class="p">)</span>
+<span class="n">data2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">,</span><span class="m">40</span><span class="p">,</span><span class="m">50</span><span class="p">,</span><span class="m">60</span><span class="p">,</span><span class="m">70</span><span class="p">,</span><span class="m">80</span><span class="p">,</span><span class="m">90</span><span class="p">,</span><span class="m">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We calculate the mean of <code class="docutils literal notranslate"><span class="pre">data</span></code> by specifying it as the argument to our function <code class="docutils literal notranslate"><span class="pre">function_error</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function_error</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">15</div></div>
+</div>
+<p>Notice that no error was reported but the result is incorrect (it should be 30). This is because we inadvertently referenced the <strong>global</strong> variable <code class="docutils literal notranslate"><span class="pre">data2</span></code> in our function</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> was correctly specified as the <code class="docutils literal notranslate"><span class="pre">input</span></code></p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">sum</span></code> of the <code class="docutils literal notranslate"><span class="pre">input</span></code> = 10+20+30+40+50 = 150</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">length</span></code> was computed from the <strong>global</strong> variable <code class="docutils literal notranslate"><span class="pre">data2</span></code> = 10</p></li>
+<li><p>the final <code class="docutils literal notranslate"><span class="pre">mean</span></code> was incorrectly computed as 150/10 = 15</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="recommendations-for-variables-when-writing-functions">
+<h2>Recommendations for variables when writing functions<a class="headerlink" href="#recommendations-for-variables-when-writing-functions" title="Permalink to this heading">#</a></h2>
+<p>As we have seen, the scope of the variables matters when writing functions. As a guide:</p>
+<ul class="simple">
+<li><p>All inputs and arguments that are used in code of a function should be explicitly specified in the function definition <code class="docutils literal notranslate"><span class="pre">function(argument_1,</span> <span class="pre">argument_2,</span> <span class="pre">...)</span></code></p></li>
+<li><p>Do not use global variables as inputs for a function</p></li>
+<li><p>Check that every variable used within the function is defined either locally or specified as an argument</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">return()</span></code> function to export output from a function</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-concepts-to-develop-a-function">
+<h2>Using concepts to develop a function<a class="headerlink" href="#using-concepts-to-develop-a-function" title="Permalink to this heading">#</a></h2>
+<p>We will revisit the earlier example where we used conditional statements to decide whether a patient should be admitted or not</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># iterating through the cases by id</span>
+
+<span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">id</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,]</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will wrap the code within a function that we call <code class="docutils literal notranslate"><span class="pre">decide</span></code>, which allows us to abstract away the details and generalize it beyond the <code class="docutils literal notranslate"><span class="pre">df</span></code> variable in the original code</p>
+<ul class="simple">
+<li><p>This function takes a dataframe as an argument <code class="docutils literal notranslate"><span class="pre">input_df</span></code></p></li>
+<li><p>References to a specific data frame <code class="docutils literal notranslate"><span class="pre">df</span></code> in our original code are replaced with the local argument variable <code class="docutils literal notranslate"><span class="pre">input_df</span></code></p></li>
+<li><p>This allows the function accept other inputs besides <code class="docutils literal notranslate"><span class="pre">df</span></code> by specifying the name of the data frame in the argument</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">decide</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input_df</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w">       </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+
+<span class="w">    </span><span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="p">[</span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,]</span><span class="w"> </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+
+<span class="w">        </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;admit&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review later&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">decide</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The output looks good, and we have abstracted away the code into a function that can be reused</p>
+<p>We can try to save the results by assigning it to a variable <code class="docutils literal notranslate"><span class="pre">result</span></code> for further processing</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;review later&quot;
+[1] &quot;review later&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+[1] &quot;admit&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NULL
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">print</span></code> output was not captured and therefore no results were saved into the <code class="docutils literal notranslate"><span class="pre">result</span></code> variable. As mentioned, <code class="docutils literal notranslate"><span class="pre">print</span></code> is used for inspecting values inside the function and <strong>not</strong> for exporting values to be assigned to a variable</p>
+<p>To obtain the results from the function, we replace <code class="docutils literal notranslate"><span class="pre">print</span></code> with  <code class="docutils literal notranslate"><span class="pre">return</span></code>  that can export values from the function. To do this, we need to consider that <code class="docutils literal notranslate"><span class="pre">return</span></code> can only export a <strong>single</strong> data structure(object)</p>
+<ul class="simple">
+<li><p>The result from each conditional test needs to be saved to <em>single</em> data structure(object) that can contain multiple values</p></li>
+<li><p>In our code, we want to return decision values that are strings/characters <code class="docutils literal notranslate"><span class="pre">&quot;admit&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;review</span> <span class="pre">later&quot;</span></code></p></li>
+<li><p>As they are the <em>same</em> type, we can use a <code class="docutils literal notranslate"><span class="pre">vector</span></code> to hold the decision values for each patient</p></li>
+<li><p>Recall that we can create an empty vector and add values to it as we iterate through each patient</p></li>
+<li><p>Once we complete the iteration, a <em>single</em> vector containing the multiple outputs for each patient can be exported out via <code class="docutils literal notranslate"><span class="pre">return()</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">decide_v2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input_df</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w">       </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vector</span><span class="p">()</span><span class="w">          </span><span class="c1"># define an empty vector to hold values</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="p">[</span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,]</span><span class="w"> </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+<span class="w">    </span>
+<span class="w">        </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">50</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w">        </span><span class="c1"># append</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># append</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="c1"># return final vector of results at end of loop</span>
+<span class="p">}</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">decide_v2</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'review later'</li><li>'review later'</li><li>'admit'</li><li>'admit'</li><li>'admit'</li></ol>
+</div></div>
+</div>
+<p>The result is a vector which can be added to our dataframe by creating another column via the <code class="docutils literal notranslate"><span class="pre">$</span></code> selector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">$</span><span class="n">action</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decide_v2</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="c1"># we can create another column based on the output of the function</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th><th scope=col>action</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td><td>review later</td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td><td>review later</td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td><td>admit       </td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td><td>admit       </td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td><td>admit       </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>The function peforms as expected, but the age criteria is <em>fixed</em> inside the function and the code needs to be modified if we want to adjust it</p>
+<p>We can add another argument to make it easier to change the <code class="docutils literal notranslate"><span class="pre">age_limit</span></code></p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">age_limit</span></code> argument passes the value into the function</p></li>
+<li><p>It has a <code class="docutils literal notranslate"><span class="pre">default</span></code> value of 50 if we do not specify this argument</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">age_limit</span></code> variable replaces the limit that was specified in the conditional test</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">decide_v3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input_df</span><span class="p">,</span><span class="w"> </span><span class="n">age_limit</span><span class="o">=</span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1"># accepts age_limit argument (default=50)</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w">       </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vector</span><span class="p">()</span><span class="w">          </span><span class="c1"># define an empty vector to hold values</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">person</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">input_df</span><span class="p">[</span><span class="n">input_df</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,]</span><span class="w"> </span><span class="c1"># we reference dataframe specified in the input_df variable</span>
+<span class="w">    </span>
+<span class="w">        </span><span class="nf">if </span><span class="p">(</span><span class="n">person</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">age_limit</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">person</span><span class="o">$</span><span class="n">risk</span><span class="o">==</span><span class="s">&quot;high&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1"># age limit no longer fixed but depends on argument</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;admit&quot;</span><span class="p">)</span><span class="w">        </span><span class="c1"># append</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;review later&quot;</span><span class="p">)</span><span class="w"> </span><span class="c1"># append</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="c1"># return final vector of results at end of loop</span>
+<span class="p">}</span><span class="w"> </span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">$</span><span class="n">action</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decide_v3</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">age_limit</span><span class="o">=</span><span class="m">30</span><span class="p">)</span><span class="w"> </span><span class="c1"># replace column based on the output of the function</span>
+
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>name</th><th scope=col>risk</th><th scope=col>action</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;chr&gt;</th><th scope=col>&lt;ord&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>Alice  </td><td>low </td><td>review later</td></tr>
+	<tr><td>20205</td><td>45</td><td>Bob    </td><td>med </td><td>admit       </td></tr>
+	<tr><td>20212</td><td>23</td><td>Charlie</td><td>high</td><td>admit       </td></tr>
+	<tr><td>20213</td><td>55</td><td>David  </td><td>high</td><td>admit       </td></tr>
+	<tr><td>20216</td><td>65</td><td>Eliza  </td><td>med </td><td>admit       </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<p>We see that by lowering the age limit, we are now admitting more patients</p>
+<p>Because we have moved the fixed limit and put at as an argument, we have <em>generalized</em> the function and made it more reusable and flexible</p>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Functions hide away details of implementation. They can accept inputs/arguments and return an output</p></li>
+<li><p>Inputs/arguments can be specified by position or keyword but keyword arguments are preferred</p></li>
+<li><p>Functions are defined as</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="p">{</span> <span class="n">code</span> <span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Variables defined <em>inside</em> the function block are <strong>local</strong> and not visible outside the function</p>
+<ul>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">print()</span></code> to inspect the value of variables in a function</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">return()</span></code> to export a variable from a function</p>
+<ul>
+<li><p>Only <strong>one</strong> variable can be returned</p></li>
+<li><p>If multiple values need to be returned, they need to be put into a suitable data structure (e.g. vector for similar data types)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Variables defined <em>outside</em> functions are <strong>global</strong> and they are accessible from within a function</p>
+<ul>
+<li><p>Do not use global variables as inputs as they can lead to unintended effects</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="exercise-functions">
+<h2>Exercise - Functions<a class="headerlink" href="#exercise-functions" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">screen</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">id</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">20201</span><span class="p">,</span><span class="m">20205</span><span class="p">,</span><span class="m">20212</span><span class="p">,</span><span class="m">20213</span><span class="p">,</span><span class="m">20216</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">age</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">19</span><span class="p">,</span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">55</span><span class="p">,</span><span class="w"> </span><span class="m">65</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">sysBP</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">120</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">130</span><span class="p">,</span><span class="m">65</span><span class="p">,</span><span class="m">155</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">contact</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">F</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">cluster</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="bp">T</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">,</span><span class="bp">T</span><span class="p">,</span><span class="bp">F</span><span class="p">))</span>
+<span class="w">    </span>
+<span class="n">screen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 5</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="o">$</span><span class="n">id</span>
+
+<span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="n">pt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="p">[</span><span class="n">screen</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+<span class="w">    </span>
+<span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">80</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send to ED&quot;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">contact</span><span class="o">==</span><span class="bp">T</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">pt</span><span class="o">$</span><span class="n">cluster</span><span class="w"> </span><span class="o">==</span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send for screening&quot;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 3 days&quot;</span><span class="p">)</span>
+<span class="w">    </span>
+<span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 1 week&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send to ED&quot;
+[1] &quot;review in 1 week&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="part-1">
+<h3>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">#</a></h3>
+<p>Convert the previous program into a function <code class="docutils literal notranslate"><span class="pre">decision</span></code> with the following arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">input</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BP_threshold</span></code> with default of 80</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age_threshold</span></code> with default of 65</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">decision</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">BP_threshold</span><span class="o">=</span><span class="m">80</span><span class="p">,</span><span class="w"> </span><span class="n">age_threshold</span><span class="o">=</span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">            </span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="o">$</span><span class="n">id</span><span class="w"> </span>
+
+<span class="w">            </span><span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+
+<span class="w">            </span><span class="n">pt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="p">[</span><span class="n">screen</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+
+<span class="w">            </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BP_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send to ED&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">contact</span><span class="o">==</span><span class="bp">T</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">pt</span><span class="o">$</span><span class="n">cluster</span><span class="w"> </span><span class="o">==</span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;send for screening&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">age_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 3 days&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="s">&quot;review in 1 week&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Test the function on the <code class="docutils literal notranslate"><span class="pre">screen</span></code> dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">decision</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send for screening&quot;
+[1] &quot;send to ED&quot;
+[1] &quot;review in 1 week&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="part-2">
+<h3>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">#</a></h3>
+<p>Amend the <code class="docutils literal notranslate"><span class="pre">decision</span></code> function so it <code class="docutils literal notranslate"><span class="pre">return</span></code>s a <code class="docutils literal notranslate"><span class="pre">vector</span></code> containing the strings of the different decisions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">decision</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">BP_threshold</span><span class="o">=</span><span class="m">80</span><span class="p">,</span><span class="w"> </span><span class="n">age_threshold</span><span class="o">=</span><span class="m">65</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span>
+<span class="w">            </span><span class="n">pt_ids</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="o">$</span><span class="n">id</span><span class="w"> </span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vector</span><span class="p">()</span><span class="w">   </span>
+
+<span class="w">            </span><span class="nf">for </span><span class="p">(</span><span class="n">pt_id</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">pt_ids</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+
+<span class="w">            </span><span class="n">pt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">screen</span><span class="p">[</span><span class="n">screen</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pt_id</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
+
+<span class="w">            </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">sysBP</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BP_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">               </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;send to ED&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">contact</span><span class="o">==</span><span class="bp">T</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">pt</span><span class="o">$</span><span class="n">cluster</span><span class="w"> </span><span class="o">==</span><span class="bp">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="s">&quot;send for screening&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="nf">if </span><span class="p">(</span><span class="n">pt</span><span class="o">$</span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">age_threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="s">&quot;review in 3 days&quot;</span><span class="p">)</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="s">&quot;review in 1 week&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Test the function on the <code class="docutils literal notranslate"><span class="pre">screen</span></code> dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">decision</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'send for screening'</li><li>'send for screening'</li><li>'send for screening'</li><li>'send to ED'</li><li>'review in 1 week'</li></ol>
+</div></div>
+</div>
+</section>
+<section id="part-3">
+<h3>Part 3<a class="headerlink" href="#part-3" title="Permalink to this heading">#</a></h3>
+<p>Add the result of the <code class="docutils literal notranslate"><span class="pre">decision</span></code> function as a new column <code class="docutils literal notranslate"><span class="pre">decision</span></code> in the <code class="docutils literal notranslate"><span class="pre">screen</span></code> dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">screen</span><span class="o">$</span><span class="n">decision</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decision</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+<span class="n">screen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 6</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th><th scope=col>decision</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td><td>send for screening</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td><td>send for screening</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td><td>send for screening</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td><td>send to ED        </td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td><td>review in 1 week  </td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+<section id="part-4">
+<h3>Part 4<a class="headerlink" href="#part-4" title="Permalink to this heading">#</a></h3>
+<p>Change the <code class="docutils literal notranslate"><span class="pre">age_threshold</span></code> to 50 and update the <code class="docutils literal notranslate"><span class="pre">decision</span></code> column in the <code class="docutils literal notranslate"><span class="pre">screen</span></code> dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># start here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution</span>
+
+<span class="n">screen</span><span class="o">$</span><span class="n">decision</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">decision</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span><span class="w"> </span><span class="n">age_threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span>
+<span class="n">screen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="dataframe">
+<caption>A data.frame: 5 × 6</caption>
+<thead>
+	<tr><th scope=col>id</th><th scope=col>age</th><th scope=col>sysBP</th><th scope=col>contact</th><th scope=col>cluster</th><th scope=col>decision</th></tr>
+	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;lgl&gt;</th><th scope=col>&lt;chr&gt;</th></tr>
+</thead>
+<tbody>
+	<tr><td>20201</td><td>19</td><td>120</td><td> TRUE</td><td> TRUE</td><td>send for screening</td></tr>
+	<tr><td>20205</td><td>45</td><td>150</td><td>FALSE</td><td> TRUE</td><td>send for screening</td></tr>
+	<tr><td>20212</td><td>23</td><td>130</td><td> TRUE</td><td>FALSE</td><td>send for screening</td></tr>
+	<tr><td>20213</td><td>55</td><td> 65</td><td>FALSE</td><td> TRUE</td><td>send to ED        </td></tr>
+	<tr><td>20216</td><td>65</td><td>155</td><td>FALSE</td><td>FALSE</td><td>review in 3 days  </td></tr>
+</tbody>
+</table>
+</div></div>
+</details>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            name: "ir",
+            path: "./01-intro-to-r"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04-iteration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Iterating</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06-extending.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extending R</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-functions">Overview of functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-built-in-functions">Using built-in functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-arguments">Function arguments</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-own-functions-to-abstract-away-details-of-code">Defining own functions to abstract away details of code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-in-functions">Scope of variables in functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-inside-the-function">1. Scope of variables inside the function</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-print-to-inspect-variables-inside-a-function">1.1. Using <code class="docutils literal notranslate"><span class="pre">print</span></code> to inspect variables inside a function</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-return-to-export-results-from-function">1.2. Using <code class="docutils literal notranslate"><span class="pre">return</span></code> to export results from function</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scope-of-variables-outside-the-function">2. Scope of variables outside the function</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendations-for-variables-when-writing-functions">Recommendations for variables when writing functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-concepts-to-develop-a-function">Using concepts to develop a function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-functions">Exercise - Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1">Part 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2">Part 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3">Part 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4">Part 4</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kenneth Ban, NUS Medicine
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022-23.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
