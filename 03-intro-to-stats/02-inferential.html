@@ -445,7 +445,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ───────────────────────────── tidyverse 2.0.0 ──
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Attaching core tidyverse packages</span> ────────────────────
 <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">dplyr    </span> 1.1.1     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">readr    </span> 2.1.4
 <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">forcats  </span> 1.0.0     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">stringr  </span> 1.5.0
 <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">ggplot2  </span> 3.4.2     <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">tibble   </span> 3.2.1
@@ -453,7 +453,7 @@ uncertainty about the measurements</p></li>
 <span class=" -Color -Color-Green">✔</span> <span class=" -Color -Color-Blue">purrr    </span> 1.0.1     
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────────────────────────────────── tidyverse_conflicts() ──
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>── <span class=" -Color -Color-Bold">Conflicts</span> ─────────────────── tidyverse_conflicts() ──
 <span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">filter()</span> masks <span class=" -Color -Color-Blue">stats</span>::filter()
 <span class=" -Color -Color-Red">✖</span> <span class=" -Color -Color-Blue">dplyr</span>::<span class=" -Color -Color-Green">lag()</span>    masks <span class=" -Color -Color-Blue">stats</span>::lag()
 <span class=" -Color -Color-Cyan">ℹ</span> Use the conflicted package (<span class=" -Color -Color-Blue">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors
@@ -483,8 +483,8 @@ uncertainty about the measurements</p></li>
 	<tr><td>1</td><td> 1</td><td> 1</td></tr>
 	<tr><td>2</td><td>-1</td><td> 0</td></tr>
 	<tr><td>3</td><td>-1</td><td>-1</td></tr>
-	<tr><td>4</td><td>-1</td><td>-2</td></tr>
-	<tr><td>5</td><td> 1</td><td>-1</td></tr>
+	<tr><td>4</td><td> 1</td><td> 0</td></tr>
+	<tr><td>5</td><td>-1</td><td>-1</td></tr>
 	<tr><td>6</td><td>-1</td><td>-2</td></tr>
 </tbody>
 </table>
@@ -495,12 +495,12 @@ uncertainty about the measurements</p></li>
 	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td> 95</td><td>-1</td><td>5</td></tr>
-	<tr><td> 96</td><td>-1</td><td>4</td></tr>
-	<tr><td> 97</td><td> 1</td><td>5</td></tr>
-	<tr><td> 98</td><td> 1</td><td>6</td></tr>
-	<tr><td> 99</td><td>-1</td><td>5</td></tr>
-	<tr><td>100</td><td> 1</td><td>6</td></tr>
+	<tr><td> 95</td><td>-1</td><td>-1</td></tr>
+	<tr><td> 96</td><td>-1</td><td>-2</td></tr>
+	<tr><td> 97</td><td>-1</td><td>-3</td></tr>
+	<tr><td> 98</td><td> 1</td><td>-2</td></tr>
+	<tr><td> 99</td><td> 1</td><td>-1</td></tr>
+	<tr><td>100</td><td> 1</td><td> 0</td></tr>
 </tbody>
 </table>
 </div></div>
@@ -526,7 +526,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/dc3f84b1196211c4e2660715489e22804e892f32d887979e8c9dbf166da364cc.png" src="../_images/dc3f84b1196211c4e2660715489e22804e892f32d887979e8c9dbf166da364cc.png" />
+<img alt="../_images/b1cd8ef66e275b45214e939631d1316096a7aab8d6eca8d690e343a11e65324c.png" src="../_images/b1cd8ef66e275b45214e939631d1316096a7aab8d6eca8d690e343a11e65324c.png" />
 </div>
 </div>
 <p>Now, let’s create a function called <code class="docutils literal notranslate"><span class="pre">repeat_walk</span></code> that can generate multiple runs of the random walk. We will specify that the probability of going left or right is 50/50.</p>
@@ -575,12 +575,12 @@ uncertainty about the measurements</p></li>
 	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td>1</td><td> 1</td><td>1</td><td>1</td></tr>
-	<tr><td>2</td><td> 1</td><td>2</td><td>1</td></tr>
-	<tr><td>3</td><td>-1</td><td>1</td><td>1</td></tr>
-	<tr><td>4</td><td>-1</td><td>0</td><td>1</td></tr>
-	<tr><td>5</td><td> 1</td><td>1</td><td>1</td></tr>
-	<tr><td>6</td><td>-1</td><td>0</td><td>1</td></tr>
+	<tr><td>1</td><td>-1</td><td>-1</td><td>1</td></tr>
+	<tr><td>2</td><td>-1</td><td>-2</td><td>1</td></tr>
+	<tr><td>3</td><td>-1</td><td>-3</td><td>1</td></tr>
+	<tr><td>4</td><td> 1</td><td>-2</td><td>1</td></tr>
+	<tr><td>5</td><td> 1</td><td>-1</td><td>1</td></tr>
+	<tr><td>6</td><td> 1</td><td> 0</td><td>1</td></tr>
 </tbody>
 </table>
 </div><div class="output text_html"><table class="dataframe">
@@ -590,12 +590,12 @@ uncertainty about the measurements</p></li>
 	<tr><th scope=col>&lt;int&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;int&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td> 95</td><td>-1</td><td>-17</td><td>1000</td></tr>
-	<tr><td> 96</td><td>-1</td><td>-18</td><td>1000</td></tr>
-	<tr><td> 97</td><td> 1</td><td>-17</td><td>1000</td></tr>
-	<tr><td> 98</td><td>-1</td><td>-18</td><td>1000</td></tr>
-	<tr><td> 99</td><td>-1</td><td>-19</td><td>1000</td></tr>
-	<tr><td>100</td><td>-1</td><td>-20</td><td>1000</td></tr>
+	<tr><td> 95</td><td>-1</td><td>5</td><td>1000</td></tr>
+	<tr><td> 96</td><td> 1</td><td>6</td><td>1000</td></tr>
+	<tr><td> 97</td><td> 1</td><td>7</td><td>1000</td></tr>
+	<tr><td> 98</td><td>-1</td><td>6</td><td>1000</td></tr>
+	<tr><td> 99</td><td> 1</td><td>7</td><td>1000</td></tr>
+	<tr><td>100</td><td>-1</td><td>6</td><td>1000</td></tr>
 </tbody>
 </table>
 </div></div>
@@ -623,7 +623,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/1e9293beb005a9e115869a5065a77e0c8e4f0299451eb695e7d409c77a95dde4.png" src="../_images/1e9293beb005a9e115869a5065a77e0c8e4f0299451eb695e7d409c77a95dde4.png" />
+<img alt="../_images/16614f5a6ce247a91549c6fe03aa4865d91ce4346201480ac9a84a2ee9eba4f7.png" src="../_images/16614f5a6ce247a91549c6fe03aa4865d91ce4346201480ac9a84a2ee9eba4f7.png" />
 </div>
 </div>
 <p>We can plot the distribution of cumulative values at the end of the multiple sets of random walks. This represents the spread of uncertainty around the original value as a result of the accumulation of random deviations</p>
@@ -649,7 +649,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/c7b20f77feb8107c349d3b192408b6eeb80d152c0fd731a260ff2c3e7b9d7402.png" src="../_images/c7b20f77feb8107c349d3b192408b6eeb80d152c0fd731a260ff2c3e7b9d7402.png" />
+<img alt="../_images/d84c0c4f29a6476c179463c4c7429fe6afae54bd342e9bbf9d736245e2eab08d.png" src="../_images/d84c0c4f29a6476c179463c4c7429fe6afae54bd342e9bbf9d736245e2eab08d.png" />
 </div>
 </div>
 <p>Notice that the distribution looks like the familiar bell-shaped curve, which results from the sum of random deviations from an initial value</p>
@@ -679,7 +679,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/c10dc6234a41ef0fe8e4f70ccdaa7f92d4c1fef851dca42c8676fa740f339cea.png" src="../_images/c10dc6234a41ef0fe8e4f70ccdaa7f92d4c1fef851dca42c8676fa740f339cea.png" />
+<img alt="../_images/9e8828fa91bafb8f88a079dab9faacf8bec611cdd00e40ea70e60f3597e00a38.png" src="../_images/9e8828fa91bafb8f88a079dab9faacf8bec611cdd00e40ea70e60f3597e00a38.png" />
 </div>
 </div>
 <section id="playing-with-an-interactive-version">
@@ -717,12 +717,12 @@ uncertainty about the measurements</p></li>
 	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td>1000</td><td>-15</td></tr>
-	<tr><td>1000</td><td> -1</td></tr>
-	<tr><td>1000</td><td> -8</td></tr>
-	<tr><td>1000</td><td> -8</td></tr>
-	<tr><td>1000</td><td> -8</td></tr>
-	<tr><td>1000</td><td>  4</td></tr>
+	<tr><td>1000</td><td> 1</td></tr>
+	<tr><td>1000</td><td>-2</td></tr>
+	<tr><td>1000</td><td> 0</td></tr>
+	<tr><td>1000</td><td> 0</td></tr>
+	<tr><td>1000</td><td>-8</td></tr>
+	<tr><td>1000</td><td>-1</td></tr>
 </tbody>
 </table>
 </div><div class="output text_html"><table class="dataframe">
@@ -732,12 +732,12 @@ uncertainty about the measurements</p></li>
 	<tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
 </thead>
 <tbody>
-	<tr><td>1e+05</td><td>-1</td></tr>
-	<tr><td>1e+05</td><td> 6</td></tr>
-	<tr><td>1e+05</td><td> 5</td></tr>
-	<tr><td>1e+05</td><td> 9</td></tr>
-	<tr><td>1e+05</td><td> 1</td></tr>
-	<tr><td>1e+05</td><td>10</td></tr>
+	<tr><td>1e+05</td><td>  3</td></tr>
+	<tr><td>1e+05</td><td> -8</td></tr>
+	<tr><td>1e+05</td><td>  5</td></tr>
+	<tr><td>1e+05</td><td>  1</td></tr>
+	<tr><td>1e+05</td><td>-14</td></tr>
+	<tr><td>1e+05</td><td>  4</td></tr>
 </tbody>
 </table>
 </div></div>
@@ -764,7 +764,7 @@ uncertainty about the measurements</p></li>
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/69c6b34f7ca036125a1f80a35c17585bee1aebbd6cdfd204e949d5d827e13756.png" src="../_images/69c6b34f7ca036125a1f80a35c17585bee1aebbd6cdfd204e949d5d827e13756.png" />
+<img alt="../_images/9dbf9b49024c9f914e12781cb7406d3996469c716541b2ee5c7f586f69767808.png" src="../_images/9dbf9b49024c9f914e12781cb7406d3996469c716541b2ee5c7f586f69767808.png" />
 </div>
 </div>
 <ul class="simple">
