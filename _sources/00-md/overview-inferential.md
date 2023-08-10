@@ -1,11 +1,11 @@
 # Inferential Statistics
 
-This is a test intro page
+![stat_inferential](images/intro_stat_inferential.png)
 
-$$
-y = x^2
-$$
+In inferential statistics, we are interested in making conclusions about a larger population based on representative samples
 
-```{note}
-This is a note
-```
+We will be exploring the following concepts in this section
+- Estimating the mean and variance of a population
+- Estimating the uncertainty
+- Hypothesis testing
+- Effect size

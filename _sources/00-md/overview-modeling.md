@@ -1,11 +1,9 @@
 # Statistical Modeling
 
-This is a test intro page
+![stat_modeling](images/intro_stat_modeling.png)
 
-$$
-y = x^2
-$$
+In statistical modeling, we are interested in exploring the relationship between an outcome of interest and covariate(s)
 
-```{note}
-This is a note
-```
+We will be covering 2 approaches to modeling
+- Prediction
+- Explanation

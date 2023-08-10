@@ -1,11 +1,3 @@
-# Introduction to Statistical Computing
+# Overview of Statistical Computing
 
-This is a test intro page
-
-$$
-y = x^2
-$$
-
-```{note}
-This is a note
-```
+![stat_overview](images/intro_stat_overview.png)

@@ -1,11 +1,14 @@
-# Overview
+# Overview of R
 
-This is a test intro page
+![Rlogo](https://www.r-project.org/Rlogo.png)
 
-$$
-y = x^2
-$$
+We will be learning the basics of the R, an [open source programming language](https://www.r-project.org/about.html) that is widely used in data science and statistical computing. 
 
-```{note}
-This is a note
-```
+In this section, we will learn about the following topics
+- Variables, Data Types and Structures
+- Operations
+- Decision Making
+- Iterating
+- Functions
+- Extending R
+
